@@ -9,8 +9,40 @@ export function Universities() {
   const { t } = useLanguage();
 
   return (
-    <section id="universities" className="relative py-20 sm:py-28">
-      <div className="section-container">
+    <section id="universities" className="relative overflow-hidden py-20 sm:py-28">
+      {/* Layered color stacks */}
+      <div
+        aria-hidden
+        className="blue-spray spray-sky blue-spray-soft -left-[12%] top-[2%] hidden h-72 w-80 sm:block lg:h-96 lg:w-[28rem]"
+        style={{ animation: "none" }}
+      />
+      <div
+        aria-hidden
+        className="blue-spray spray-deep blue-spray-soft -left-[2%] top-[16%] hidden h-56 w-64 sm:block"
+        style={{ animation: "none" }}
+      />
+      <div
+        aria-hidden
+        className="blue-spray spray-mid blue-spray-soft left-[15%] top-[30%] hidden h-44 w-56 lg:block"
+        style={{ animation: "none" }}
+      />
+      <div
+        aria-hidden
+        className="blue-spray spray-deep blue-spray-soft -right-[12%] top-[35%] hidden h-72 w-80 sm:block lg:h-96 lg:w-[28rem]"
+        style={{ animation: "none" }}
+      />
+      <div
+        aria-hidden
+        className="blue-spray spray-sky blue-spray-soft -right-[2%] top-[50%] hidden h-56 w-64 sm:block"
+        style={{ animation: "none" }}
+      />
+      <div
+        aria-hidden
+        className="blue-spray spray-mid blue-spray-soft left-[32%] bottom-[2%] hidden h-48 w-60 lg:block"
+        style={{ animation: "none" }}
+      />
+
+      <div className="section-container relative z-10">
         <SectionHeading
           badge={t.universities.badge}
           title={t.universities.title}

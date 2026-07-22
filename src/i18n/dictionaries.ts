@@ -28,6 +28,8 @@ export type Dictionary = {
     submit: string;
     submitting: string;
     language: string;
+    langAr: string;
+    langEn: string;
   };
   hero: {
     tagline: string;
@@ -179,6 +181,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       submit: "إرسال التسجيل",
       submitting: "جاري الإرسال...",
       language: "English",
+      langAr: "ع",
+      langEn: "EN",
     },
     hero: {
       tagline:
@@ -437,6 +441,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       submit: "Submit Registration",
       submitting: "Submitting...",
       language: "العربية",
+      langAr: "ع",
+      langEn: "EN",
     },
     hero: {
       tagline:

@@ -15,6 +15,38 @@ export function Tracks() {
 
   return (
     <section id="tracks" className="relative overflow-hidden py-20 sm:py-28">
+      {/* Layered color stacks */}
+      <div
+        aria-hidden
+        className="blue-spray spray-sky blue-spray-soft -left-[12%] top-[2%] hidden h-80 w-96 sm:block lg:h-[28rem] lg:w-[30rem]"
+        style={{ animation: "none" }}
+      />
+      <div
+        aria-hidden
+        className="blue-spray spray-mid blue-spray-soft -left-[2%] top-[14%] hidden h-60 w-72 sm:block"
+        style={{ animation: "none" }}
+      />
+      <div
+        aria-hidden
+        className="blue-spray spray-deep blue-spray-soft left-[10%] top-[24%] hidden h-48 w-60 lg:block"
+        style={{ animation: "none" }}
+      />
+      <div
+        aria-hidden
+        className="blue-spray spray-deep blue-spray-soft -right-[10%] top-[28%] hidden h-72 w-80 sm:block lg:h-96 lg:w-[28rem]"
+        style={{ animation: "none" }}
+      />
+      <div
+        aria-hidden
+        className="blue-spray spray-sky blue-spray-soft -right-[0%] top-[42%] hidden h-56 w-64 sm:block"
+        style={{ animation: "none" }}
+      />
+      <div
+        aria-hidden
+        className="blue-spray spray-mid blue-spray-soft left-[25%] bottom-[2%] hidden h-52 w-72 lg:block"
+        style={{ animation: "none" }}
+      />
+
       <div className="section-container relative z-10">
         <SectionHeading
           badge={t.tracks.badge}

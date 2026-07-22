@@ -13,7 +13,74 @@ export function Hero() {
   const CtaIcon = locale === "ar" ? ArrowLeft : ArrowRight;
 
   return (
-    <section className="relative min-h-screen overflow-hidden pt-32 sm:pt-36">
+    <section className="relative min-h-screen overflow-hidden pt-32 sm:pt-36 lg:pt-40">
+      {/* Layered mist — offset color stacks in different places */}
+      {/* Left stack: deep → mid → sky */}
+      <div
+        aria-hidden
+        className="blue-spray spray-deep blue-spray-soft -left-[14%] top-[2%] h-80 w-96 sm:h-[28rem] sm:w-[32rem]"
+        style={{ animation: "none" }}
+      />
+      <div
+        aria-hidden
+        className="blue-spray spray-mid blue-spray-soft -left-[4%] top-[12%] h-64 w-72 sm:h-80 sm:w-96"
+        style={{ animation: "none" }}
+      />
+      <div
+        aria-hidden
+        className="blue-spray spray-sky blue-spray-soft left-[8%] top-[18%] h-52 w-64 sm:h-64 sm:w-80"
+        style={{ animation: "none" }}
+      />
+      {/* Right stack: sky → deep → mid */}
+      <div
+        aria-hidden
+        className="blue-spray spray-sky blue-spray-soft -right-[12%] top-[4%] h-80 w-96 sm:h-[28rem] sm:w-[30rem]"
+        style={{ animation: "none" }}
+      />
+      <div
+        aria-hidden
+        className="blue-spray spray-deep blue-spray-soft -right-[2%] top-[16%] h-64 w-72 sm:h-80 sm:w-96"
+        style={{ animation: "none" }}
+      />
+      <div
+        aria-hidden
+        className="blue-spray spray-mid blue-spray-soft right-[10%] top-[28%] hidden h-48 w-60 lg:block"
+        style={{ animation: "none" }}
+      />
+      {/* Mid / lower stacks */}
+      <div
+        aria-hidden
+        className="blue-spray spray-sky blue-spray-soft left-[28%] top-[45%] hidden h-64 w-80 lg:block"
+        style={{ animation: "none" }}
+      />
+      <div
+        aria-hidden
+        className="blue-spray spray-deep blue-spray-soft left-[38%] top-[55%] hidden h-48 w-64 lg:block"
+        style={{ animation: "none" }}
+      />
+      <div
+        aria-hidden
+        className="blue-spray spray-mid blue-spray-soft -left-[6%] bottom-[2%] h-64 w-80 sm:h-72 sm:w-96"
+        style={{ animation: "none" }}
+      />
+      <div
+        aria-hidden
+        className="blue-spray spray-sky blue-spray-soft left-[6%] bottom-[8%] h-48 w-64 sm:h-56 sm:w-72"
+        style={{ animation: "none" }}
+      />
+      <div
+        aria-hidden
+        className="hero-blue-splash -left-[8%] top-[22%] h-80 w-80 bg-[#2f296f]/10 sm:h-[26rem] sm:w-[26rem]"
+      />
+      <div
+        aria-hidden
+        className="hero-blue-splash -right-[6%] top-[8%] h-96 w-96 bg-[#81b9ec]/16 sm:h-[28rem] sm:w-[28rem]"
+      />
+      <div
+        aria-hidden
+        className="hero-blue-splash left-[40%] top-[50%] hidden h-56 w-64 bg-[#555bc1]/10 lg:block"
+      />
+
       <div className="section-container relative z-10 flex min-h-[calc(100vh-8rem)] flex-col items-center justify-center py-12 text-center">
         <div className="animate-fade-up relative w-full max-w-4xl">
           <h1 className="relative">

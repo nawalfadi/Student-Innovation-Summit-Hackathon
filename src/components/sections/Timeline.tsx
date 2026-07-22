@@ -9,6 +9,38 @@ export function Timeline() {
 
   return (
     <section id="timeline" className="relative overflow-hidden py-20 sm:py-28">
+      {/* Layered color stacks */}
+      <div
+        aria-hidden
+        className="blue-spray spray-deep blue-spray-soft -left-[12%] top-[5%] hidden h-72 w-80 sm:block lg:h-96 lg:w-[28rem]"
+        style={{ animation: "none" }}
+      />
+      <div
+        aria-hidden
+        className="blue-spray spray-sky blue-spray-soft -left-[2%] top-[18%] hidden h-56 w-64 sm:block"
+        style={{ animation: "none" }}
+      />
+      <div
+        aria-hidden
+        className="blue-spray spray-mid blue-spray-soft left-[12%] top-[30%] hidden h-44 w-56 lg:block"
+        style={{ animation: "none" }}
+      />
+      <div
+        aria-hidden
+        className="blue-spray spray-sky blue-spray-soft -right-[10%] top-[30%] hidden h-64 w-80 sm:block lg:h-80 lg:w-96"
+        style={{ animation: "none" }}
+      />
+      <div
+        aria-hidden
+        className="blue-spray spray-deep blue-spray-soft -right-[0%] top-[48%] hidden h-52 w-64 sm:block"
+        style={{ animation: "none" }}
+      />
+      <div
+        aria-hidden
+        className="blue-spray spray-mid blue-spray-soft left-[28%] bottom-[0%] hidden h-48 w-60 lg:block"
+        style={{ animation: "none" }}
+      />
+
       <div className="section-container relative z-10">
         <SectionHeading
           badge={t.timeline.badge}
