@@ -1,15 +1,8 @@
 import type { Metadata } from "next";
-import { Cairo } from "next/font/google";
 import "./globals.css";
 import { RegistrationProvider } from "@/context/RegistrationContext";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { dictionaries } from "@/i18n/dictionaries";
-
-const cairo = Cairo({
-  subsets: ["arabic", "latin"],
-  variable: "--font-cairo",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: dictionaries.ar.meta.title,
@@ -31,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ar" dir="rtl" suppressHydrationWarning>
-      <body className={`${cairo.variable} antialiased`}>
+      <body className="font-sans antialiased">
         <LanguageProvider>
           <RegistrationProvider>{children}</RegistrationProvider>
         </LanguageProvider>

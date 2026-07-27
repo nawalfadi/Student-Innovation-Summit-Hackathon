@@ -13,7 +13,8 @@
   --color-cream-dark: #d8d5ca;
   --color-surface: #ffffff;
   --color-surface-muted: #f0ebe3;
-  --font-sans: var(--font-cairo), "Segoe UI", Tahoma, sans-serif;
+  /* Match Figma: Segoe UI (system) with Arabic-capable fallbacks */
+  --font-sans: "Segoe UI", Tahoma, "Arial Unicode MS", sans-serif;
 }
 
 html {

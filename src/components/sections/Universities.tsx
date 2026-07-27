@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { GraduationCap } from "lucide-react";
+import { DecorativeSwirl } from "@/components/brand/DecorativeSwirl";
 import { SectionHeading } from "@/components/layout/SectionHeading";
 import { useLanguage } from "@/context/LanguageContext";
 
@@ -40,6 +41,25 @@ export function Universities() {
         aria-hidden
         className="blue-spray spray-mid blue-spray-soft left-[32%] bottom-[2%] hidden h-48 w-60 lg:block"
         style={{ animation: "none" }}
+      />
+
+      <DecorativeSwirl
+        src="/decor/swirl-universities.png"
+        left={-23}
+        top={-48}
+        width={409}
+        height={394}
+        opacity={0.7}
+        rotate={141}
+      />
+      <DecorativeSwirl
+        src="/decor/swirl-universities.png"
+        left={1074}
+        top={-187}
+        width={413}
+        height={409}
+        opacity={0.7}
+        rotate={52}
       />
 
       <div className="section-container relative z-10">

@@ -1,6 +1,7 @@
 "use client";
 
 import { Compass, Zap, ArrowLeftRight } from "lucide-react";
+import { DecorativeSwirl } from "@/components/brand/DecorativeSwirl";
 import { SectionHeading } from "@/components/layout/SectionHeading";
 import { useLanguage } from "@/context/LanguageContext";
 
@@ -45,6 +46,27 @@ export function Tracks() {
         aria-hidden
         className="blue-spray spray-mid blue-spray-soft left-[25%] bottom-[2%] hidden h-52 w-72 lg:block"
         style={{ animation: "none" }}
+      />
+
+      {/*
+        Figma Tracks swirls (40:910 left, 40:911 right) —
+        sit behind the three track cards.
+      */}
+      <DecorativeSwirl
+        src="/decor/swirl-tracks.png"
+        left={-7}
+        top={373}
+        width={666}
+        height={375}
+        opacity={0.5}
+      />
+      <DecorativeSwirl
+        src="/decor/swirl-tracks.png"
+        left={644}
+        top={361}
+        width={666}
+        height={375}
+        opacity={0.5}
       />
 
       <div className="section-container relative z-10">

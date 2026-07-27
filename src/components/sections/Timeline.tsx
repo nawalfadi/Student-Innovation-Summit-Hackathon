@@ -1,6 +1,7 @@
 "use client";
 
 import { Calendar } from "lucide-react";
+import { DecorativeSwirl } from "@/components/brand/DecorativeSwirl";
 import { SectionHeading } from "@/components/layout/SectionHeading";
 import { useLanguage } from "@/context/LanguageContext";
 
@@ -39,6 +40,25 @@ export function Timeline() {
         aria-hidden
         className="blue-spray spray-mid blue-spray-soft left-[28%] bottom-[0%] hidden h-48 w-60 lg:block"
         style={{ animation: "none" }}
+      />
+
+      <DecorativeSwirl
+        src="/decor/swirl-timeline.png"
+        left={-173}
+        top={413}
+        width={502}
+        height={489}
+        opacity={0.5}
+        flipY
+      />
+      <DecorativeSwirl
+        src="/decor/swirl-timeline.png"
+        left={938}
+        top={443}
+        width={502}
+        height={489}
+        opacity={0.5}
+        flipY
       />
 
       <div className="section-container relative z-10">
