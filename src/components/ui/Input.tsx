@@ -7,6 +7,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 
 export function Input({ label, error, className, id, ...props }: InputProps) {
   const inputId = id ?? props.name;
+  const errorId = error ? `${inputId}-error` : undefined;
 
   return (
     <div className="space-y-2">
@@ -15,9 +16,16 @@ export function Input({ label, error, className, id, ...props }: InputProps) {
         className="block text-sm font-semibold text-navy"
       >
         {label}
+        {props.required && (
+          <span className="ms-0.5 text-red-500" aria-hidden>
+            *
+          </span>
+        )}
       </label>
       <input
         id={inputId}
+        aria-invalid={error ? true : undefined}
+        aria-describedby={errorId}
         className={cn(
           "w-full rounded-2xl border bg-white/80 px-4 py-3 text-navy outline-none transition-colors placeholder:text-navy/40 focus:border-cyan focus:ring-2 focus:ring-cyan/20",
           error ? "border-red-400" : "border-navy/15",
@@ -25,7 +33,11 @@ export function Input({ label, error, className, id, ...props }: InputProps) {
         )}
         {...props}
       />
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      {error && (
+        <p id={errorId} className="text-sm text-red-600">
+          {error}
+        </p>
+      )}
     </div>
   );
 }

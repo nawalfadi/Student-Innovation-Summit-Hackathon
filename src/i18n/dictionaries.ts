@@ -34,6 +34,10 @@ export type Dictionary = {
   hero: {
     tagline: string;
     logoAlt: string;
+    statusBadge: string;
+    countdownPrefix: string;
+    countdownSuffix: string;
+    countdownLive: string;
   };
   about: {
     badge: string;
@@ -115,6 +119,9 @@ export type Dictionary = {
     memberName: string;
     memberEmail: string;
     projectIdea: string;
+    projectIdeaOptional: string;
+    needsTeamLabel: string;
+    needsTeamHint: string;
     successTitle: string;
     membersLabel: (n: number) => string;
     placeholders: {
@@ -146,6 +153,7 @@ export type Dictionary = {
     networkError: string;
     genericError: string;
     successFallback: string;
+    confirmDiscard: string;
   };
 };
 
@@ -188,6 +196,10 @@ export const dictionaries: Record<Locale, Dictionary> = {
       tagline:
         "منصة وطنية تربط رحلة الطالب بمشاريع رؤية 2030 — من اختيار التخصص إلى سوق العمل.",
       logoAlt: "هاكاثون قمة الابتكار الطلابي 2026",
+      statusBadge: "التسجيل مفتوح الآن",
+      countdownPrefix: "الانطلاق خلال",
+      countdownSuffix: "يوم",
+      countdownLive: "الحدث منطلق الآن",
     },
     about: {
       badge: "عن الهاكاثون",
@@ -373,6 +385,10 @@ export const dictionaries: Record<Locale, Dictionary> = {
       memberName: "الاسم",
       memberEmail: "البريد الإلكتروني",
       projectIdea: "وصف فكرة المشروع",
+      projectIdeaOptional: "وصف فكرة المشروع (اختياري)",
+      needsTeamLabel: "ليس لدي فريق كامل بعد",
+      needsTeamHint:
+        "لا مشكلة — سجّل بياناتك وسيتواصل معك فريق التنظيم بخصوص تكوين فريقك قبل الحدث.",
       successTitle: "تم التسجيل بنجاح!",
       membersLabel: (n) => `${n} أعضاء`,
       placeholders: {
@@ -408,6 +424,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       networkError: "تعذر الاتصال بالخادم. يرجى المحاولة لاحقاً.",
       genericError: "حدث خطأ أثناء الإرسال",
       successFallback: "تم استلام تسجيلكم بنجاح! سنتواصل معكم قريباً.",
+      confirmDiscard:
+        "لديك بيانات لم تُرسل بعد. هل تريد إغلاق النموذج وفقدانها؟",
     },
   },
   en: {
@@ -448,6 +466,10 @@ export const dictionaries: Record<Locale, Dictionary> = {
       tagline:
         "A national platform connecting the student journey with Vision 2030 projects — from choosing a major to entering the job market.",
       logoAlt: "Student Innovation Summit Hackathon 2026",
+      statusBadge: "Registration Open",
+      countdownPrefix: "Kicks off in",
+      countdownSuffix: "days",
+      countdownLive: "The event is live now",
     },
     about: {
       badge: "About the Hackathon",
@@ -633,6 +655,10 @@ export const dictionaries: Record<Locale, Dictionary> = {
       memberName: "Name",
       memberEmail: "Email",
       projectIdea: "Project Idea Description",
+      projectIdeaOptional: "Project Idea Description (optional)",
+      needsTeamLabel: "I don't have a full team yet",
+      needsTeamHint:
+        "No problem — register your info and the organizing team will follow up about forming your team before the event.",
       successTitle: "Registration successful!",
       membersLabel: (n) => `${n} members`,
       placeholders: {
@@ -669,6 +695,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       genericError: "Something went wrong while submitting",
       successFallback:
         "Your registration was received successfully! We will contact you soon.",
+      confirmDiscard:
+        "You have unsaved changes. Close the form and lose them?",
     },
   },
 };

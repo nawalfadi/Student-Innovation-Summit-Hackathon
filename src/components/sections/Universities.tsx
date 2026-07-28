@@ -4,7 +4,29 @@ import Image from "next/image";
 import { GraduationCap } from "lucide-react";
 import { DecorativeSwirl } from "@/components/brand/DecorativeSwirl";
 import { SectionHeading } from "@/components/layout/SectionHeading";
+import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { useLanguage } from "@/context/LanguageContext";
+
+// Real crest artwork, trimmed of its baked-in whitespace so every logo
+// reads at a consistent visual size regardless of source canvas. Falls
+// back to a designed monogram (not a bare gray box) for any university
+// added later without artwork on hand yet.
+const universityLogos: Record<string, string> = {
+  KSU: "/decor/Unis-Logo-trimmed/KSU.png",
+  PNU: "/decor/Unis-Logo-trimmed/PNU.png",
+  AU: "/decor/Unis-Logo-trimmed/AU.png",
+  PSU: "/decor/Unis-Logo-trimmed/PSU.png",
+  IMSIU: "/decor/Unis-Logo-trimmed/IMSIU.png",
+  SU: "/decor/Unis-Logo-trimmed/SU.png",
+  MU: "/decor/Unis-Logo-trimmed/MU.png",
+};
+
+const monogramPalettes = [
+  "from-navy to-navy-light",
+  "from-[#2f296f] to-[#555bc1]",
+  "from-[#1f7a8c] to-cyan",
+  "from-navy-dark to-[#2f296f]",
+];
 
 export function Universities() {
   const { t } = useLanguage();
@@ -63,51 +85,83 @@ export function Universities() {
       />
 
       <div className="section-container relative z-10">
-        <SectionHeading
-          badge={t.universities.badge}
-          title={t.universities.title}
-          subtitle={t.universities.subtitle}
-        />
+        <Reveal>
+          <SectionHeading
+            badge={t.universities.badge}
+            title={t.universities.title}
+            subtitle={t.universities.subtitle}
+          />
+        </Reveal>
 
-        <div className="mt-16 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-          {t.universities.list.map((uni) => (
-            <div
-              key={uni.abbr + uni.name}
-              className={`glass-card flex flex-col items-center p-6 text-center ${
-                uni.featured ? "ring-1 ring-gold/35" : ""
+        <RevealGroup
+          className="mt-16 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4"
+          stagger={0.06}
+        >
+          {t.universities.list.map((uni, index) => (
+            <RevealItem
+              // uni.abbr alone is stable across locales (uni.name is
+              // translated text and used to change on language switch,
+              // forcing an unnecessary remount of every card).
+              key={uni.abbr}
+              whileHover={{ y: -4, scale: 1.02 }}
+              transition={{ type: "spring", stiffness: 320, damping: 22 }}
+              className={`glass-card relative flex flex-col items-center justify-center p-6 text-center ${
+                uni.featured
+                  ? "host-card-glow ring-1 ring-gold/40 sm:col-span-2 sm:p-8 lg:col-span-1"
+                  : ""
               }`}
             >
+              {/* Host ribbon — pinned to the card itself, not stacked in
+                  the centered content flow, so it can't push Al Yamamah's
+                  logo/name out of alignment with everyone else's. */}
+              {uni.featured && (
+                <span className="absolute -top-3 rounded-full bg-gold px-3 py-1 text-xs font-bold text-navy-dark shadow-md shadow-gold/30 ltr:right-5 rtl:left-5">
+                  {t.universities.hostBadge}
+                </span>
+              )}
               {uni.featured ? (
-                <div className="mb-4 flex h-14 w-full items-center justify-center px-2">
+                <div className="mb-4 flex h-16 w-full items-center justify-center px-2">
                   <Image
                     src="/alyamamah-logo-v2.png"
                     alt={uni.name}
                     width={200}
                     height={48}
-                    className="h-10 w-auto"
-                    unoptimized
+                    className="h-11 w-auto"
+                  />
+                </div>
+              ) : universityLogos[uni.abbr] ? (
+                <div className="mb-4 flex h-16 w-full items-center justify-center px-2">
+                  <Image
+                    src={universityLogos[uni.abbr]}
+                    alt={uni.name}
+                    width={240}
+                    height={160}
+                    className="h-16 w-auto max-w-full object-contain"
                   />
                 </div>
               ) : (
-                <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-navy/8 text-lg font-bold text-navy">
+                <div
+                  className={`mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br text-base font-black tracking-tight text-white shadow-lg shadow-navy/15 ring-1 ring-white/20 ${monogramPalettes[index % monogramPalettes.length]}`}
+                >
                   {uni.abbr}
                 </div>
               )}
-              <GraduationCap
-                size={20}
-                className={`mb-2 ${uni.featured ? "text-gold" : "text-navy/35"}`}
-              />
-              <h3 className="text-sm font-bold leading-6 text-navy sm:text-base">
-                {uni.name}
-              </h3>
-              {uni.featured && (
-                <span className="mt-2 rounded-2xl bg-gold/15 px-3 py-0.5 text-xs font-bold text-gold-dark">
-                  {t.universities.hostBadge}
-                </span>
+              {!uni.featured && !universityLogos[uni.abbr] && (
+                <GraduationCap size={20} className="mb-2 text-navy/35" />
               )}
-            </div>
+              {/* Fixed-height slot, vertically centered — keeps every
+                  university's name anchored to the same baseline whether
+                  it's "Shaqra University" (one line) or "Imam Mohammad Ibn
+                  Saud University" (wraps to two), instead of shorter names
+                  floating higher than their neighbors in the row. */}
+              <div className="flex min-h-[2.75rem] w-full items-center justify-center sm:min-h-[3.25rem]">
+                <h3 className="text-sm font-bold leading-tight text-navy sm:text-base">
+                  {uni.name}
+                </h3>
+              </div>
+            </RevealItem>
           ))}
-        </div>
+        </RevealGroup>
       </div>
     </section>
   );

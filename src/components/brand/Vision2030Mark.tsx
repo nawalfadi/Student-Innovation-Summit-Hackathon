@@ -30,7 +30,6 @@ export function Vision2030Mark({
           compact ? "h-10 sm:h-11" : "h-12 sm:h-14"
         )}
         priority
-        unoptimized
       />
     </div>
   );

@@ -1,19 +1,40 @@
 "use client";
 
+import { useRef } from "react";
 import Image from "next/image";
-import { CalendarDays, MapPin, ArrowLeft, ArrowRight } from "lucide-react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { CalendarDays, MapPin, ArrowLeft, ArrowRight, ChevronDown } from "lucide-react";
 import { siteConstants } from "@/data/content";
 import { useRegistration } from "@/context/RegistrationContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { Button } from "@/components/ui/Button";
+import { EventCountdown } from "@/components/brand/EventCountdown";
 
 export function Hero() {
   const { openRegistration } = useRegistration();
   const { t, locale } = useLanguage();
   const CtaIcon = locale === "ar" ? ArrowLeft : ArrowRight;
 
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+
+  // Depth-of-field parallax — each ring drifts at its own rate as the
+  // hero scrolls out, and the whole cluster gently dissolves.
+  const yLeft = useTransform(scrollYProgress, [0, 1], [0, 140]);
+  const yTop = useTransform(scrollYProgress, [0, 1], [0, -90]);
+  const yRight = useTransform(scrollYProgress, [0, 1], [0, 190]);
+  const ringsOpacity = useTransform(scrollYProgress, [0, 0.75], [1, 0]);
+  const contentY = useTransform(scrollYProgress, [0, 1], [0, 60]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
+
   return (
-    <section className="relative min-h-screen overflow-x-clip pt-32 sm:pt-36 lg:pt-40">
+    <section
+      ref={sectionRef}
+      className="relative min-h-screen overflow-x-clip pt-32 sm:pt-36 lg:pt-40"
+    >
       {/* Soft mist (kept under swirls) */}
       <div
         aria-hidden
@@ -38,50 +59,69 @@ export function Hero() {
         Hero rings — alignment matched to Figma:
         left mid-low | top-center peek | right mid-high
       */}
-      <div
+      <motion.div
         aria-hidden
+        style={{ opacity: ringsOpacity }}
         className="pointer-events-none absolute inset-0 z-[1] hidden overflow-hidden lg:block"
       >
         {/* Left — beside the map, mid-to-lower */}
-        <img
+        <motion.img
           src="/decor/swirl-hero-left.png"
           alt=""
           width={420}
           height={244}
+          style={{ y: yLeft }}
           className="absolute left-[-3%] top-[42%] w-[min(26vw,360px)] max-w-none -translate-y-1/2 -rotate-[18deg] object-contain opacity-65"
           draggable={false}
         />
         {/* Top-center — small arc under the nav, above the logo */}
-        <img
+        <motion.img
           src="/decor/swirl-hero-top.png"
           alt=""
           width={360}
           height={209}
+          style={{ y: yTop }}
           className="absolute left-[48%] top-[6%] w-[min(22vw,300px)] max-w-none -translate-x-1/2 object-contain opacity-55"
           draggable={false}
         />
         {/* Right — open loop, higher than the left ring */}
-        <img
+        <motion.img
           src="/decor/swirl-hero-right.png"
           alt=""
           width={440}
           height={255}
+          style={{ y: yRight }}
           className="absolute right-[-4%] top-[28%] w-[min(28vw,380px)] max-w-none -translate-y-1/2 rotate-[6deg] object-contain opacity-65"
           draggable={false}
         />
-      </div>
+      </motion.div>
 
-      <div className="section-container relative z-10 flex min-h-[calc(100vh-8rem)] flex-col items-center justify-center py-12 text-center">
-        <div className="animate-fade-up relative w-full max-w-4xl">
+      <motion.div
+        style={{ y: contentY, opacity: contentOpacity }}
+        className="section-container relative z-10 flex min-h-[calc(100vh-8rem)] flex-col items-center justify-center py-12 text-center"
+      >
+        <div className="animate-fade-up">
+          <EventCountdown />
+        </div>
+
+        <div
+          className="animate-fade-up relative mt-6 w-full max-w-4xl"
+          style={{ animationDelay: "0.06s" }}
+        >
           <h1 className="relative">
             <Image
-              src="/hackathon-logo-clear.png"
+              // English locale gets its own wordmark lockup instead of the
+              // Arabic-text logo being stretched/relabeled.
+              src={
+                locale === "en"
+                  ? "/hackathon-logo-en.png"
+                  : "/hackathon-logo-clear.png"
+              }
               alt={t.hero.logoAlt}
               width={1200}
               height={520}
               className="mx-auto h-auto w-full max-w-3xl"
               priority
-              unoptimized
             />
           </h1>
         </div>
@@ -131,20 +171,27 @@ export function Hero() {
         </div>
 
         <div
-          className="animate-fade-up mt-10 flex flex-wrap items-center justify-center gap-4"
+          className="animate-fade-up mt-10 flex flex-col items-center gap-5"
           style={{ animationDelay: "0.28s" }}
         >
-          <Button size="lg" onClick={openRegistration}>
+          <Button size="lg" onClick={openRegistration} className="px-10">
             {t.common.registerNow}
             <CtaIcon size={20} />
           </Button>
-          <a href="#tracks">
-            <Button variant="outline" size="lg">
-              {t.common.exploreTracks}
-            </Button>
+          {/* Deliberately a plain link, not a second button — one clear
+              primary action beats two competing calls to action. */}
+          <a
+            href="#tracks"
+            className="group inline-flex items-center gap-1.5 text-sm font-bold text-navy/60 underline decoration-navy/20 decoration-2 underline-offset-4 transition-colors hover:text-navy hover:decoration-navy/50"
+          >
+            {t.common.exploreTracks}
+            <ChevronDown
+              size={15}
+              className="transition-transform duration-300 group-hover:translate-y-0.5"
+            />
           </a>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

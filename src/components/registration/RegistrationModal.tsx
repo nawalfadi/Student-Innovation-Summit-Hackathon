@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState, type FormEvent } from "react";
-import { X, CheckCircle2, Loader2, Users, UserPlus } from "lucide-react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
+import { X, CheckCircle2, Loader2, Users, UserPlus, UsersRound } from "lucide-react";
 import { useRegistration } from "@/context/RegistrationContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { Button } from "@/components/ui/Button";
@@ -27,7 +27,11 @@ const initialForm: RegistrationPayload = {
   memberCount: 3,
   members: [emptyMember(), emptyMember(), emptyMember()],
   projectIdea: "",
+  needsTeam: false,
 };
+
+const FOCUSABLE_SELECTOR =
+  'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
 
 export function RegistrationModal() {
   const { isOpen, closeRegistration } = useRegistration();
@@ -37,6 +41,12 @@ export function RegistrationModal() {
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [serverMessage, setServerMessage] = useState("");
+
+  const panelRef = useRef<HTMLDivElement>(null);
+  const formStateRef = useRef(form);
+  const successRef = useRef(success);
+  formStateRef.current = form;
+  successRef.current = success;
 
   useEffect(() => {
     if (isOpen) {
@@ -59,6 +69,74 @@ export function RegistrationModal() {
       }, 300);
       return () => clearTimeout(timer);
     }
+  }, [isOpen]);
+
+  // A visitor who has typed real information into this form and then
+  // fat-fingers a click on the backdrop shouldn't silently lose it — this
+  // is the single most punishing possible failure mode for a conversion
+  // form, so it gets a confirmation instead of a silent wipe.
+  function isDirty() {
+    const f = formStateRef.current;
+    return Boolean(
+      f.fullName ||
+        f.universityId ||
+        f.universityName ||
+        f.email ||
+        f.phone ||
+        f.teamName ||
+        f.projectIdea ||
+        f.members.some((m) => m.name || m.email)
+    );
+  }
+
+  function requestClose() {
+    if (!successRef.current && isDirty()) {
+      const confirmed = window.confirm(t.validation.confirmDiscard ?? "");
+      if (!confirmed) return;
+    }
+    closeRegistration();
+  }
+
+  // Focus trap + Escape-to-close. Screen readers and keyboard users
+  // currently had no way to close this modal without a mouse, and could
+  // tab straight through into the page behind it — both fixed here.
+  useEffect(() => {
+    if (!isOpen) return;
+    const panel = panelRef.current;
+    if (!panel) return;
+
+    const getFocusable = () =>
+      Array.from(panel.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)).filter(
+        (el) => el.offsetParent !== null
+      );
+
+    const toFocus = getFocusable()[0] ?? panel;
+    toFocus.focus();
+
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        requestClose();
+        return;
+      }
+      if (e.key === "Tab") {
+        const items = getFocusable();
+        if (items.length === 0) return;
+        const first = items[0];
+        const last = items[items.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    }
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
 
   if (!isOpen) return null;
@@ -115,19 +193,35 @@ export function RegistrationModal() {
       <button
         type="button"
         className="absolute inset-0 bg-navy/60 backdrop-blur-sm"
-        onClick={closeRegistration}
+        onClick={requestClose}
         aria-label={t.common.close}
+        tabIndex={-1}
       />
 
-      <div className="animate-modal-in relative max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-t-3xl border border-white/60 bg-cream/95 shadow-2xl backdrop-blur-xl sm:rounded-3xl">
+      <div
+        ref={panelRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="registration-modal-title"
+        // Lenis takes over wheel/touch scrolling for the whole document;
+        // without this it also swallows scroll input meant for this
+        // modal's own internal overflow, making the long form feel frozen.
+        data-lenis-prevent
+        className="animate-modal-in relative max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-t-3xl border border-white/60 bg-cream/95 shadow-2xl backdrop-blur-xl sm:rounded-3xl"
+      >
         <div className="sticky top-0 z-10 flex items-center justify-between border-b border-navy/8 bg-cream/90 px-6 py-5 backdrop-blur-xl">
           <div>
-            <h2 className="text-xl font-bold text-navy">{t.form.title}</h2>
+            <h2
+              id="registration-modal-title"
+              className="text-xl font-bold text-navy"
+            >
+              {t.form.title}
+            </h2>
             <p className="text-sm text-navy/60">{t.form.subtitle}</p>
           </div>
           <button
             type="button"
-            onClick={closeRegistration}
+            onClick={requestClose}
             className="rounded-xl p-2 text-navy/60 hover:bg-white/70 hover:text-navy"
             aria-label={t.common.close}
           >
@@ -237,74 +331,114 @@ export function RegistrationModal() {
                 <Users size={18} className="text-gold" />
                 <h3 className="font-bold text-navy">{t.form.team}</h3>
               </div>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <Input
-                  label={t.form.teamName}
-                  name="teamName"
-                  value={form.teamName}
-                  onChange={(e) =>
-                    setForm({ ...form, teamName: e.target.value })
-                  }
-                  error={errors.teamName}
-                  placeholder={t.form.placeholders.teamName}
-                  required
-                />
-                <Select
-                  label={t.form.memberCount}
-                  name="memberCount"
-                  value={String(form.memberCount)}
-                  onChange={(e) => updateMemberCount(Number(e.target.value))}
-                  error={errors.memberCount}
-                  options={[3, 4, 5].map((n) => ({
-                    value: String(n),
-                    label: t.form.membersLabel(n),
-                  }))}
-                />
-              </div>
 
-              <div className="mt-4 space-y-4">
-                {form.members.map((member, index) => (
-                  <div
-                    key={index}
-                    className="rounded-2xl border border-navy/8 bg-white/60 p-4"
-                  >
-                    <p className="mb-3 text-sm font-semibold text-navy">
-                      {t.form.member} {index + 1}
-                    </p>
-                    <div className="grid gap-3 sm:grid-cols-2">
-                      <Input
-                        label={t.form.memberName}
-                        name={`member-name-${index}`}
-                        value={member.name}
-                        onChange={(e) =>
-                          updateMember(index, "name", e.target.value)
-                        }
-                        placeholder={t.form.placeholders.memberName}
-                      />
-                      <Input
-                        label={t.form.memberEmail}
-                        name={`member-email-${index}`}
-                        type="email"
-                        value={member.email}
-                        onChange={(e) =>
-                          updateMember(index, "email", e.target.value)
-                        }
-                        placeholder={t.form.placeholders.memberEmail}
-                        dir="ltr"
-                        className="text-left"
-                      />
-                    </div>
+              {/* Solo / no-team-yet path — the audit's #1 UX finding was
+                  that a hard-locked 3-5 member requirement silently turns
+                  away individually-motivated students. This keeps the
+                  default team flow intact but adds an explicit escape
+                  hatch instead of a wall. */}
+              <label
+                className={`mb-5 flex cursor-pointer items-start gap-3 rounded-2xl border p-4 transition-colors ${
+                  form.needsTeam
+                    ? "border-cyan/40 bg-cyan/10"
+                    : "border-navy/10 bg-white/50 hover:bg-white/70"
+                }`}
+              >
+                <input
+                  type="checkbox"
+                  checked={form.needsTeam}
+                  onChange={(e) =>
+                    setForm({ ...form, needsTeam: e.target.checked })
+                  }
+                  className="mt-0.5 h-5 w-5 shrink-0 rounded-md border-navy/30 text-cyan focus:ring-2 focus:ring-cyan/30"
+                />
+                <span>
+                  <span className="flex items-center gap-2 font-bold text-navy">
+                    <UsersRound size={16} className="text-gold" />
+                    {t.form.needsTeamLabel}
+                  </span>
+                  {form.needsTeam && (
+                    <span className="mt-1 block text-sm leading-6 text-navy/65">
+                      {t.form.needsTeamHint}
+                    </span>
+                  )}
+                </span>
+              </label>
+
+              {!form.needsTeam && (
+                <>
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <Input
+                      label={t.form.teamName}
+                      name="teamName"
+                      value={form.teamName}
+                      onChange={(e) =>
+                        setForm({ ...form, teamName: e.target.value })
+                      }
+                      error={errors.teamName}
+                      placeholder={t.form.placeholders.teamName}
+                      required
+                    />
+                    <Select
+                      label={t.form.memberCount}
+                      name="memberCount"
+                      value={String(form.memberCount)}
+                      onChange={(e) => updateMemberCount(Number(e.target.value))}
+                      error={errors.memberCount}
+                      options={[3, 4, 5].map((n) => ({
+                        value: String(n),
+                        label: t.form.membersLabel(n),
+                      }))}
+                    />
                   </div>
-                ))}
-                {errors.members && (
-                  <p className="text-sm text-red-600">{errors.members}</p>
-                )}
-              </div>
+
+                  <div className="mt-4 space-y-4">
+                    {form.members.map((member, index) => (
+                      <div
+                        key={index}
+                        className="rounded-2xl border border-navy/8 bg-white/60 p-4"
+                      >
+                        <p className="mb-3 text-sm font-semibold text-navy">
+                          {t.form.member} {index + 1}
+                        </p>
+                        <div className="grid gap-3 sm:grid-cols-2">
+                          <Input
+                            label={t.form.memberName}
+                            name={`member-name-${index}`}
+                            value={member.name}
+                            onChange={(e) =>
+                              updateMember(index, "name", e.target.value)
+                            }
+                            placeholder={t.form.placeholders.memberName}
+                          />
+                          <Input
+                            label={t.form.memberEmail}
+                            name={`member-email-${index}`}
+                            type="email"
+                            value={member.email}
+                            onChange={(e) =>
+                              updateMember(index, "email", e.target.value)
+                            }
+                            placeholder={t.form.placeholders.memberEmail}
+                            dir="ltr"
+                            className="text-left"
+                          />
+                        </div>
+                      </div>
+                    ))}
+                    {errors.members && (
+                      <p className="text-sm text-red-600">{errors.members}</p>
+                    )}
+                  </div>
+                </>
+              )}
             </section>
 
             <section>
               <Textarea
-                label={t.form.projectIdea}
+                label={
+                  form.needsTeam ? t.form.projectIdeaOptional : t.form.projectIdea
+                }
                 name="projectIdea"
                 value={form.projectIdea}
                 onChange={(e) =>
@@ -312,7 +446,7 @@ export function RegistrationModal() {
                 }
                 error={errors.projectIdea}
                 placeholder={t.form.placeholders.projectIdea}
-                required
+                required={!form.needsTeam}
               />
             </section>
 
@@ -336,7 +470,7 @@ export function RegistrationModal() {
               <Button
                 type="button"
                 variant="ghost"
-                onClick={closeRegistration}
+                onClick={requestClose}
                 disabled={submitting}
               >
                 {t.common.cancel}

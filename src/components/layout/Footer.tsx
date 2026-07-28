@@ -3,7 +3,13 @@
 import { siteConstants } from "@/data/content";
 import { Vision2030Mark } from "@/components/brand/Vision2030Mark";
 import { UniversityMark } from "@/components/brand/UniversityMark";
+import { Reveal } from "@/components/motion/Reveal";
 import { useLanguage } from "@/context/LanguageContext";
+
+// NOTE (pre-launch checklist): siteConstants.phone in src/data/content.ts is
+// still a placeholder ("+966 11 000 0000"). A string of zeros this close to
+// the bottom of the page is exactly the kind of detail a skeptical visitor
+// notices — swap in the real organizing-committee number before launch.
 
 export function Footer() {
   const { t } = useLanguage();
@@ -15,7 +21,7 @@ export function Footer() {
         <div className="absolute -right-10 bottom-0 h-56 w-56 rounded-full bg-gold/15 blur-3xl" />
       </div>
 
-      <div className="section-container relative z-10 py-12">
+      <Reveal y={20} className="section-container relative z-10 py-12">
         <div
           className="mb-10 flex flex-wrap items-center justify-between gap-6"
           dir="ltr"
@@ -65,7 +71,7 @@ export function Footer() {
           </p>
           <p>{t.site.vision2030}</p>
         </div>
-      </div>
+      </Reveal>
     </footer>
   );
 }

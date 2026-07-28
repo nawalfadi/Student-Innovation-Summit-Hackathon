@@ -75,8 +75,8 @@ export function DecorativeSwirl({
         height={Math.round(h * 2)}
         sizes={`${Math.round((w / artboardWidth) * 100)}vw`}
         className="h-full w-full max-w-none object-contain [filter:contrast(1.05)_saturate(1.08)]"
-        unoptimized
         priority={false}
+        loading="lazy"
       />
     </div>
   );

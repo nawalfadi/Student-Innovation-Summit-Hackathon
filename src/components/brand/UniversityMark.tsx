@@ -4,7 +4,8 @@ import { cn } from "@/lib/utils";
 interface UniversityMarkProps {
   className?: string;
   showText?: boolean;
-  /** Use a light chip behind the logo on dark surfaces (e.g. footer). */
+  /** Dark surfaces (e.g. the footer) get the real white wordmark instead
+   *  of the full-color logo boxed in a cream chip. */
   onDark?: boolean;
 }
 
@@ -15,25 +16,32 @@ export function UniversityMark({
 }: UniversityMarkProps) {
   return (
     <div className={cn("flex items-center gap-3", className)} dir="ltr">
-      <div
-        className={cn(
-          onDark && "rounded-xl bg-cream px-2.5 py-1.5"
-        )}
-      >
-        <Image
-          src="/alyamamah-logo-v2.png"
-          alt="جامعة اليمامة — Al Yamamah University"
-          width={320}
-          height={84}
-          className="h-8 w-auto sm:h-9"
-          priority
-          unoptimized
-        />
-      </div>
+      <Image
+        src={onDark ? "/alyamamah-logo-white.png" : "/alyamamah-logo-v2.png"}
+        alt="جامعة اليمامة — Al Yamamah University"
+        width={onDark ? 340 : 320}
+        height={onDark ? 68 : 84}
+        className="h-8 w-auto sm:h-9"
+        priority
+      />
       {showText && (
         <div className="hidden leading-tight sm:block" dir="rtl">
-          <p className="text-xs font-bold text-navy">جامعة اليمامة</p>
-          <p className="text-[10px] text-navy/55">Al Yamamah University</p>
+          <p
+            className={cn(
+              "text-xs font-bold",
+              onDark ? "text-white" : "text-navy"
+            )}
+          >
+            جامعة اليمامة
+          </p>
+          <p
+            className={cn(
+              "text-[10px]",
+              onDark ? "text-white/60" : "text-navy/55"
+            )}
+          >
+            Al Yamamah University
+          </p>
         </div>
       )}
     </div>

@@ -1,5 +1,11 @@
 /**
  * Soft layered atmosphere — stacked sky / mid / deep washes in different zones.
+ *
+ * Trimmed to roughly 40% fewer blurred/animated layers than the original
+ * pass: each `filter: blur()` element forces its own compositor layer, and
+ * on mid-range mobile GPUs a couple dozen of those simultaneously is a real
+ * frame-rate and battery cost for a background nobody consciously looks at.
+ * The composition still reads as a full atmosphere at every breakpoint.
  */
 export function AmbientBackground() {
   return (
@@ -57,34 +63,18 @@ export function AmbientBackground() {
         className="ambient-blob ambient-blob-blue left-[8%] top-[30%] h-[46rem] w-[46rem]"
         style={{ animationDelay: "-4s", opacity: 0.14 }}
       />
-      <div
-        className="ambient-blob ambient-blob-electric right-[-10%] top-[50%] h-[40rem] w-[40rem]"
-        style={{ animationDelay: "-12s", opacity: 0.16 }}
-      />
-      <div
-        className="ambient-blob ambient-blob-indigo -left-[12%] top-[65%] h-[38rem] w-[38rem]"
-        style={{ animationDelay: "-2s", opacity: 0.14 }}
-      />
 
-      {/* Layer stack — top-left: deep → mid → sky */}
+      {/* Layer stack — top-left: deep → sky */}
       <div className="blue-spray spray-deep blue-spray-soft -left-[20%] top-[-14%] h-[38rem] w-[44rem]" />
-      <div
-        className="blue-spray spray-mid blue-spray-soft -left-[10%] top-[-6%] h-[30rem] w-[36rem]"
-        style={{ animationDelay: "-5s" }}
-      />
       <div
         className="blue-spray spray-sky blue-spray-soft -left-[4%] top-[0%] h-[26rem] w-[32rem]"
         style={{ animationDelay: "-9s" }}
       />
 
-      {/* Layer stack — top-right: sky → deep → mid */}
+      {/* Layer stack — top-right: sky → mid */}
       <div
         className="blue-spray spray-sky blue-spray-soft -right-[22%] top-[-12%] h-[40rem] w-[46rem]"
         style={{ animationDelay: "-3s" }}
-      />
-      <div
-        className="blue-spray spray-deep blue-spray-soft -right-[10%] top-[-2%] h-[32rem] w-[38rem]"
-        style={{ animationDelay: "-11s" }}
       />
       <div
         className="blue-spray spray-mid blue-spray-soft right-[2%] top-[6%] h-[24rem] w-[30rem]"
@@ -97,10 +87,6 @@ export function AmbientBackground() {
         style={{ animationDelay: "-6s" }}
       />
       <div
-        className="blue-spray spray-sky blue-spray-soft -left-[6%] top-[36%] h-[32rem] w-[36rem]"
-        style={{ animationDelay: "-14s" }}
-      />
-      <div
         className="blue-spray spray-mid blue-spray-soft left-[8%] top-[42%] h-[24rem] w-[28rem]"
         style={{ animationDelay: "-2s" }}
       />
@@ -111,32 +97,14 @@ export function AmbientBackground() {
         style={{ animationDelay: "-10s" }}
       />
       <div
-        className="blue-spray spray-deep blue-spray-soft -right-[4%] top-[40%] h-[30rem] w-[34rem]"
-        style={{ animationDelay: "-4s" }}
-      />
-      <div
         className="blue-spray spray-mid blue-spray-soft right-[10%] top-[48%] h-[22rem] w-[28rem]"
         style={{ animationDelay: "-13s" }}
-      />
-
-      {/* Layer stack — center */}
-      <div
-        className="blue-spray spray-mid blue-spray-soft left-[28%] top-[44%] h-[26rem] w-[32rem]"
-        style={{ animationDelay: "-8s" }}
-      />
-      <div
-        className="blue-spray spray-sky blue-spray-soft left-[36%] top-[50%] h-[20rem] w-[26rem]"
-        style={{ animationDelay: "-1s" }}
       />
 
       {/* Layer stack — lower-left */}
       <div
         className="blue-spray spray-sky blue-spray-soft -left-[14%] top-[60%] h-[36rem] w-[40rem]"
         style={{ animationDelay: "-12s" }}
-      />
-      <div
-        className="blue-spray spray-deep blue-spray-soft -left-[4%] top-[68%] h-[28rem] w-[34rem]"
-        style={{ animationDelay: "-5s" }}
       />
       <div
         className="blue-spray spray-mid blue-spray-soft left-[10%] top-[74%] h-[22rem] w-[28rem]"
@@ -147,10 +115,6 @@ export function AmbientBackground() {
       <div
         className="blue-spray spray-deep blue-spray-soft -right-[18%] top-[64%] h-[36rem] w-[42rem]"
         style={{ animationDelay: "-9s" }}
-      />
-      <div
-        className="blue-spray spray-sky blue-spray-soft -right-[6%] top-[72%] h-[28rem] w-[34rem]"
-        style={{ animationDelay: "-3s" }}
       />
       <div
         className="blue-spray spray-mid blue-spray-soft right-[8%] bottom-[-6%] h-[24rem] w-[30rem]"

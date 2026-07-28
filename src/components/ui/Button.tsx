@@ -1,11 +1,18 @@
+"use client";
+
+import { useRef, type MouseEvent } from "react";
+import { motion, useMotionValue, useSpring, type HTMLMotionProps } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 type ButtonVariant = "primary" | "secondary" | "outline" | "ghost" | "glass";
 type ButtonSize = "sm" | "md" | "lg";
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends Omit<HTMLMotionProps<"button">, "children"> {
   variant?: ButtonVariant;
   size?: ButtonSize;
+  /** Pointer-follow magnetic pull, on by default for primary/secondary CTAs. */
+  magnetic?: boolean;
+  children?: React.ReactNode;
 }
 
 const variants: Record<ButtonVariant, string> = {
@@ -30,20 +37,52 @@ export function Button({
   className,
   variant = "primary",
   size = "md",
+  magnetic = true,
   children,
   ...props
 }: ButtonProps) {
+  const ref = useRef<HTMLButtonElement>(null);
+
+  // Spring-damped magnetic pull — smoother and more "alive" than a raw
+  // state offset, echoes the pointer-follow feel of Apple product pages.
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const springX = useSpring(x, { stiffness: 300, damping: 20, mass: 0.4 });
+  const springY = useSpring(y, { stiffness: 300, damping: 20, mass: 0.4 });
+
+  function handleMouseMove(e: MouseEvent<HTMLButtonElement>) {
+    if (!magnetic || !ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    x.set((e.clientX - (rect.left + rect.width / 2)) * 0.22);
+    y.set((e.clientY - (rect.top + rect.height / 2)) * 0.28);
+  }
+
+  function handleMouseLeave() {
+    x.set(0);
+    y.set(0);
+  }
+
   return (
-    <button
+    <motion.button
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={magnetic ? { x: springX, y: springY } : undefined}
+      whileHover={{ scale: 1.025 }}
+      whileTap={{ scale: 0.955 }}
+      transition={{ type: "spring", stiffness: 420, damping: 24 }}
       className={cn(
-        "inline-flex items-center justify-center gap-2 rounded-2xl font-bold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan focus-visible:ring-offset-2 focus-visible:ring-offset-cream disabled:cursor-not-allowed disabled:opacity-60",
+        "btn-shine group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-2xl font-bold transition-[background-color,border-color,box-shadow] duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan focus-visible:ring-offset-2 focus-visible:ring-offset-cream disabled:cursor-not-allowed disabled:opacity-60",
         variants[variant],
         sizes[size],
         className
       )}
       {...props}
     >
-      {children}
-    </button>
+      <span className="btn-shine__sweep" aria-hidden />
+      <span className="relative z-10 inline-flex items-center gap-2">
+        {children}
+      </span>
+    </motion.button>
   );
 }

@@ -57,6 +57,7 @@ export async function POST(request: Request) {
         email: member.email.trim().toLowerCase(),
       })),
       projectIdea: body.projectIdea.trim(),
+      needsTeam: body.needsTeam ?? false,
       locale,
       status: "pending",
       createdAt: FieldValue.serverTimestamp(),

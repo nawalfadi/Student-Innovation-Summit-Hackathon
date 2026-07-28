@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type MouseEvent } from "react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useRegistration } from "@/context/RegistrationContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { Vision2030Mark } from "@/components/brand/Vision2030Mark";
@@ -37,9 +38,10 @@ function MagneticButton({
       onClick={onClick}
       onMouseMove={onMove}
       onMouseLeave={onLeave}
-      className={cn("header-magnetic-cta", className)}
+      className={cn("header-magnetic-cta btn-shine", className)}
       style={{ transform: `translate(${offset.x}px, ${offset.y}px)` }}
     >
+      <span className="btn-shine__sweep" aria-hidden />
       <span className="relative z-10">{children}</span>
     </button>
   );
@@ -50,6 +52,7 @@ export function Header() {
   const [activeHref, setActiveHref] = useState("");
   const { openRegistration } = useRegistration();
   const { t, toggleLocale, locale } = useLanguage();
+  const CtaIcon = locale === "ar" ? ArrowLeft : ArrowRight;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -80,8 +83,8 @@ export function Header() {
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-all duration-300 ease-out",
         scrolled
-          ? "border-b border-zinc-200/50 bg-white/80 shadow-sm backdrop-blur-md"
-          : "border-b border-transparent bg-transparent shadow-none"
+          ? "border-b border-white/40 bg-white/55 shadow-[0_8px_32px_rgba(27,54,93,0.08)] backdrop-blur-xl backdrop-saturate-150"
+          : "border-b border-transparent bg-transparent shadow-none backdrop-blur-0"
       )}
     >
       {/* Immersive brand rail — collapses when scrolled */}
@@ -100,10 +103,11 @@ export function Header() {
         </div>
       </div>
 
-      {/* Compact sticky bar */}
+      {/* Compact sticky bar — 3-column grid keeps the nav dead-centered
+          no matter how wide the logo cluster or action buttons get. */}
       <div
         className={cn(
-          "section-container flex items-center gap-2 transition-all duration-300 ease-out sm:gap-3",
+          "section-container grid grid-cols-[auto_1fr_auto] items-center gap-2 transition-all duration-300 ease-out sm:gap-3",
           scrolled ? "h-14 py-0 sm:h-[3.5rem]" : "h-16 py-1 sm:h-[4.25rem]"
         )}
       >
@@ -122,29 +126,29 @@ export function Header() {
           <Vision2030Mark compact className="hidden sm:block [&_img]:!h-8" />
         </div>
 
-        <nav
-          className={cn(
-            "flex min-w-0 flex-1 items-center gap-0.5 overflow-x-auto transition-all duration-300 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
-            scrolled ? "ms-1 sm:ms-2" : "ms-0"
-          )}
-          aria-label="Primary"
-        >
-          {t.nav.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className={cn(
-                "header-nav-link shrink-0",
-                scrolled && "header-nav-link--compact",
-                activeHref === link.href && "is-active"
-              )}
-            >
-              {link.label}
-            </a>
-          ))}
-        </nav>
+        {/* Nav — always centered, same size whether at the top of the
+            page or scrolled deep into the content. */}
+        <div className="flex min-w-0 items-center justify-center overflow-hidden">
+          <nav
+            className="flex max-w-full items-center gap-0.5 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            aria-label="Primary"
+          >
+            {t.nav.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className={cn(
+                  "header-nav-link shrink-0",
+                  activeHref === link.href && "is-active"
+                )}
+              >
+                {link.label}
+              </a>
+            ))}
+          </nav>
+        </div>
 
-        <div className="ms-auto flex shrink-0 items-center gap-2 sm:gap-2.5">
+        <div className="flex shrink-0 items-center gap-2 sm:gap-2.5">
           <button
             type="button"
             onClick={toggleLocale}
@@ -178,12 +182,13 @@ export function Header() {
 
           <MagneticButton
             className={cn(
-              "transition-all duration-300",
+              "header-magnetic-cta--glow transition-all duration-300",
               scrolled && "header-magnetic-cta--compact"
             )}
             onClick={openRegistration}
           >
             {t.common.registerNow}
+            <CtaIcon size={14} className="hidden sm:inline" />
           </MagneticButton>
         </div>
       </div>

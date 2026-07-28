@@ -1,9 +1,11 @@
 "use client";
 
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, Users } from "lucide-react";
 import { useRegistration } from "@/context/RegistrationContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { Button } from "@/components/ui/Button";
+import { Reveal } from "@/components/motion/Reveal";
+import { EventCountdown } from "@/components/brand/EventCountdown";
 
 export function CTA() {
   const { openRegistration } = useRegistration();
@@ -35,10 +37,16 @@ export function CTA() {
       />
 
       <div className="section-container relative z-10">
-        <div className="relative overflow-hidden rounded-[2rem] bg-navy px-8 py-14 text-center shadow-[0_24px_80px_rgba(27,54,93,0.28)] sm:px-16 sm:py-16">
+        <Reveal
+          y={36}
+          className="relative overflow-hidden rounded-[2rem] bg-navy px-8 py-14 text-center shadow-[0_24px_80px_rgba(27,54,93,0.28)] sm:px-16 sm:py-16"
+        >
           <div className="pointer-events-none absolute -left-16 top-0 h-56 w-56 rounded-full bg-cyan/30 blur-3xl" />
           <div className="pointer-events-none absolute -right-10 bottom-0 h-48 w-48 rounded-full bg-gold/25 blur-3xl" />
           <div className="relative">
+            <div className="mb-5 flex justify-center">
+              <EventCountdown dark />
+            </div>
             <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
               {t.cta.title}
             </h2>
@@ -54,8 +62,12 @@ export function CTA() {
               {t.common.registerNow}
               <CtaIcon size={20} />
             </Button>
+            <p className="mt-9 flex items-center justify-center gap-2 text-sm font-medium text-white/55">
+              <Users size={15} />
+              {t.footer.teamSize}
+            </p>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

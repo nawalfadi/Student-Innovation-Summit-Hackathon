@@ -15,7 +15,7 @@ export default function HomePage() {
     <>
       <AmbientBackground />
       <Header />
-      <main>
+      <main id="main-content" tabIndex={-1} className="outline-none">
         <Hero />
         <About />
         <Tracks />

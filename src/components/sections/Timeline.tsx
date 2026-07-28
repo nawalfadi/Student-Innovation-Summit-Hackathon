@@ -3,43 +3,33 @@
 import { Calendar } from "lucide-react";
 import { DecorativeSwirl } from "@/components/brand/DecorativeSwirl";
 import { SectionHeading } from "@/components/layout/SectionHeading";
+import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { useLanguage } from "@/context/LanguageContext";
 
 export function Timeline() {
   const { t } = useLanguage();
 
   return (
-    <section id="timeline" className="relative overflow-hidden py-20 sm:py-28">
-      {/* Layered color stacks */}
+    // A deliberate "keynote" beat — the one section on the page that isn't
+    // cream-and-glass. Scrolling from Tracks into a dark, high-contrast
+    // Timeline and back out into light Universities is the visual rhythm
+    // the audit was asking for: the page should feel like it's progressing
+    // through moments, not repeating one template.
+    <section
+      id="timeline"
+      className="relative overflow-hidden bg-gradient-to-b from-navy via-navy to-navy-dark py-20 sm:py-28"
+    >
       <div
         aria-hidden
-        className="blue-spray spray-deep blue-spray-soft -left-[12%] top-[5%] hidden h-72 w-80 sm:block lg:h-96 lg:w-[28rem]"
-        style={{ animation: "none" }}
+        className="pointer-events-none absolute -left-24 top-0 h-96 w-96 rounded-full bg-cyan/20 blur-[100px]"
       />
       <div
         aria-hidden
-        className="blue-spray spray-sky blue-spray-soft -left-[2%] top-[18%] hidden h-56 w-64 sm:block"
-        style={{ animation: "none" }}
+        className="pointer-events-none absolute -right-16 top-1/3 h-80 w-80 rounded-full bg-gold/15 blur-[100px]"
       />
       <div
         aria-hidden
-        className="blue-spray spray-mid blue-spray-soft left-[12%] top-[30%] hidden h-44 w-56 lg:block"
-        style={{ animation: "none" }}
-      />
-      <div
-        aria-hidden
-        className="blue-spray spray-sky blue-spray-soft -right-[10%] top-[30%] hidden h-64 w-80 sm:block lg:h-80 lg:w-96"
-        style={{ animation: "none" }}
-      />
-      <div
-        aria-hidden
-        className="blue-spray spray-deep blue-spray-soft -right-[0%] top-[48%] hidden h-52 w-64 sm:block"
-        style={{ animation: "none" }}
-      />
-      <div
-        aria-hidden
-        className="blue-spray spray-mid blue-spray-soft left-[28%] bottom-[0%] hidden h-48 w-60 lg:block"
-        style={{ animation: "none" }}
+        className="pointer-events-none absolute bottom-0 left-1/3 h-72 w-72 rounded-full bg-cyan/10 blur-[100px]"
       />
 
       <DecorativeSwirl
@@ -48,7 +38,7 @@ export function Timeline() {
         top={413}
         width={502}
         height={489}
-        opacity={0.5}
+        opacity={0.28}
         flipY
       />
       <DecorativeSwirl
@@ -57,41 +47,50 @@ export function Timeline() {
         top={443}
         width={502}
         height={489}
-        opacity={0.5}
+        opacity={0.28}
         flipY
       />
 
       <div className="section-container relative z-10">
-        <SectionHeading
-          badge={t.timeline.badge}
-          title={t.timeline.title}
-          subtitle={t.timeline.subtitle}
-        />
+        <Reveal>
+          <SectionHeading
+            dark
+            badge={t.timeline.badge}
+            title={t.timeline.title}
+            subtitle={t.timeline.subtitle}
+          />
+        </Reveal>
 
         <div className="relative mt-16">
-          <div className="absolute right-[2.15rem] top-4 hidden h-[calc(100%-2rem)] w-px bg-gradient-to-b from-cyan via-gold/60 to-transparent lg:block rtl:right-[2.15rem] ltr:left-[2.15rem] ltr:right-auto" />
+          <div className="absolute right-[2.15rem] top-4 hidden h-[calc(100%-2rem)] w-px bg-gradient-to-b from-gold via-cyan/60 to-transparent lg:block rtl:right-[2.15rem] ltr:left-[2.15rem] ltr:right-auto" />
 
-          <div className="space-y-6">
+          <RevealGroup className="space-y-6" stagger={0.14}>
             {t.timeline.days.map((day, index) => (
-              <div
-                key={day.day}
+              <RevealItem
+                // A stable, locale-independent key — day.day/day.date/etc.
+                // are translated strings that change with the language, so
+                // keying on them made React tear down and remount every
+                // card (replaying its entrance animation) on every switch.
+                key={`timeline-day-${index}`}
+                whileHover={{ x: 0, y: -2 }}
+                transition={{ type: "spring", stiffness: 280, damping: 22 }}
                 className="relative grid gap-5 lg:grid-cols-[100px_1fr]"
               >
                 <div className="hidden lg:flex lg:justify-center">
-                  <div className="relative z-10 flex h-[4.3rem] w-[4.3rem] items-center justify-center rounded-2xl bg-navy text-sm font-black text-white shadow-xl shadow-navy/25 ring-4 ring-cream">
+                  <div className="relative z-10 flex h-[4.3rem] w-[4.3rem] items-center justify-center rounded-2xl bg-gradient-to-br from-gold to-gold-light text-sm font-black text-navy-dark shadow-xl shadow-black/20 ring-4 ring-navy">
                     {String(index + 1).padStart(2, "0")}
                   </div>
                 </div>
 
-                <article className="glass-card p-7 sm:p-8">
+                <article className="rounded-3xl border border-white/10 bg-white/[0.06] p-7 shadow-[0_20px_50px_rgba(0,0,0,0.25)] backdrop-blur-xl transition-colors duration-300 hover:border-cyan/25 hover:bg-white/[0.09] sm:p-8">
                   <div className="flex flex-wrap items-start justify-between gap-4">
                     <div>
                       <p className="text-sm font-bold text-gold">{day.day}</p>
-                      <h3 className="mt-1 text-xl font-extrabold text-navy">
+                      <h3 className="mt-1 text-xl font-extrabold text-white">
                         {day.title}
                       </h3>
                     </div>
-                    <div className="inline-flex items-center gap-2 rounded-2xl border border-navy/8 bg-white/60 px-4 py-2 text-sm font-semibold text-navy/70">
+                    <div className="inline-flex items-center gap-2 rounded-2xl border border-white/15 bg-white/10 px-4 py-2 text-sm font-semibold text-white/80">
                       <Calendar size={16} className="text-gold" />
                       <span dir="ltr">{day.date}</span>
                     </div>
@@ -100,7 +99,7 @@ export function Timeline() {
                     {day.items.map((item) => (
                       <li
                         key={item}
-                        className="flex items-start gap-3 rounded-2xl bg-navy/[0.03] px-4 py-3 text-sm leading-7 text-navy/70"
+                        className="flex items-start gap-3 rounded-2xl bg-white/[0.05] px-4 py-3 text-sm leading-7 text-white/75"
                       >
                         <span className="mt-2.5 h-2 w-2 shrink-0 rounded-full bg-cyan" />
                         {item}
@@ -108,9 +107,9 @@ export function Timeline() {
                     ))}
                   </ul>
                 </article>
-              </div>
+              </RevealItem>
             ))}
-          </div>
+          </RevealGroup>
         </div>
       </div>
     </section>

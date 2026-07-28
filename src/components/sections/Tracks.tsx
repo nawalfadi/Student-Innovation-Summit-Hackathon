@@ -3,6 +3,7 @@
 import { Compass, Zap, ArrowLeftRight } from "lucide-react";
 import { DecorativeSwirl } from "@/components/brand/DecorativeSwirl";
 import { SectionHeading } from "@/components/layout/SectionHeading";
+import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { useLanguage } from "@/context/LanguageContext";
 
 const iconMap = {
@@ -10,6 +11,14 @@ const iconMap = {
   zap: Zap,
   bridge: ArrowLeftRight,
 };
+
+// A quiet per-track accent — each card stays in the same design system but
+// reads as its own identity rather than three copies of one template.
+const accents = [
+  "shadow-cyan/25 ring-cyan/15 group-hover:shadow-cyan/40",
+  "shadow-gold/25 ring-gold/15 group-hover:shadow-gold/40",
+  "shadow-navy/25 ring-navy/10 group-hover:shadow-navy/40",
+];
 
 export function Tracks() {
   const { t } = useLanguage();
@@ -70,18 +79,22 @@ export function Tracks() {
       />
 
       <div className="section-container relative z-10">
-        <SectionHeading
-          badge={t.tracks.badge}
-          title={t.tracks.title}
-          subtitle={t.tracks.subtitle}
-        />
+        <Reveal>
+          <SectionHeading
+            badge={t.tracks.badge}
+            title={t.tracks.title}
+            subtitle={t.tracks.subtitle}
+          />
+        </Reveal>
 
-        <div className="mt-16 grid gap-6 lg:grid-cols-3">
+        <RevealGroup className="mt-16 grid gap-6 lg:grid-cols-3">
           {t.tracks.items.map((track, index) => {
             const Icon = iconMap[track.icon as keyof typeof iconMap] ?? Compass;
             return (
-              <article
+              <RevealItem
                 key={track.id}
+                whileHover={{ y: -6 }}
+                transition={{ type: "spring", stiffness: 280, damping: 20 }}
                 className="glass-card group relative overflow-hidden p-8"
               >
                 <div className="pointer-events-none absolute -left-8 top-0 h-32 w-32 rounded-full bg-gold/15 blur-2xl transition-transform duration-500 group-hover:scale-150" />
@@ -89,10 +102,12 @@ export function Tracks() {
 
                 <div className="relative z-10">
                   <div className="mb-6 flex items-center justify-between">
-                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-navy text-gold shadow-lg shadow-navy/20">
+                    <div
+                      className={`flex h-14 w-14 items-center justify-center rounded-2xl bg-navy text-gold shadow-lg ring-1 transition-all duration-500 ease-out group-hover:-rotate-6 group-hover:scale-110 ${accents[index % accents.length]}`}
+                    >
                       <Icon size={26} />
                     </div>
-                    <span className="text-4xl font-black text-navy/10">
+                    <span className="text-4xl font-black text-navy/10 transition-colors duration-300 group-hover:text-navy/20">
                       0{index + 1}
                     </span>
                   </div>
@@ -117,10 +132,10 @@ export function Tracks() {
                     ))}
                   </ul>
                 </div>
-              </article>
+              </RevealItem>
             );
           })}
-        </div>
+        </RevealGroup>
       </div>
     </section>
   );

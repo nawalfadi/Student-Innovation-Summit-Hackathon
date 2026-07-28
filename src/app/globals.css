@@ -13,12 +13,28 @@
   --color-cream-dark: #d8d5ca;
   --color-surface: #ffffff;
   --color-surface-muted: #f0ebe3;
-  /* Match Figma: Segoe UI (system) with Arabic-capable fallbacks */
-  --font-sans: "Segoe UI", Tahoma, "Arial Unicode MS", sans-serif;
+  /* Self-hosted Cairo (Arabic + Latin) via next/font, with system fallbacks
+     for the split-second before it paints. */
+  --font-sans: var(--font-cairo), "Segoe UI", Tahoma, sans-serif;
 }
 
 html {
-  scroll-behavior: smooth;
+  /* Lenis drives the eased scroll now; keep native jumps instant so the
+     two easing curves never fight each other. */
+  scroll-behavior: auto;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
 }
 
 body {
@@ -32,6 +48,57 @@ body {
 ::selection {
   background: color-mix(in srgb, var(--color-cyan) 30%, white);
   color: var(--color-navy-dark);
+}
+
+/* ── Accessibility: skip link ── */
+.skip-link {
+  position: fixed;
+  top: -100%;
+  left: 1rem;
+  z-index: 200;
+  border-radius: 0.75rem;
+  background: var(--color-navy);
+  padding: 0.75rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #fff;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus-visible {
+  top: 1rem;
+}
+
+/* ── Performance: pause decorative motion when the tab is hidden or the
+   user has asked the OS for reduced motion. The blur cost stays paid once,
+   but the compositor stops re-animating layers nobody can see. ── */
+html.motion-paused .ambient-blob,
+html.motion-paused .blue-spray,
+html.motion-paused .animate-float-soft,
+html.motion-paused .animate-float-soft-delayed,
+html.motion-paused .animate-map-breathe,
+html.motion-paused .text-shimmer,
+html.motion-paused .header-magnetic-cta--glow,
+html.motion-paused .host-card-glow {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient-blob,
+  .blue-spray,
+  .animate-float-soft,
+  .animate-float-soft-delayed,
+  .animate-map-breathe,
+  .animate-fade-up,
+  .text-shimmer,
+  .header-magnetic-cta--glow,
+  .host-card-glow {
+    animation: none !important;
+  }
+
+  * {
+    scroll-behavior: auto !important;
+  }
 }
 
 .section-container {
@@ -400,16 +467,22 @@ body {
   display: inline-grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
-  width: 4.5rem;
-  height: 2rem;
+  width: 4.15rem;
+  height: 1.85rem;
   border-radius: 999px;
-  border: 1px solid rgba(27, 54, 93, 0.12);
-  background: rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(27, 54, 93, 0.1);
+  background: rgba(255, 255, 255, 0.32);
   padding: 0.15rem;
   overflow: hidden;
+  opacity: 0.85;
   transition:
     border-color 0.25s ease,
-    box-shadow 0.25s ease;
+    box-shadow 0.25s ease,
+    opacity 0.25s ease;
+}
+
+.header-lang-toggle:hover {
+  opacity: 1;
 }
 
 .header-lang-toggle:hover {
@@ -457,8 +530,8 @@ body {
   justify-content: center;
   gap: 0.4rem;
   border-radius: 999px;
-  padding: 0.55rem 1.15rem;
-  font-size: 0.8125rem;
+  padding: 0.65rem 1.35rem;
+  font-size: 0.85rem;
   font-weight: 800;
   color: #fff;
   background: linear-gradient(135deg, #1b365d 0%, #2f296f 55%, #555bc1 100%);
@@ -472,6 +545,32 @@ body {
   will-change: transform;
   isolation: isolate;
   overflow: hidden;
+}
+
+/* A slow, barely-there breathing glow — enough to pull the eye toward the
+   one action that matters without ever feeling like a notification badge. */
+@keyframes cta-glow-pulse {
+  0%,
+  100% {
+    box-shadow:
+      0 8px 22px rgba(47, 41, 111, 0.28),
+      0 0 0 0 rgba(129, 185, 236, 0.25),
+      inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  }
+  50% {
+    box-shadow:
+      0 10px 28px rgba(47, 41, 111, 0.34),
+      0 0 0 6px rgba(129, 185, 236, 0),
+      inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  }
+}
+
+.header-magnetic-cta--glow {
+  animation: cta-glow-pulse 3.4s ease-in-out infinite;
+}
+
+.header-magnetic-cta--glow:hover {
+  animation-play-state: paused;
 }
 
 .header-magnetic-cta::before {
@@ -514,8 +613,45 @@ body {
   filter: brightness(0.97);
 }
 
+/* Host-university card — a slow, quiet gold halo so the one university
+   actually running this event stays visually first without shouting. */
+@keyframes host-glow-pulse {
+  0%,
+  100% {
+    box-shadow: 0 8px 40px rgba(27, 54, 93, 0.06), 0 0 0 0 rgba(201, 162, 39, 0.18);
+  }
+  50% {
+    box-shadow: 0 8px 40px rgba(27, 54, 93, 0.06), 0 0 0 8px rgba(201, 162, 39, 0);
+  }
+}
+
+.host-card-glow {
+  animation: host-glow-pulse 6s ease-in-out infinite;
+}
+
 .header-magnetic-cta--compact {
   padding: 0.4rem 0.95rem;
   font-size: 0.75rem;
+}
+
+/* ── Global button shine sweep ── */
+.btn-shine__sweep {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  background: linear-gradient(
+    115deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.55) 48%,
+    rgba(255, 255, 255, 0.15) 54%,
+    transparent 70%
+  );
+  transform: translateX(-130%) skewX(-12deg);
+  transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.btn-shine:hover .btn-shine__sweep {
+  transform: translateX(130%) skewX(-12deg);
 }
 

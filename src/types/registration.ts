@@ -16,6 +16,10 @@ export interface RegistrationPayload {
   memberCount: number;
   members: TeamMember[];
   projectIdea: string;
+  /** True when the registrant doesn't have a full 3-5 person team yet and
+   *  is asking to be registered solo / matched later. Relaxes team-related
+   *  validation on both client and server. */
+  needsTeam?: boolean;
 }
 
 export interface RegistrationRecord extends RegistrationPayload {
