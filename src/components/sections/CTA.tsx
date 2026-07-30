@@ -6,6 +6,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/motion/Reveal";
 import { EventCountdown } from "@/components/brand/EventCountdown";
+import { SectionSpray } from "@/components/brand/SectionSpray";
 
 export function CTA() {
   const { openRegistration } = useRegistration();
@@ -14,26 +15,13 @@ export function CTA() {
 
   return (
     <section className="relative overflow-hidden py-16 sm:py-24">
-      {/* Layered color stacks */}
-      <div
-        aria-hidden
-        className="blue-spray spray-sky blue-spray-soft -left-[12%] top-[0%] hidden h-64 w-80 sm:block lg:h-80 lg:w-96"
-        style={{ animation: "none" }}
+      <SectionSpray
+        tone="sky"
+        className="-left-[12%] top-[0%] h-64 w-80 lg:h-80 lg:w-96"
       />
-      <div
-        aria-hidden
-        className="blue-spray spray-mid blue-spray-soft -left-[2%] top-[15%] hidden h-48 w-60 sm:block"
-        style={{ animation: "none" }}
-      />
-      <div
-        aria-hidden
-        className="blue-spray spray-deep blue-spray-soft -right-[10%] bottom-[-5%] hidden h-64 w-80 sm:block lg:h-80 lg:w-96"
-        style={{ animation: "none" }}
-      />
-      <div
-        aria-hidden
-        className="blue-spray spray-sky blue-spray-soft -right-[0%] bottom-[10%] hidden h-48 w-60 sm:block"
-        style={{ animation: "none" }}
+      <SectionSpray
+        tone="deep"
+        className="-right-[10%] bottom-[-5%] h-64 w-80 lg:h-80 lg:w-96"
       />
 
       <div className="section-container relative z-10">

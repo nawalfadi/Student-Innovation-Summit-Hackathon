@@ -329,8 +329,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
         { name: "جامعة الفيصل", abbr: "AU" },
         { name: "جامعة الأمير سلطان", abbr: "PSU" },
         { name: "جامعة الإمام", abbr: "IMSIU" },
-        { name: "جامعة شقراء", abbr: "SU" },
-        { name: "جامعة المجمعة", abbr: "MU" },
+        { name: "جامعة سطام", abbr: "PSAU" },
+        { name: "الجامعة السعودية الإلكترونية", abbr: "SEU" },
       ],
     },
     sponsors: {
@@ -599,8 +599,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
         { name: "Alfaisal University", abbr: "AU" },
         { name: "Prince Sultan University", abbr: "PSU" },
         { name: "Imam Mohammad Ibn Saud University", abbr: "IMSIU" },
-        { name: "Shaqra University", abbr: "SU" },
-        { name: "Majmaah University", abbr: "MU" },
+        { name: "Prince Sattam University", abbr: "PSAU" },
+        { name: "Saudi Electronic University", abbr: "SEU" },
       ],
     },
     sponsors: {

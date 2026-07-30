@@ -2,6 +2,7 @@
 
 import { SectionHeading } from "@/components/layout/SectionHeading";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
+import { SectionSpray } from "@/components/brand/SectionSpray";
 import { useLanguage } from "@/context/LanguageContext";
 import { cn } from "@/lib/utils";
 
@@ -32,21 +33,13 @@ export function Sponsors() {
 
   return (
     <section id="sponsors" className="relative overflow-hidden py-20 sm:py-28">
-      {/* Layered color stacks */}
-      <div
-        aria-hidden
-        className="blue-spray spray-sky blue-spray-soft -right-[12%] top-[5%] hidden h-72 w-80 sm:block lg:h-96 lg:w-[28rem]"
-        style={{ animation: "none" }}
+      <SectionSpray
+        tone="sky"
+        className="-right-[12%] top-[6%] h-72 w-80 lg:h-96 lg:w-[28rem]"
       />
-      <div
-        aria-hidden
-        className="blue-spray spray-deep blue-spray-soft -left-[12%] bottom-[0%] hidden h-64 w-80 sm:block lg:h-80 lg:w-96"
-        style={{ animation: "none" }}
-      />
-      <div
-        aria-hidden
-        className="blue-spray spray-mid blue-spray-soft left-[28%] top-[45%] hidden h-48 w-60 lg:block"
-        style={{ animation: "none" }}
+      <SectionSpray
+        tone="deep"
+        className="-left-[12%] bottom-[0%] h-64 w-80 lg:h-80 lg:w-96"
       />
 
       <div className="section-container relative z-10">

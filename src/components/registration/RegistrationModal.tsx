@@ -203,11 +203,7 @@ export function RegistrationModal() {
         role="dialog"
         aria-modal="true"
         aria-labelledby="registration-modal-title"
-        // Lenis takes over wheel/touch scrolling for the whole document;
-        // without this it also swallows scroll input meant for this
-        // modal's own internal overflow, making the long form feel frozen.
-        data-lenis-prevent
-        className="animate-modal-in relative max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-t-3xl border border-white/60 bg-cream/95 shadow-2xl backdrop-blur-xl sm:rounded-3xl"
+        className="animate-modal-in relative max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-t-3xl border border-white/60 bg-cream/95 shadow-2xl sm:rounded-3xl"
       >
         <div className="sticky top-0 z-10 flex items-center justify-between border-b border-navy/8 bg-cream/90 px-6 py-5 backdrop-blur-xl">
           <div>

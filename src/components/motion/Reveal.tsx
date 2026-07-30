@@ -17,10 +17,10 @@ interface RevealProps extends HTMLMotionProps<"div"> {
 /** Fades + slides a single element in as it enters the viewport. */
 export function Reveal({
   delay = 0,
-  y = 28,
-  amount = 0.2,
+  y = 20,
+  amount = 0.15,
   once = true,
-  duration = 0.7,
+  duration = 0.45,
   className,
   children,
   ...props
@@ -29,7 +29,7 @@ export function Reveal({
     <motion.div
       initial={{ opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once, amount }}
+      viewport={{ once, amount, margin: "0px 0px -40px 0px" }}
       transition={{ duration, delay, ease: EASE_OUT }}
       className={className}
       {...props}
@@ -75,12 +75,11 @@ export function RevealGroup({
 }
 
 const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 26, scale: 0.97 },
+  hidden: { opacity: 0, y: 18 },
   show: {
     opacity: 1,
     y: 0,
-    scale: 1,
-    transition: { duration: 0.6, ease: EASE_OUT },
+    transition: { duration: 0.4, ease: EASE_OUT },
   },
 };
 

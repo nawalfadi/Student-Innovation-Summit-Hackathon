@@ -2,6 +2,7 @@
 
 import { Compass, Zap, ArrowLeftRight } from "lucide-react";
 import { DecorativeSwirl } from "@/components/brand/DecorativeSwirl";
+import { SectionSpray } from "@/components/brand/SectionSpray";
 import { SectionHeading } from "@/components/layout/SectionHeading";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { useLanguage } from "@/context/LanguageContext";
@@ -25,42 +26,15 @@ export function Tracks() {
 
   return (
     <section id="tracks" className="relative overflow-hidden py-20 sm:py-28">
-      {/* Layered color stacks */}
-      <div
-        aria-hidden
-        className="blue-spray spray-sky blue-spray-soft -left-[12%] top-[2%] hidden h-80 w-96 sm:block lg:h-[28rem] lg:w-[30rem]"
-        style={{ animation: "none" }}
+      <SectionSpray
+        tone="sky"
+        className="-left-[12%] top-[4%] h-80 w-96 lg:h-[28rem] lg:w-[30rem]"
       />
-      <div
-        aria-hidden
-        className="blue-spray spray-mid blue-spray-soft -left-[2%] top-[14%] hidden h-60 w-72 sm:block"
-        style={{ animation: "none" }}
-      />
-      <div
-        aria-hidden
-        className="blue-spray spray-deep blue-spray-soft left-[10%] top-[24%] hidden h-48 w-60 lg:block"
-        style={{ animation: "none" }}
-      />
-      <div
-        aria-hidden
-        className="blue-spray spray-deep blue-spray-soft -right-[10%] top-[28%] hidden h-72 w-80 sm:block lg:h-96 lg:w-[28rem]"
-        style={{ animation: "none" }}
-      />
-      <div
-        aria-hidden
-        className="blue-spray spray-sky blue-spray-soft -right-[0%] top-[42%] hidden h-56 w-64 sm:block"
-        style={{ animation: "none" }}
-      />
-      <div
-        aria-hidden
-        className="blue-spray spray-mid blue-spray-soft left-[25%] bottom-[2%] hidden h-52 w-72 lg:block"
-        style={{ animation: "none" }}
+      <SectionSpray
+        tone="deep"
+        className="-right-[10%] top-[30%] h-72 w-80 lg:h-96 lg:w-[28rem]"
       />
 
-      {/*
-        Figma Tracks swirls (40:910 left, 40:911 right) —
-        sit behind the three track cards.
-      */}
       <DecorativeSwirl
         src="/decor/swirl-tracks.png"
         left={-7}

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { GraduationCap } from "lucide-react";
 import { DecorativeSwirl } from "@/components/brand/DecorativeSwirl";
+import { SectionSpray } from "@/components/brand/SectionSpray";
 import { SectionHeading } from "@/components/layout/SectionHeading";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { useLanguage } from "@/context/LanguageContext";
@@ -17,8 +18,8 @@ const universityLogos: Record<string, string> = {
   AU: "/decor/Unis-Logo-trimmed/AU.png",
   PSU: "/decor/Unis-Logo-trimmed/PSU.png",
   IMSIU: "/decor/Unis-Logo-trimmed/IMSIU.png",
-  SU: "/decor/Unis-Logo-trimmed/SU.png",
-  MU: "/decor/Unis-Logo-trimmed/MU.png",
+  PSAU: "/decor/Unis-Logo-trimmed/PSAU.png",
+  SEU: "/decor/Unis-Logo-trimmed/SEU.png",
 };
 
 const monogramPalettes = [
@@ -33,36 +34,13 @@ export function Universities() {
 
   return (
     <section id="universities" className="relative overflow-hidden py-20 sm:py-28">
-      {/* Layered color stacks */}
-      <div
-        aria-hidden
-        className="blue-spray spray-sky blue-spray-soft -left-[12%] top-[2%] hidden h-72 w-80 sm:block lg:h-96 lg:w-[28rem]"
-        style={{ animation: "none" }}
+      <SectionSpray
+        tone="sky"
+        className="-left-[12%] top-[4%] h-72 w-80 lg:h-96 lg:w-[28rem]"
       />
-      <div
-        aria-hidden
-        className="blue-spray spray-deep blue-spray-soft -left-[2%] top-[16%] hidden h-56 w-64 sm:block"
-        style={{ animation: "none" }}
-      />
-      <div
-        aria-hidden
-        className="blue-spray spray-mid blue-spray-soft left-[15%] top-[30%] hidden h-44 w-56 lg:block"
-        style={{ animation: "none" }}
-      />
-      <div
-        aria-hidden
-        className="blue-spray spray-deep blue-spray-soft -right-[12%] top-[35%] hidden h-72 w-80 sm:block lg:h-96 lg:w-[28rem]"
-        style={{ animation: "none" }}
-      />
-      <div
-        aria-hidden
-        className="blue-spray spray-sky blue-spray-soft -right-[2%] top-[50%] hidden h-56 w-64 sm:block"
-        style={{ animation: "none" }}
-      />
-      <div
-        aria-hidden
-        className="blue-spray spray-mid blue-spray-soft left-[32%] bottom-[2%] hidden h-48 w-60 lg:block"
-        style={{ animation: "none" }}
+      <SectionSpray
+        tone="deep"
+        className="-right-[12%] top-[38%] h-72 w-80 lg:h-96 lg:w-[28rem]"
       />
 
       <DecorativeSwirl
@@ -151,8 +129,8 @@ export function Universities() {
               )}
               {/* Fixed-height slot, vertically centered — keeps every
                   university's name anchored to the same baseline whether
-                  it's "Shaqra University" (one line) or "Imam Mohammad Ibn
-                  Saud University" (wraps to two), instead of shorter names
+                  it's "Prince Sattam University" (one line) or "Imam Mohammad
+                  Ibn Saud University" (wraps to two), instead of shorter names
                   floating higher than their neighbors in the row. */}
               <div className="flex min-h-[2.75rem] w-full items-center justify-center sm:min-h-[3.25rem]">
                 <h3 className="text-sm font-bold leading-tight text-navy sm:text-base">
