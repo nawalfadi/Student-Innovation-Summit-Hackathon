@@ -268,7 +268,7 @@ export function RegistrationModal() {
                   placeholder={t.form.placeholders.universityId}
                   required
                 />
-                <Input
+                <Select
                   label={t.form.universityName}
                   name="universityName"
                   value={form.universityName}
@@ -276,7 +276,10 @@ export function RegistrationModal() {
                     setForm({ ...form, universityName: e.target.value })
                   }
                   error={errors.universityName}
-                  placeholder={t.form.placeholders.universityName}
+                  options={[
+                    { value: "", label: t.form.selectUniversity },
+                    ...t.form.universityOptions,
+                  ]}
                   required
                 />
                 <Input

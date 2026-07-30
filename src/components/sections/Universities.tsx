@@ -20,6 +20,7 @@ const universityLogos: Record<string, string> = {
   IMSIU: "/decor/Unis-Logo-trimmed/IMSIU.png",
   PSAU: "/decor/Unis-Logo-trimmed/PSAU.png",
   SEU: "/decor/Unis-Logo-trimmed/SEU.png",
+  DAU: "/decor/Unis-Logo-trimmed/DAU.png",
 };
 
 const monogramPalettes = [
@@ -130,12 +131,17 @@ export function Universities() {
               {/* Fixed-height slot, vertically centered — keeps every
                   university's name anchored to the same baseline whether
                   it's "Prince Sattam University" (one line) or "Imam Mohammad
-                  Ibn Saud University" (wraps to two), instead of shorter names
+                  Ibn Saud Islamic University" (wraps), instead of shorter names
                   floating higher than their neighbors in the row. */}
-              <div className="flex min-h-[2.75rem] w-full items-center justify-center sm:min-h-[3.25rem]">
+              <div className="flex min-h-[2.75rem] w-full flex-col items-center justify-center sm:min-h-[3.25rem]">
                 <h3 className="text-sm font-bold leading-tight text-navy sm:text-base">
                   {uni.name}
                 </h3>
+                {uni.subtitle ? (
+                  <p className="mt-1 text-xs font-semibold tracking-wide text-navy/50">
+                    {uni.subtitle}
+                  </p>
+                ) : null}
               </div>
             </RevealItem>
           ))}

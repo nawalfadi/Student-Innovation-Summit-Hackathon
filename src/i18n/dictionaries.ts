@@ -83,7 +83,7 @@ export type Dictionary = {
     title: string;
     subtitle: string;
     hostBadge: string;
-    list: { name: string; abbr: string; featured?: boolean }[];
+    list: { name: string; abbr: string; featured?: boolean; subtitle?: string }[];
   };
   sponsors: {
     badge: string;
@@ -109,6 +109,7 @@ export type Dictionary = {
     fullName: string;
     universityId: string;
     universityName: string;
+    selectUniversity: string;
     email: string;
     phone: string;
     track: string;
@@ -136,6 +137,7 @@ export type Dictionary = {
       projectIdea: string;
     };
     trackOptions: { value: TrackId; label: string }[];
+    universityOptions: { value: string; label: string }[];
   };
   validation: {
     fullName: string;
@@ -193,8 +195,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       langEn: "EN",
     },
     hero: {
-      tagline:
-        "منصة وطنية تربط رحلة الطالب بمشاريع رؤية 2030 — من اختيار التخصص إلى سوق العمل.",
+      tagline: "منصة تربط رحلة الطالب بمشاريع رؤية 2030",
       logoAlt: "هاكاثون قمة الابتكار الطلابي 2026",
       statusBadge: "التسجيل مفتوح الآن",
       countdownPrefix: "الانطلاق خلال",
@@ -323,14 +324,20 @@ export const dictionaries: Record<Locale, Dictionary> = {
         "نرحب بطلاب وطالبات الجامعات المشاركة في هذا الحدث الوطني للابتكار.",
       hostBadge: "الجامعة المضيفة",
       list: [
-        { name: "جامعة اليمامة", abbr: "YU", featured: true },
+        {
+          name: "جامعة اليمامة",
+          abbr: "YU",
+          featured: true,
+          subtitle: "الرياض — الخبر",
+        },
         { name: "جامعة الملك سعود", abbr: "KSU" },
         { name: "جامعة الأميرة نورة", abbr: "PNU" },
         { name: "جامعة الفيصل", abbr: "AU" },
         { name: "جامعة الأمير سلطان", abbr: "PSU" },
-        { name: "جامعة الإمام", abbr: "IMSIU" },
+        { name: "جامعة الإمام محمد بن سعود الإسلامية", abbr: "IMSIU" },
         { name: "جامعة سطام", abbr: "PSAU" },
         { name: "الجامعة السعودية الإلكترونية", abbr: "SEU" },
+        { name: "جامعة دار العلوم", abbr: "DAU" },
       ],
     },
     sponsors: {
@@ -375,6 +382,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       fullName: "الاسم الكامل",
       universityId: "الرقم الجامعي",
       universityName: "اسم الجامعة",
+      selectUniversity: "اختر الجامعة",
       email: "البريد الإلكتروني",
       phone: "رقم الجوال",
       track: "المسار",
@@ -392,8 +400,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       successTitle: "تم التسجيل بنجاح!",
       membersLabel: (n) => `${n} أعضاء`,
       placeholders: {
-        fullName: "محمد أحمد العتيبي",
-        universityId: "202012345",
+        fullName: "محمد محمد محمد",
+        universityId: "20202020",
         universityName: "جامعة اليمامة",
         email: "name@university.edu.sa",
         phone: "05XXXXXXXX",
@@ -407,11 +415,35 @@ export const dictionaries: Record<Locale, Dictionary> = {
         { value: "muhaffiz", label: "المُحفّز — المهارات العملية" },
         { value: "jisr", label: "الجسر — الانتقال لسوق العمل" },
       ],
+      universityOptions: [
+        {
+          value: "جامعة اليمامة — الرياض",
+          label: "جامعة اليمامة — الرياض",
+        },
+        {
+          value: "جامعة اليمامة — الخبر",
+          label: "جامعة اليمامة — الخبر",
+        },
+        { value: "جامعة الملك سعود", label: "جامعة الملك سعود" },
+        { value: "جامعة الأميرة نورة", label: "جامعة الأميرة نورة" },
+        { value: "جامعة الفيصل", label: "جامعة الفيصل" },
+        { value: "جامعة الأمير سلطان", label: "جامعة الأمير سلطان" },
+        {
+          value: "جامعة الإمام محمد بن سعود الإسلامية",
+          label: "جامعة الإمام محمد بن سعود الإسلامية",
+        },
+        { value: "جامعة سطام", label: "جامعة سطام" },
+        {
+          value: "الجامعة السعودية الإلكترونية",
+          label: "الجامعة السعودية الإلكترونية",
+        },
+        { value: "جامعة دار العلوم", label: "جامعة دار العلوم" },
+      ],
     },
     validation: {
       fullName: "يرجى إدخال الاسم الكامل (3 أحرف على الأقل)",
       universityId: "يرجى إدخال الرقم الجامعي",
-      universityName: "يرجى إدخال اسم الجامعة",
+      universityName: "يرجى اختيار الجامعة",
       email: "يرجى إدخال بريد إلكتروني صحيح",
       phone: "يرجى إدخال رقم جوال سعودي صحيح (مثال: 05XXXXXXXX)",
       track: "يرجى اختيار مسار",
@@ -464,7 +496,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     },
     hero: {
       tagline:
-        "A national platform connecting the student journey with Vision 2030 projects — from choosing a major to entering the job market.",
+        "A platform connecting the student journey with Vision 2030 projects",
       logoAlt: "Student Innovation Summit Hackathon 2026",
       statusBadge: "Registration Open",
       countdownPrefix: "Kicks off in",
@@ -593,14 +625,23 @@ export const dictionaries: Record<Locale, Dictionary> = {
         "We welcome students from participating universities to this national innovation event.",
       hostBadge: "Host University",
       list: [
-        { name: "Al Yamamah University", abbr: "YU", featured: true },
+        {
+          name: "Al Yamamah University",
+          abbr: "YU",
+          featured: true,
+          subtitle: "Riyadh — Khobar",
+        },
         { name: "King Saud University", abbr: "KSU" },
         { name: "Princess Nourah University", abbr: "PNU" },
         { name: "Alfaisal University", abbr: "AU" },
         { name: "Prince Sultan University", abbr: "PSU" },
-        { name: "Imam Mohammad Ibn Saud University", abbr: "IMSIU" },
+        {
+          name: "Imam Mohammad Ibn Saud Islamic University",
+          abbr: "IMSIU",
+        },
         { name: "Prince Sattam University", abbr: "PSAU" },
         { name: "Saudi Electronic University", abbr: "SEU" },
+        { name: "Dar Al Uloom University", abbr: "DAU" },
       ],
     },
     sponsors: {
@@ -645,6 +686,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       fullName: "Full Name",
       universityId: "University ID",
       universityName: "University Name",
+      selectUniversity: "Select university",
       email: "Email",
       phone: "Phone Number",
       track: "Track",
@@ -662,8 +704,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       successTitle: "Registration successful!",
       membersLabel: (n) => `${n} members`,
       placeholders: {
-        fullName: "Mohammed Ahmed Alotaibi",
-        universityId: "202012345",
+        fullName: "Mohammed Mohammed Mohammed",
+        universityId: "20202020",
         universityName: "Al Yamamah University",
         email: "name@university.edu.sa",
         phone: "05XXXXXXXX",
@@ -677,11 +719,47 @@ export const dictionaries: Record<Locale, Dictionary> = {
         { value: "muhaffiz", label: "Al-Muhaffiz — Practical Skills" },
         { value: "jisr", label: "Al-Jisr — Pathway to Work" },
       ],
+      universityOptions: [
+        {
+          value: "Al Yamamah University — Riyadh",
+          label: "Al Yamamah University — Riyadh",
+        },
+        {
+          value: "Al Yamamah University — Khobar",
+          label: "Al Yamamah University — Khobar",
+        },
+        { value: "King Saud University", label: "King Saud University" },
+        {
+          value: "Princess Nourah University",
+          label: "Princess Nourah University",
+        },
+        { value: "Alfaisal University", label: "Alfaisal University" },
+        {
+          value: "Prince Sultan University",
+          label: "Prince Sultan University",
+        },
+        {
+          value: "Imam Mohammad Ibn Saud Islamic University",
+          label: "Imam Mohammad Ibn Saud Islamic University",
+        },
+        {
+          value: "Prince Sattam University",
+          label: "Prince Sattam University",
+        },
+        {
+          value: "Saudi Electronic University",
+          label: "Saudi Electronic University",
+        },
+        {
+          value: "Dar Al Uloom University",
+          label: "Dar Al Uloom University",
+        },
+      ],
     },
     validation: {
       fullName: "Please enter your full name (at least 3 characters)",
       universityId: "Please enter your university ID",
-      universityName: "Please enter your university name",
+      universityName: "Please select your university",
       email: "Please enter a valid email address",
       phone: "Please enter a valid Saudi mobile number (e.g. 05XXXXXXXX)",
       track: "Please select a track",
