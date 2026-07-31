@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState, type MouseEvent } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { useRegistration } from "@/context/RegistrationContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { Vision2030Mark } from "@/components/brand/Vision2030Mark";
 import { UniversityMark } from "@/components/brand/UniversityMark";
@@ -11,16 +12,16 @@ import { cn } from "@/lib/utils";
 function MagneticButton({
   children,
   className,
-  onClick,
+  href,
 }: {
   children: React.ReactNode;
   className?: string;
-  onClick?: () => void;
+  href: string;
 }) {
-  const ref = useRef<HTMLButtonElement>(null);
+  const ref = useRef<HTMLAnchorElement>(null);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
 
-  const onMove = (e: MouseEvent<HTMLButtonElement>) => {
+  const onMove = (e: MouseEvent<HTMLAnchorElement>) => {
     const el = ref.current;
     if (!el) return;
     const rect = el.getBoundingClientRect();
@@ -32,25 +33,27 @@ function MagneticButton({
   const onLeave = () => setOffset({ x: 0, y: 0 });
 
   return (
-    <button
+    <Link
       ref={ref}
-      type="button"
-      onClick={onClick}
+      href={href}
       onMouseMove={onMove}
       onMouseLeave={onLeave}
       className={cn("header-magnetic-cta btn-shine", className)}
       style={{ transform: `translate(${offset.x}px, ${offset.y}px)` }}
     >
       <span className="btn-shine__sweep" aria-hidden />
-      <span className="relative z-10">{children}</span>
-    </button>
+      <span className="relative z-10 inline-flex items-center gap-1.5">
+        {children}
+      </span>
+    </Link>
   );
 }
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [activeHref, setActiveHref] = useState("");
-  const { openRegistration } = useRegistration();
+  const pathname = usePathname();
+  const isHome = pathname === "/";
   const { t, toggleLocale, locale } = useLanguage();
   const CtaIcon = locale === "ar" ? ArrowLeft : ArrowRight;
 
@@ -62,6 +65,10 @@ export function Header() {
   }, []);
 
   useEffect(() => {
+    if (!isHome) {
+      setActiveHref("");
+      return;
+    }
     const sections = t.nav.map((link) => link.href.replace("#", ""));
     const observer = new IntersectionObserver(
       (entries) => {
@@ -76,7 +83,7 @@ export function Header() {
       if (el) observer.observe(el);
     }
     return () => observer.disconnect();
-  }, [t.nav]);
+  }, [t.nav, isHome]);
 
   return (
     <header
@@ -134,16 +141,16 @@ export function Header() {
             aria-label="Primary"
           >
             {t.nav.map((link) => (
-              <a
+              <Link
                 key={link.href}
-                href={link.href}
+                href={isHome ? link.href : `/${link.href}`}
                 className={cn(
                   "header-nav-link shrink-0",
                   activeHref === link.href && "is-active"
                 )}
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
           </nav>
         </div>
@@ -181,11 +188,11 @@ export function Header() {
           </button>
 
           <MagneticButton
+            href="/register"
             className={cn(
               "header-magnetic-cta--glow transition-all duration-300",
               scrolled && "header-magnetic-cta--compact"
             )}
-            onClick={openRegistration}
           >
             {t.common.registerNow}
             <CtaIcon size={14} className="hidden sm:inline" />

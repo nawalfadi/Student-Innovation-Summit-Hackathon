@@ -1,7 +1,7 @@
 "use client";
 
-import { ArrowLeft, ArrowRight, Users } from "lucide-react";
-import { useRegistration } from "@/context/RegistrationContext";
+import { useRouter } from "next/navigation";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/motion/Reveal";
@@ -9,7 +9,7 @@ import { EventCountdown } from "@/components/brand/EventCountdown";
 import { SectionSpray } from "@/components/brand/SectionSpray";
 
 export function CTA() {
-  const { openRegistration } = useRegistration();
+  const router = useRouter();
   const { t, locale } = useLanguage();
   const CtaIcon = locale === "ar" ? ArrowLeft : ArrowRight;
 
@@ -45,15 +45,11 @@ export function CTA() {
               size="lg"
               variant="secondary"
               className="mt-8"
-              onClick={openRegistration}
+              onClick={() => router.push("/register")}
             >
               {t.common.registerNow}
               <CtaIcon size={20} />
             </Button>
-            <p className="mt-9 flex items-center justify-center gap-2 text-sm font-medium text-white/55">
-              <Users size={15} />
-              {t.footer.teamSize}
-            </p>
           </div>
         </Reveal>
       </div>

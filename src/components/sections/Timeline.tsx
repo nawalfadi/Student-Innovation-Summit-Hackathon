@@ -1,20 +1,16 @@
 "use client";
 
 import { Calendar } from "lucide-react";
+import { motion } from "framer-motion";
 import { DecorativeSwirl } from "@/components/brand/DecorativeSwirl";
 import { SectionHeading } from "@/components/layout/SectionHeading";
-import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
+import { Reveal, EASE_OUT } from "@/components/motion/Reveal";
 import { useLanguage } from "@/context/LanguageContext";
 
 export function Timeline() {
   const { t } = useLanguage();
 
   return (
-    // A deliberate "keynote" beat — the one section on the page that isn't
-    // cream-and-glass. Scrolling from Tracks into a dark, high-contrast
-    // Timeline and back out into light Universities is the visual rhythm
-    // the audit was asking for: the page should feel like it's progressing
-    // through moments, not repeating one template.
     <section
       id="timeline"
       className="relative overflow-hidden bg-gradient-to-b from-navy via-navy to-navy-dark py-20 sm:py-28"
@@ -61,55 +57,144 @@ export function Timeline() {
           />
         </Reveal>
 
-        <div className="relative mt-16">
-          <div className="absolute right-[2.15rem] top-4 hidden h-[calc(100%-2rem)] w-px bg-gradient-to-b from-gold via-cyan/60 to-transparent lg:block rtl:right-[2.15rem] ltr:left-[2.15rem] ltr:right-auto" />
+        <div className="relative mx-auto mt-16 max-w-3xl">
+          {/* Animated spine */}
+          <div
+            aria-hidden
+            className="absolute start-[1.35rem] top-3 bottom-3 w-px overflow-hidden sm:start-1/2 sm:-ms-px"
+          >
+            <motion.div
+              className="h-full w-full origin-top bg-gradient-to-b from-gold via-cyan to-gold/40"
+              initial={{ scaleY: 0 }}
+              whileInView={{ scaleY: 1 }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ duration: 1.1, ease: EASE_OUT }}
+            />
+          </div>
 
-          <RevealGroup className="space-y-6" stagger={0.14}>
-            {t.timeline.days.map((day, index) => (
-              <RevealItem
-                // A stable, locale-independent key — day.day/day.date/etc.
-                // are translated strings that change with the language, so
-                // keying on them made React tear down and remount every
-                // card (replaying its entrance animation) on every switch.
-                key={`timeline-day-${index}`}
-                whileHover={{ x: 0, y: -2 }}
-                transition={{ type: "spring", stiffness: 280, damping: 22 }}
-                className="relative grid gap-5 lg:grid-cols-[100px_1fr]"
-              >
-                <div className="hidden lg:flex lg:justify-center">
-                  <div className="relative z-10 flex h-[4.3rem] w-[4.3rem] items-center justify-center rounded-2xl bg-gradient-to-br from-gold to-gold-light text-sm font-black text-navy-dark shadow-xl shadow-black/20 ring-4 ring-navy">
-                    {String(index + 1).padStart(2, "0")}
-                  </div>
-                </div>
+          <ol className="relative space-y-8 sm:space-y-12">
+            {t.timeline.days.map((day, index) => {
+              const fromLeft = index % 2 === 0;
 
-                <article className="rounded-3xl border border-white/10 bg-white/[0.06] p-7 shadow-[0_20px_50px_rgba(0,0,0,0.25)] backdrop-blur-xl transition-colors duration-300 hover:border-cyan/25 hover:bg-white/[0.09] sm:p-8">
-                  <div className="flex flex-wrap items-start justify-between gap-4">
-                    <div>
-                      <p className="text-sm font-bold text-gold">{day.day}</p>
-                      <h3 className="mt-1 text-xl font-extrabold text-white">
-                        {day.title}
-                      </h3>
+              return (
+                <motion.li
+                  key={`timeline-day-${index}`}
+                  initial="hidden"
+                  whileInView="show"
+                  viewport={{ once: true, amount: 0.35 }}
+                  variants={{
+                    hidden: {},
+                    show: {
+                      transition: {
+                        staggerChildren: 0.08,
+                        delayChildren: 0.05,
+                      },
+                    },
+                  }}
+                  className={`relative flex sm:items-center ${
+                    fromLeft ? "sm:flex-row" : "sm:flex-row-reverse"
+                  }`}
+                >
+                  {/* Node on the spine */}
+                  <motion.div
+                    variants={{
+                      hidden: { scale: 0, opacity: 0 },
+                      show: {
+                        scale: 1,
+                        opacity: 1,
+                        transition: {
+                          type: "spring",
+                          stiffness: 360,
+                          damping: 18,
+                        },
+                      },
+                    }}
+                    className="absolute start-[0.55rem] z-20 flex h-8 w-8 items-center justify-center sm:left-1/2 sm:-translate-x-1/2 sm:start-auto"
+                  >
+                    <motion.span
+                      className="absolute inset-0 rounded-full bg-gold/25"
+                      animate={{ scale: [1, 1.55, 1], opacity: [0.55, 0, 0.55] }}
+                      transition={{
+                        duration: 2.2,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                        delay: index * 0.25,
+                      }}
+                    />
+                    <span className="relative flex h-8 w-8 items-center justify-center rounded-full border-2 border-gold bg-navy text-xs font-black text-gold shadow-[0_0_20px_rgba(201,162,39,0.45)]">
+                      {index + 1}
+                    </span>
+                  </motion.div>
+
+                  {/* Spacer for opposite half on desktop */}
+                  <div className="hidden sm:block sm:w-1/2" />
+
+                  {/* Card */}
+                  <motion.article
+                    variants={{
+                      hidden: {
+                        opacity: 0,
+                        x: fromLeft ? -36 : 36,
+                        y: 18,
+                      },
+                      show: {
+                        opacity: 1,
+                        x: 0,
+                        y: 0,
+                        transition: { duration: 0.55, ease: EASE_OUT },
+                      },
+                    }}
+                    whileHover={{ y: -4, scale: 1.01 }}
+                    transition={{ type: "spring", stiffness: 280, damping: 20 }}
+                    className={`ms-12 w-full sm:ms-0 sm:w-1/2 ${
+                      fromLeft ? "sm:pe-10" : "sm:ps-10"
+                    }`}
+                  >
+                    <div className="rounded-3xl border border-white/10 bg-white/[0.07] p-6 shadow-[0_20px_50px_rgba(0,0,0,0.28)] backdrop-blur-sm transition-colors duration-300 hover:border-cyan/30 hover:bg-white/[0.1] sm:p-7">
+                      <div className="flex flex-wrap items-start justify-between gap-3">
+                        <div>
+                          <p className="text-sm font-bold text-gold">
+                            {day.day}
+                          </p>
+                          <h3 className="mt-1 text-lg font-extrabold leading-snug text-white sm:text-xl">
+                            {day.title}
+                          </h3>
+                        </div>
+                        <div className="inline-flex items-center gap-2 rounded-2xl border border-white/15 bg-white/10 px-3 py-1.5 text-sm font-semibold text-white/80">
+                          <Calendar size={15} className="text-gold" />
+                          <span dir="ltr">{day.date}</span>
+                        </div>
+                      </div>
+
+                      <ul className="mt-5 space-y-2.5">
+                        {day.items.map((item, itemIndex) => (
+                          <motion.li
+                            key={item}
+                            variants={{
+                              hidden: { opacity: 0, x: 12 },
+                              show: {
+                                opacity: 1,
+                                x: 0,
+                                transition: {
+                                  duration: 0.35,
+                                  ease: EASE_OUT,
+                                  delay: itemIndex * 0.04,
+                                },
+                              },
+                            }}
+                            className="flex items-start gap-3 rounded-2xl border border-white/5 bg-white/[0.05] px-4 py-3 text-sm leading-7 text-white/80"
+                          >
+                            <span className="mt-2.5 h-2 w-2 shrink-0 rounded-full bg-cyan shadow-[0_0_10px_rgba(61,184,212,0.7)]" />
+                            {item}
+                          </motion.li>
+                        ))}
+                      </ul>
                     </div>
-                    <div className="inline-flex items-center gap-2 rounded-2xl border border-white/15 bg-white/10 px-4 py-2 text-sm font-semibold text-white/80">
-                      <Calendar size={16} className="text-gold" />
-                      <span dir="ltr">{day.date}</span>
-                    </div>
-                  </div>
-                  <ul className="mt-6 grid gap-3 sm:grid-cols-1">
-                    {day.items.map((item) => (
-                      <li
-                        key={item}
-                        className="flex items-start gap-3 rounded-2xl bg-white/[0.05] px-4 py-3 text-sm leading-7 text-white/75"
-                      >
-                        <span className="mt-2.5 h-2 w-2 shrink-0 rounded-full bg-cyan" />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </article>
-              </RevealItem>
-            ))}
-          </RevealGroup>
+                  </motion.article>
+                </motion.li>
+              );
+            })}
+          </ol>
         </div>
       </div>
     </section>

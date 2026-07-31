@@ -8,7 +8,6 @@ import { Timeline } from "@/components/sections/Timeline";
 import { Universities } from "@/components/sections/Universities";
 import { Sponsors } from "@/components/sections/Sponsors";
 import { CTA } from "@/components/sections/CTA";
-import { RegistrationModal } from "@/components/registration/RegistrationModal";
 
 export default function HomePage() {
   return (
@@ -25,7 +24,6 @@ export default function HomePage() {
         <CTA />
       </main>
       <Footer />
-      <RegistrationModal />
     </>
   );
 }

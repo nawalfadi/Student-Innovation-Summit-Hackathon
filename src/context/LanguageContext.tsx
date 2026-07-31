@@ -10,7 +10,12 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { dictionaries, type Dictionary, type Locale } from "@/i18n/dictionaries";
+import {
+  dictionaries,
+  LOCALE_STORAGE_KEY,
+  type Dictionary,
+  type Locale,
+} from "@/i18n/dictionaries";
 
 interface LanguageContextValue {
   locale: Locale;
@@ -27,6 +32,28 @@ const LanguageContext = createContext<LanguageContextValue | null>(null);
 // as a jarring "jump" otherwise), short enough to never feel unresponsive.
 const TRANSITION_MS = 140;
 
+function isLocale(value: string | null): value is Locale {
+  return value === "ar" || value === "en";
+}
+
+function readStoredLocale(): Locale {
+  try {
+    const stored = window.localStorage.getItem(LOCALE_STORAGE_KEY);
+    if (isLocale(stored)) return stored;
+  } catch {
+    // ignore private-mode / storage blocked
+  }
+  return "ar";
+}
+
+function writeStoredLocale(locale: Locale) {
+  try {
+    window.localStorage.setItem(LOCALE_STORAGE_KEY, locale);
+  } catch {
+    // ignore private-mode / storage blocked
+  }
+}
+
 function applyDocumentLocale(locale: Locale) {
   const dir = locale === "ar" ? "rtl" : "ltr";
   document.documentElement.lang = locale;
@@ -40,11 +67,12 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const switchingRef = useRef(false);
   const timeoutsRef = useRef<number[]>([]);
 
-  // Every fresh load starts in Arabic — deliberately not remembered across
-  // visits/reloads via localStorage, so "the first screen" is always
-  // Arabic regardless of what was toggled in a previous session.
+  // Restore the user's last language choice after mount so navigating between
+  // pages (or a full reload) does not snap back to Arabic.
   useEffect(() => {
-    applyDocumentLocale("ar");
+    const stored = readStoredLocale();
+    setLocaleState(stored);
+    applyDocumentLocale(stored);
   }, []);
 
   useEffect(() => {
@@ -62,6 +90,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
       const swapId = window.setTimeout(() => {
         setLocaleState(next);
         applyDocumentLocale(next);
+        writeStoredLocale(next);
         setVisible(true);
 
         const unlockId = window.setTimeout(() => {

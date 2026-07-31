@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Cairo } from "next/font/google";
 import "./globals.css";
-import { RegistrationProvider } from "@/context/RegistrationContext";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { dictionaries } from "@/i18n/dictionaries";
@@ -66,9 +65,7 @@ export default function RootLayout({
           تخطَّ إلى المحتوى الرئيسي · Skip to main content
         </a>
         <LanguageProvider>
-          <RegistrationProvider>
-            <SmoothScroll>{children}</SmoothScroll>
-          </RegistrationProvider>
+          <SmoothScroll>{children}</SmoothScroll>
         </LanguageProvider>
       </body>
     </html>

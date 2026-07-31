@@ -1,20 +1,30 @@
 import type { RegistrationPayload } from "@/types/registration";
+import {
+  EXHIBIT_FILE_MAX_BYTES,
+  EXHIBIT_FILE_MIME,
+} from "@/types/registration";
 import { dictionaries, type Locale } from "@/i18n/dictionaries";
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const phoneRegex = /^(\+966|0)?5\d{8}$/;
+const yearRegex = /^(19|20)\d{2}$/;
+const universityYearValues = new Set(["1", "2", "3", "4", "5+"]);
 
 export interface ValidationResult {
   valid: boolean;
-  errors: Partial<Record<keyof RegistrationPayload | "members", string>>;
+  errors: Partial<
+    Record<keyof RegistrationPayload | "members" | "projectFile", string>
+  >;
 }
 
 export function validateRegistration(
   data: RegistrationPayload,
-  locale: Locale = "ar"
+  locale: Locale = "ar",
+  options?: { hasProjectFile?: boolean; projectFile?: File | null }
 ): ValidationResult {
   const v = dictionaries[locale].validation;
   const errors: ValidationResult["errors"] = {};
+  const isShowcase = data.participationType === "showcase";
 
   if (!data.fullName.trim() || data.fullName.trim().length < 3) {
     errors.fullName = v.fullName;
@@ -37,19 +47,58 @@ export function validateRegistration(
     errors.phone = v.phone;
   }
 
-  if (!["mowajjih", "muhaffiz", "jisr"].includes(data.track)) {
-    errors.track = v.track;
+  if (!["hackathon", "showcase"].includes(data.participationType)) {
+    errors.participationType = v.participationType;
   }
 
-  // Solo / "no full team yet" path: skip team-composition requirements
-  // entirely rather than forcing someone without teammates to invent one
-  // just to get through the form.
-  if (!data.needsTeam) {
+  if (!data.major?.trim() || data.major.trim().length < 2) {
+    errors.major = v.major;
+  }
+
+  if (!isShowcase) {
+    if (!data.track || !["academic", "campus", "digital"].includes(data.track)) {
+      errors.track = v.track;
+    }
+    if (
+      !data.universityYear?.trim() ||
+      !universityYearValues.has(data.universityYear.trim())
+    ) {
+      errors.universityYear = v.universityYear;
+    }
+  }
+
+  if (isShowcase) {
+    if (!data.graduationYear?.trim() || !yearRegex.test(data.graduationYear.trim())) {
+      errors.graduationYear = v.graduationYear;
+    }
+
+    const file = options?.projectFile;
+    const hasFile = options?.hasProjectFile ?? Boolean(file && file.size > 0);
+    if (!hasFile) {
+      errors.projectFile = v.projectFile;
+    } else if (file) {
+      if (file.size > EXHIBIT_FILE_MAX_BYTES) {
+        errors.projectFile = v.projectFileSize;
+      } else if (file.type && !EXHIBIT_FILE_MIME.has(file.type)) {
+        const name = file.name.toLowerCase();
+        const okExt = /\.(pdf|ppt|pptx|doc|docx|zip|png|jpe?g)$/.test(name);
+        if (!okExt) {
+          errors.projectFile = v.projectFileType;
+        }
+      }
+    }
+  }
+
+  if (!isShowcase) {
     if (!data.teamName.trim()) {
       errors.teamName = v.teamName;
     }
 
-    if (data.memberCount < 3 || data.memberCount > 5) {
+    // Leader + 1–4 teammates (total team size 2–5).
+    const teammateCount = data.members.length;
+    const totalSize = teammateCount + 1;
+
+    if (teammateCount < 1 || teammateCount > 4 || data.memberCount !== totalSize) {
       errors.memberCount = v.memberCount;
     }
 
@@ -57,7 +106,7 @@ export function validateRegistration(
       (member) => member.name.trim() || member.email.trim()
     );
 
-    if (filledMembers.length !== data.memberCount) {
+    if (filledMembers.length !== teammateCount) {
       errors.members = v.members;
     }
 
@@ -73,13 +122,7 @@ export function validateRegistration(
     }
   }
 
-  // A project idea is still encouraged but not required for solo
-  // registrants — not having one yet is often exactly why they don't have
-  // a team, and demanding 20+ characters here is pure friction.
-  if (
-    !data.needsTeam &&
-    (!data.projectIdea.trim() || data.projectIdea.trim().length < 20)
-  ) {
+  if (!data.projectIdea.trim() || data.projectIdea.trim().length < 20) {
     errors.projectIdea = v.projectIdea;
   }
 

@@ -1,15 +1,15 @@
 "use client";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { CalendarDays, MapPin, ArrowLeft, ArrowRight, ChevronDown } from "lucide-react";
 import { siteConstants } from "@/data/content";
-import { useRegistration } from "@/context/RegistrationContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { Button } from "@/components/ui/Button";
 import { SectionSpray } from "@/components/brand/SectionSpray";
 
 export function Hero() {
-  const { openRegistration } = useRegistration();
+  const router = useRouter();
   const { t, locale } = useLanguage();
   const CtaIcon = locale === "ar" ? ArrowLeft : ArrowRight;
 
@@ -92,7 +92,11 @@ export function Hero() {
           className="animate-fade-up mt-10 flex flex-col items-center gap-5"
           style={{ animationDelay: "0.28s" }}
         >
-          <Button size="lg" onClick={openRegistration} className="px-10">
+          <Button
+            size="lg"
+            className="px-10"
+            onClick={() => router.push("/register")}
+          >
             {t.common.registerNow}
             <CtaIcon size={20} />
           </Button>

@@ -1,13 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
 import { cn } from "@/lib/utils";
 
-// Hackathon Day 1 — 07/11/2026, 09:00 Riyadh time (UTC+3). Matches the
-// dates already shown in site.dates — this isn't a fabricated deadline,
-// just the real kickoff surfaced as a live, honest urgency cue.
-const EVENT_START = new Date("2026-11-07T09:00:00+03:00").getTime();
+// Hackathon Day 1 — 09/09/2026, 09:00 Riyadh time (UTC+3).
+const EVENT_START = new Date("2026-09-09T09:00:00+03:00").getTime();
 
 export function EventCountdown({
   className,
@@ -25,43 +24,74 @@ export function EventCountdown({
       setDaysLeft(Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24))));
     }
     update();
-    // Day-level precision only — a minute-interval tick is plenty for a
-    // countdown measured in days, and far cheaper than a per-second timer.
     const id = setInterval(update, 60_000);
     return () => clearInterval(id);
   }, []);
 
   const isLive = daysLeft === 0;
+  const dayLabel =
+    daysLeft === 1 ? t.hero.countdownSuffixOne : t.hero.countdownSuffix;
+
+  if (isLive) {
+    return (
+      <motion.p
+        className={cn(
+          "text-2xl font-black text-cyan sm:text-3xl",
+          className
+        )}
+        animate={{ opacity: [1, 0.55, 1] }}
+        transition={{ duration: 1.8, repeat: Infinity }}
+      >
+        {t.hero.countdownLive}
+      </motion.p>
+    );
+  }
 
   return (
     <div
       className={cn(
-        "inline-flex items-center gap-2.5 rounded-2xl border px-4 py-1.5 text-sm font-bold",
-        dark
-          ? "border-white/15 bg-white/10 text-white"
-          : "border-cyan/20 bg-cyan/10 text-navy",
+        "mx-auto w-full max-w-sm text-center",
+        dark ? "text-white" : "text-navy",
         className
       )}
     >
-      <span className="relative flex h-2 w-2 shrink-0">
-        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan opacity-75" />
-        <span className="relative inline-flex h-2 w-2 rounded-full bg-cyan" />
-      </span>
-      {daysLeft === null ? (
-        <span>{t.hero.statusBadge}</span>
-      ) : isLive ? (
-        <span>{t.hero.countdownLive}</span>
-      ) : (
-        <span>
-          {t.hero.statusBadge}
-          <span className={cn("mx-1.5", dark ? "text-white/30" : "text-navy/30")}>
-            ·
-          </span>
-          {t.hero.countdownPrefix}{" "}
-          <span className="text-gold">{daysLeft}</span>{" "}
-          {t.hero.countdownSuffix}
+      <p
+        className={cn(
+          "text-xs font-bold tracking-[0.2em]",
+          dark ? "text-gold" : "text-gold-dark"
+        )}
+      >
+        {t.hero.statusBadge}
+      </p>
+
+      <div className="mt-2 flex items-end justify-center gap-2">
+        <motion.span
+          key={daysLeft ?? "x"}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          className="text-6xl font-black leading-none tracking-tight text-gold sm:text-7xl"
+        >
+          {daysLeft ?? "—"}
+        </motion.span>
+        <span
+          className={cn(
+            "mb-1.5 text-lg font-bold",
+            dark ? "text-white/65" : "text-navy/55"
+          )}
+        >
+          {dayLabel}
         </span>
-      )}
+      </div>
+
+      <p
+        className={cn(
+          "mt-1 text-sm font-semibold",
+          dark ? "text-white/50" : "text-navy/45"
+        )}
+      >
+        {t.hero.countdownUntil}
+      </p>
     </div>
   );
 }

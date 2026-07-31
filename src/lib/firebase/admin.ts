@@ -1,8 +1,10 @@
 import { initializeApp, getApps, cert, type App } from "firebase-admin/app";
 import { getFirestore, type Firestore } from "firebase-admin/firestore";
+import { getStorage, type Storage } from "firebase-admin/storage";
 
 let adminApp: App | undefined;
 let adminDb: Firestore | undefined;
+let adminStorage: Storage | undefined;
 
 function getPrivateKey(): string {
   const key = process.env.FIREBASE_PRIVATE_KEY;
@@ -10,6 +12,12 @@ function getPrivateKey(): string {
     throw new Error("FIREBASE_PRIVATE_KEY is not configured");
   }
   return key.replace(/\\n/g, "\n");
+}
+
+function getStorageBucketName(projectId: string): string {
+  return (
+    process.env.FIREBASE_STORAGE_BUCKET || `${projectId}.appspot.com`
+  );
 }
 
 export function getAdminApp(): App {
@@ -32,6 +40,7 @@ export function getAdminApp(): App {
         clientEmail,
         privateKey: getPrivateKey(),
       }),
+      storageBucket: getStorageBucketName(projectId),
     });
 
   return adminApp;
@@ -42,6 +51,14 @@ export function getAdminDb(): Firestore {
     adminDb = getFirestore(getAdminApp());
   }
   return adminDb;
+}
+
+export function getAdminBucket() {
+  if (!adminStorage) {
+    adminStorage = getStorage(getAdminApp());
+  }
+  const projectId = process.env.FIREBASE_PROJECT_ID!;
+  return adminStorage.bucket(getStorageBucketName(projectId));
 }
 
 export function isFirebaseConfigured(): boolean {
