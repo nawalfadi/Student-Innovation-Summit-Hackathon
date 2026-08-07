@@ -88,12 +88,6 @@ export type Dictionary = {
     hostBadge: string;
     list: { name: string; abbr: string; featured?: boolean; subtitle?: string }[];
   };
-  sponsors: {
-    badge: string;
-    title: string;
-    subtitle: string;
-    tiers: { tier: string; label: string; sponsors: string[] }[];
-  };
   cta: {
     title: string;
     body: string;
@@ -240,7 +234,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     },
     site: {
       title: "هاكاثون قمة الابتكار الطلابي 2026",
-      dates: "9 – 12 / 9 / 2026",
+      dates: "10 – 12 / 9 / 2026",
       datesLabel: "تاريخ الحدث",
       location: "جامعة اليمامة — المبنى الرئيسي — الرياض",
       locationLabel: "مكان الحدث",
@@ -252,7 +246,6 @@ export const dictionaries: Record<Locale, Dictionary> = {
       { href: "#tracks", label: "المسارات" },
       { href: "#timeline", label: "تاريخ الحدث" },
       { href: "#universities", label: "الجامعات" },
-      { href: "#sponsors", label: "الرعاة" },
     ],
     common: {
       registerNow: "سجّل الآن",
@@ -267,7 +260,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       langEn: "EN",
     },
     hero: {
-      tagline: "تمكين بلا حدود لجيل الابتكار",
+      tagline: "ابتكر حلول الغد — تمكين بلا حدود لجيل الابتكار",
       logoAlt: "هاكاثون قمة الابتكار الطلابي 2026",
       statusBadge: "التسجيل مفتوح",
       countdownPrefix: "الانطلاق خلال",
@@ -281,11 +274,11 @@ export const dictionaries: Record<Locale, Dictionary> = {
       badge: "عن الهاكاثون",
       title: "مبادرة تقنية لإطلاق الطاقات الطلابية",
       subtitle:
-        "هاكاثون قمة الابتكار الطلابي مبادرة تقنية وإبداعية رائدة تمكّن طلبة الجامعات من بناء حلول برمجية وتطبيقات ذكية تعالج تحديات حقيقية داخل الحرم الجامعي.",
-      missionBadge: "الرسالة",
+        "هاكاثون قمة الابتكار الطلابي مبادرة تقنية وإبداعية رائدة تمكّن طلبة الجامعات من بناء حلول برمجية وتطبيقات ذكية تعالج تحديات حقيقية داخل الحرم الجامعي — مع معرض لمشاريع الخريجين على هامش القمة.",
+      missionBadge: "الرؤية",
       missionTitle: "تمكين بلا حدود لجيل الابتكار",
       missionBody:
-        "نسعى إلى كسر الحواجز بين التعليم الأكاديمي وسوق العمل، وتمكين الطلاب ليكونوا قادة جاهزين للمستقبل ورواداً في التحول الرقمي — استثماراً مباشراً في مستهدفات رؤية المملكة 2030 عبر تنمية القدرات البشرية وتعزيز الابتكار.",
+        "نسعى إلى كسر الحواجز بين التعليم الأكاديمي وسوق العمل، وتمكين الطلاب ليكونوا قادة جاهزين للمستقبل ورواداً في التحول الرقمي — استثماراً مباشراً في مستهدفات رؤية المملكة 2030 عبر تنمية القدرات البشرية وتعزيز الابتكار والتعاون والأثر.",
       goalTitle: "الهدف الاستراتيجي",
       goalBody:
         "إتاحة الفرصة للمطورين والمصممين والمبتكرين لتطبيق مهاراتهم في مشاريع عملية ذات أثر ملموس، وتطوير منتجات ونماذج أولية قابلة للتطبيق لرفع كفاءة العمليات الأكاديمية والإدارية داخل الجامعة.",
@@ -293,28 +286,28 @@ export const dictionaries: Record<Locale, Dictionary> = {
     journey: [
       {
         step: "01",
-        title: "الابتكار الأكاديمي",
+        title: "ابتكار",
         description:
-          "تطوير أنظمة تخدم العملية التعليمية والأبحاث وتجربة الطالب داخل المحاضرات.",
+          "تطوير حلول أكاديمية وتعليمية ذكية تخدم العملية التعليمية وتجربة الطالب.",
       },
       {
         step: "02",
-        title: "جودة الحياة الجامعية",
+        title: "تعاون وتمكين",
         description:
-          "تحسين الخدمات اليومية وتنظيم الأنشطة والفعاليات والأندية الطلابية في بيئة ذكية.",
+          "فرق متعددة التخصصات تعمل معاً تحت إرشاد خبراء لبناء نماذج أولية قابلة للتطبيق.",
       },
       {
         step: "03",
-        title: "التحول الرقمي",
+        title: "أثر ومستقبل",
         description:
-          "أتمتة العمليات ورفع كفاءة الأداء التشغيلي والإداري في مرافق الجامعة.",
+          "تحويل الأفكار إلى حلول رقمية ترفع كفاءة الحرم الجامعي وتواكب مستهدفات الرؤية.",
       },
     ],
     tracks: {
       badge: "المسارات",
       title: "ثلاثة مسارات استراتيجية لخدمة المنظومة الجامعية",
       subtitle:
-        "كل مشروع يُطوَّر خلال الأيام الأربعة يستهدف تحسين تجربة الطالب في أحد هذه المسارات — يقوده قائد الفريق ويضم حتى 4 زملاء.",
+        "كل مشروع يُطوَّر خلال الأيام الثلاثة يستهدف تحسين تجربة الطالب في أحد هذه المسارات — يقوده قائد الفريق ويضم حتى 4 زملاء.",
       items: [
         {
           id: "academic",
@@ -359,42 +352,34 @@ export const dictionaries: Record<Locale, Dictionary> = {
     },
     timeline: {
       badge: "الجدول الزمني",
-      title: "برنامج أربعة أيام من العمل والتطوير",
+      title: "ثلاثة أيام من الابتكار والتطوير",
       subtitle:
-        "افتتاح وإطلاق التحديات، ورشة توجيهية، جلسات إرشاد وتطوير، ثم العروض الختامية ومعرض الخريجين.",
+        "من 10 إلى 12 سبتمبر 2026 في جامعة اليمامة: افتتاح وإطلاق التحديات، جلسات إرشاد وتطوير، ثم العروض الختامية ومعرض مشاريع الخريجين.",
       days: [
         {
           day: "اليوم الأول",
-          date: "9 / 9 / 2026",
+          date: "10 / 9 / 2026",
           title: "الافتتاح الرسمي وانطلاق التطوير",
           items: [
-            "الافتتاح الرسمي",
-            "إطلاق التحديات والمسارات",
+            "الافتتاح الرسمي وإطلاق التحديات والمسارات",
             "تسكين الفرق وبدء مرحلة التطوير",
+            "ورشة عمل توجيهية ومعايير العرض",
           ],
         },
         {
           day: "اليوم الثاني",
-          date: "10 / 9 / 2026",
-          title: "ورشة التوجيه عبر الإنترنت",
+          date: "11 / 9 / 2026",
+          title: "التعلّم والإرشاد والتطوير",
           items: [
-            "ورشة عمل توجيهية عبر الإنترنت",
-            "توضيح معايير العرض وحجم المخرجات المطلوبة",
+            "جلسات تعليمية وحوارية مع الخبراء",
+            "جلسات استشارية خاصة مع المرشدين",
+            "مواصلة بناء النماذج الأولية",
           ],
         },
         {
           day: "اليوم الثالث",
-          date: "11 / 9 / 2026",
-          title: "التعلّم والإرشاد",
-          items: [
-            "عقد جلسات تعليمية أو حوارية",
-            "فتح باب الجلسات الاستشارية الخاصة مع المرشدين",
-          ],
-        },
-        {
-          day: "اليوم الرابع",
           date: "12 / 9 / 2026",
-          title: "العروض الختامية وإعلان النتائج",
+          title: "العروض الختامية ومعرض الخريجين",
           items: [
             "العروض الختامية أمام لجنة التحكيم",
             "معرض مشاريع الخريجين",
@@ -407,7 +392,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       badge: "الجامعات المستهدفة",
       title: "نخبة من الجامعات السعودية",
       subtitle:
-        "نرحب بطلاب وطالبات الجامعات المشاركة في هذا الحدث الوطني للابتكار.",
+        "نرحب بطلاب وطالبات الجامعات المشاركة في هذا الحدث الوطني للابتكار — 10 إلى 12 سبتمبر 2026 في جامعة اليمامة.",
       hostBadge: "الجامعة المضيفة",
       list: [
         {
@@ -426,32 +411,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
         { name: "الجامعة السعودية الإلكترونية", abbr: "SEU" },
       ],
     },
-    sponsors: {
-      badge: "الرعاة والشركاء",
-      title: "شركاء يدعمون الابتكار الطلابي",
-      subtitle:
-        "نعتز بدعم الجهات الوطنية والمؤسسات الرائدة التي تساهم في إنجاح هذه القمة.",
-      tiers: [
-        {
-          tier: "platinum",
-          label: "الرعاة البلاتينيون",
-          sponsors: ["SDAIA", "وزارة الاتصالات وتقنية المعلومات"],
-        },
-        {
-          tier: "gold",
-          label: "الرعاة الذهبيون",
-          sponsors: ["SABIC", "علم (Elm)", "The Garage"],
-        },
-        {
-          tier: "silver",
-          label: "الرعاة الفضيون",
-          sponsors: ["STV", "Monsha'at", "NEOM Academy"],
-        },
-      ],
-    },
     cta: {
-      title: "انضم إلى قمة الابتكار الطلابي",
-      body: "اختر مسارك: سجّل في الهاكاثون مع فريقك، أو اعرض مشروع تخرجك في المعرض. المقاعد محدودة!",
+      title: "جاهز للتحدي؟",
+      body: "انضم إلى هاكاثون قمة الابتكار الطلابي 10–12 سبتمبر 2026 في جامعة اليمامة. سجّل مع فريقك، أو اعرض مشروع تخرجك في المعرض. المقاعد محدودة!",
     },
     registerPage: {
       title: "اختر نوع المشاركة",
@@ -684,7 +646,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     },
     site: {
       title: "Student Innovation Summit Hackathon 2026",
-      dates: "9 – 12 / 9 / 2026",
+      dates: "10 – 12 / 9 / 2026",
       datesLabel: "Event Date",
       location: "Al Yamamah University — Main Building — Riyadh",
       locationLabel: "Venue",
@@ -696,7 +658,6 @@ export const dictionaries: Record<Locale, Dictionary> = {
       { href: "#tracks", label: "Tracks" },
       { href: "#timeline", label: "Schedule" },
       { href: "#universities", label: "Universities" },
-      { href: "#sponsors", label: "Sponsors" },
     ],
     common: {
       registerNow: "Register Now",
@@ -711,7 +672,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       langEn: "EN",
     },
     hero: {
-      tagline: "Boundless empowerment for the innovation generation",
+      tagline: "Innovate tomorrow’s solutions — boundless empowerment for the innovation generation",
       logoAlt: "Student Innovation Summit Hackathon 2026",
       statusBadge: "Registration open",
       countdownPrefix: "Starts in",
@@ -725,11 +686,11 @@ export const dictionaries: Record<Locale, Dictionary> = {
       badge: "About the Hackathon",
       title: "A technical initiative to unlock student potential",
       subtitle:
-        "Student Innovation Summit Hackathon is a leading technical and creative initiative that empowers university students to build smart software solutions for real challenges on campus.",
-      missionBadge: "Mission",
+        "Student Innovation Summit Hackathon is a leading technical and creative initiative that empowers university students to build smart software solutions for real challenges on campus — alongside a graduates project exhibition during the summit.",
+      missionBadge: "Vision",
       missionTitle: "Boundless empowerment for the innovation generation",
       missionBody:
-        "We aim to break traditional barriers between academic education and the job market, and empower students to become future-ready leaders and pioneers of digital transformation — a direct investment in Saudi Vision 2030 through human-capital development and innovation.",
+        "We aim to break traditional barriers between academic education and the job market, and empower students to become future-ready leaders and pioneers of digital transformation — a direct investment in Saudi Vision 2030 through human-capital development, innovation, collaboration, and impact.",
       goalTitle: "Strategic goal",
       goalBody:
         "Give developers, designers, and innovators the chance to apply their skills in practical, high-impact projects — and build products and prototypes that raise academic and administrative efficiency across the university.",
@@ -737,28 +698,28 @@ export const dictionaries: Record<Locale, Dictionary> = {
     journey: [
       {
         step: "01",
-        title: "Academic innovation",
+        title: "Innovation",
         description:
-          "Build systems that support teaching, research, and the student experience in the classroom.",
+          "Build smart academic and educational solutions that serve teaching and the student experience.",
       },
       {
         step: "02",
-        title: "Campus quality of life",
+        title: "Collaboration & empowerment",
         description:
-          "Improve daily services and organize student clubs, activities, and events in a smart environment.",
+          "Cross-disciplinary teams work with expert mentors to ship usable prototypes.",
       },
       {
         step: "03",
-        title: "Digital transformation",
+        title: "Impact & future",
         description:
-          "Automate operations and raise operational and administrative performance across campus facilities.",
+          "Turn ideas into digital solutions that raise campus efficiency and advance Vision 2030 goals.",
       },
     ],
     tracks: {
       badge: "Tracks",
       title: "Three strategic tracks serving the university ecosystem",
       subtitle:
-        "Every project built over the four days targets improving the student experience in one of these tracks — led by a team leader with up to 4 teammates.",
+        "Every project built over the three days targets improving the student experience in one of these tracks — led by a team leader with up to 4 teammates.",
       items: [
         {
           id: "academic",
@@ -803,42 +764,34 @@ export const dictionaries: Record<Locale, Dictionary> = {
     },
     timeline: {
       badge: "Timeline",
-      title: "A four-day program of building and development",
+      title: "Three days of innovation and building",
       subtitle:
-        "Opening and challenge launch, a guidance workshop, mentoring sessions, then final pitches and the graduates exhibition.",
+        "September 10–12, 2026 at Al Yamamah University: opening and challenge launch, mentoring and development, then final pitches and the graduates exhibition.",
       days: [
         {
           day: "Day 1",
-          date: "9 / 9 / 2026",
+          date: "10 / 9 / 2026",
           title: "Official opening & development kickoff",
           items: [
-            "Official opening ceremony",
-            "Challenge and track launch",
+            "Official opening and challenge/track launch",
             "Team placement and development start",
+            "Guidance workshop and pitch criteria",
           ],
         },
         {
           day: "Day 2",
-          date: "10 / 9 / 2026",
-          title: "Online guidance workshop",
+          date: "11 / 9 / 2026",
+          title: "Learning, mentorship & building",
           items: [
-            "Online guidance workshop",
-            "Clarify pitch criteria and required deliverables",
+            "Educational and dialogue sessions with experts",
+            "Private consultation sessions with mentors",
+            "Continued prototype development",
           ],
         },
         {
           day: "Day 3",
-          date: "11 / 9 / 2026",
-          title: "Learning & mentorship",
-          items: [
-            "Educational or dialogue sessions",
-            "Private consultation sessions with mentors",
-          ],
-        },
-        {
-          day: "Day 4",
           date: "12 / 9 / 2026",
-          title: "Final pitches & results",
+          title: "Final pitches & graduates exhibition",
           items: [
             "Final pitches before the judging panel",
             "Graduates project exhibition",
@@ -851,7 +804,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       badge: "Target Universities",
       title: "Leading Saudi universities",
       subtitle:
-        "We welcome students from participating universities to this national innovation event.",
+        "We welcome students from participating universities to this national innovation event — September 10–12, 2026 at Al Yamamah University.",
       hostBadge: "Host University",
       list: [
         {
@@ -873,32 +826,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
         { name: "Saudi Electronic University", abbr: "SEU" },
       ],
     },
-    sponsors: {
-      badge: "Sponsors & Partners",
-      title: "Partners supporting student innovation",
-      subtitle:
-        "We value the support of national entities and leading institutions that help make this summit a success.",
-      tiers: [
-        {
-          tier: "platinum",
-          label: "Platinum Sponsors",
-          sponsors: ["SDAIA", "Ministry of Communications and IT"],
-        },
-        {
-          tier: "gold",
-          label: "Gold Sponsors",
-          sponsors: ["SABIC", "Elm", "The Garage"],
-        },
-        {
-          tier: "silver",
-          label: "Silver Sponsors",
-          sponsors: ["STV", "Monsha'at", "NEOM Academy"],
-        },
-      ],
-    },
     cta: {
-      title: "Join the Student Innovation Summit",
-      body: "Choose your path: register for the hackathon with your team, or present your graduation project at the exhibit. Seats are limited!",
+      title: "Ready for the challenge?",
+      body: "Join the Student Innovation Summit Hackathon, September 10–12, 2026 at Al Yamamah University. Register with your team, or present your graduation project at the exhibit. Seats are limited!",
     },
     registerPage: {
       title: "Choose how to participate",

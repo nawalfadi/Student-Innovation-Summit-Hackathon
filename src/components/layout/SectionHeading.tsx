@@ -5,7 +5,7 @@ interface SectionHeadingProps {
   title: string;
   subtitle?: string;
   centered?: boolean;
-  /** For sections that break from the cream background (e.g. Timeline's
+  /** For sections that break from the cool-white background (e.g. Timeline's
    *  dark "keynote" treatment) — swaps text colors for a navy surface. */
   dark?: boolean;
 }
@@ -24,8 +24,8 @@ export function SectionHeading({
           className={cn(
             "mb-4 inline-flex items-center rounded-2xl border px-4 py-1.5 text-sm font-bold",
             dark
-              ? "border-gold/30 bg-gold/10 text-gold"
-              : "border-cyan/20 bg-cyan/10 text-navy"
+              ? "border-cyan/30 bg-cyan/10 text-cyan"
+              : "border-cyan/25 bg-cyan/10 text-navy"
           )}
         >
           {badge}

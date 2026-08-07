@@ -14,9 +14,9 @@ const iconMap = {
 };
 
 const accents = [
-  "shadow-cyan/25 ring-cyan/15 group-hover:shadow-cyan/40",
-  "shadow-gold/25 ring-gold/15 group-hover:shadow-gold/40",
-  "shadow-navy/25 ring-navy/10 group-hover:shadow-navy/40",
+  "shadow-cyan/25 ring-cyan/20 group-hover:shadow-cyan/40",
+  "shadow-blue/25 ring-blue/20 group-hover:shadow-blue/40",
+  "shadow-navy/25 ring-navy/15 group-hover:shadow-navy/40",
 ];
 
 export function Tracks() {
@@ -75,7 +75,7 @@ export function Tracks() {
                 <div className="relative z-10 flex h-full flex-col">
                   <div className="mb-6 flex items-center justify-between">
                     <div
-                      className={`flex h-14 w-14 items-center justify-center rounded-2xl bg-navy text-gold shadow-lg ring-1 transition-all duration-500 ease-out group-hover:-rotate-6 group-hover:scale-110 ${accents[index % accents.length]}`}
+                      className={`flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-navy to-blue text-cyan shadow-lg ring-1 transition-all duration-500 ease-out group-hover:-rotate-6 group-hover:scale-110 ${accents[index % accents.length]}`}
                     >
                       <Icon size={26} />
                     </div>
@@ -86,7 +86,7 @@ export function Tracks() {
                   <h3 className="text-xl font-extrabold leading-snug text-navy sm:text-2xl">
                     {track.name}
                   </h3>
-                  <p className="mt-1 text-sm font-semibold text-gold">
+                  <p className="mt-1 text-sm font-semibold text-blue">
                     {track.nameEn}
                   </p>
                   <p className="mt-4 leading-8 text-navy/65">
@@ -96,9 +96,9 @@ export function Tracks() {
                     {track.highlights.map((item) => (
                       <li
                         key={item}
-                        className="flex items-start gap-3 rounded-2xl border border-cyan/25 bg-white/80 px-3.5 py-3 text-sm font-bold leading-6 text-navy shadow-[0_4px_16px_rgba(27,54,93,0.08)] transition-all duration-300 group-hover:-translate-y-0.5 group-hover:border-gold/40 group-hover:bg-white group-hover:shadow-[0_10px_28px_rgba(27,54,93,0.12)]"
+                        className="flex items-start gap-3 rounded-2xl border border-cyan/20 bg-white/80 px-3.5 py-3 text-sm font-bold leading-6 text-navy shadow-[0_4px_16px_rgba(11,31,68,0.08)] transition-all duration-300 group-hover:-translate-y-0.5 group-hover:border-blue/35 group-hover:bg-white group-hover:shadow-[0_10px_28px_rgba(11,31,68,0.12)]"
                       >
-                        <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-navy text-gold">
+                        <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-navy to-blue text-cyan">
                           <Check size={14} strokeWidth={3} />
                         </span>
                         <span>{item}</span>

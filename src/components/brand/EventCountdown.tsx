@@ -5,8 +5,8 @@ import { motion } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
 import { cn } from "@/lib/utils";
 
-// Hackathon Day 1 — 09/09/2026, 09:00 Riyadh time (UTC+3).
-const EVENT_START = new Date("2026-09-09T09:00:00+03:00").getTime();
+// Hackathon Day 1 — 10/09/2026, 09:00 Riyadh time (UTC+3).
+const EVENT_START = new Date("2026-09-10T09:00:00+03:00").getTime();
 
 export function EventCountdown({
   className,

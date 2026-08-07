@@ -25,9 +25,9 @@ const universityLogos: Record<string, string> = {
 
 const monogramPalettes = [
   "from-navy to-navy-light",
-  "from-[#2f296f] to-[#555bc1]",
-  "from-[#1f7a8c] to-cyan",
-  "from-navy-dark to-[#2f296f]",
+  "from-navy-light to-blue",
+  "from-blue to-cyan",
+  "from-navy-dark to-navy",
 ];
 
 export function Universities() {

@@ -56,7 +56,7 @@ export function Hero() {
           style={{ animationDelay: "0.2s" }}
         >
           <div className="glass-card flex items-center gap-3 px-5 py-4 text-start">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-navy/5 text-gold">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-navy to-blue text-cyan">
               <CalendarDays size={22} />
             </div>
             <div>
@@ -72,9 +72,9 @@ export function Hero() {
             href={siteConstants.locationUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="glass-card group flex items-center gap-3 px-5 py-4 text-start sm:max-w-md hover:border-cyan/30"
+            className="glass-card group flex items-center gap-3 px-5 py-4 text-start sm:max-w-md hover:border-cyan/40"
           >
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-navy/5 text-gold">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-navy to-blue text-cyan">
               <MapPin size={22} />
             </div>
             <div>

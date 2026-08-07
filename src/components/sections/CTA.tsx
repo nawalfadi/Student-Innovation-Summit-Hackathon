@@ -27,7 +27,7 @@ export function CTA() {
       <div className="section-container relative z-10">
         <Reveal
           y={36}
-          className="relative overflow-hidden rounded-[2rem] bg-navy px-8 py-14 text-center shadow-[0_24px_80px_rgba(27,54,93,0.28)] sm:px-16 sm:py-16"
+          className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-navy via-navy-light to-blue px-8 py-14 text-center shadow-[0_24px_80px_rgba(11,31,68,0.28)] sm:px-16 sm:py-16"
         >
           <div className="pointer-events-none absolute -left-16 top-0 h-56 w-56 rounded-full bg-cyan/30 blur-3xl" />
           <div className="pointer-events-none absolute -right-10 bottom-0 h-48 w-48 rounded-full bg-gold/25 blur-3xl" />

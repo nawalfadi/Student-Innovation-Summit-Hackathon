@@ -58,6 +58,7 @@ function applyDocumentLocale(locale: Locale) {
   const dir = locale === "ar" ? "rtl" : "ltr";
   document.documentElement.lang = locale;
   document.documentElement.dir = dir;
+  document.documentElement.dataset.locale = locale;
   document.title = dictionaries[locale].meta.title;
 }
 

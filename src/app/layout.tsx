@@ -1,17 +1,22 @@
 import type { Metadata, Viewport } from "next";
-import { Cairo } from "next/font/google";
+import { Cairo, Montserrat } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { dictionaries } from "@/i18n/dictionaries";
 
-// Self-hosted, Arabic-capable webfont — replaces the old "Segoe UI" stack,
-// which silently fails (and falls back to whatever the OS has) on every
-// non-Windows device, i.e. most of this audience.
+// Brand typography: Cairo (Arabic) + Montserrat (English), per identity board.
 const cairo = Cairo({
   subsets: ["arabic", "latin"],
   weight: ["400", "500", "600", "700", "800", "900"],
   variable: "--font-cairo",
+  display: "swap",
+});
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+  variable: "--font-montserrat",
   display: "swap",
 });
 
@@ -25,6 +30,7 @@ export const metadata: Metadata = {
     "هاكاثون",
     "جامعة اليمامة",
     "الابتكار الطلابي",
+    "قمة الابتكار الطلابي",
     "Student Innovation Summit",
     "Hackathon 2026",
     "Al Yamamah University",
@@ -45,7 +51,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#1b365d",
+  themeColor: "#0b1f44",
 };
 
 export default function RootLayout({
@@ -57,8 +63,9 @@ export default function RootLayout({
     <html
       lang="ar"
       dir="rtl"
+      data-locale="ar"
       suppressHydrationWarning
-      className={cairo.variable}
+      className={`${cairo.variable} ${montserrat.variable}`}
     >
       <body className="font-sans antialiased">
         <a href="#main-content" className="skip-link">

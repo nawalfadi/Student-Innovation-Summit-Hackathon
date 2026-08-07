@@ -13,7 +13,7 @@ export function Timeline() {
   return (
     <section
       id="timeline"
-      className="relative overflow-hidden bg-gradient-to-b from-navy via-navy to-navy-dark py-20 sm:py-28"
+      className="relative overflow-hidden bg-gradient-to-b from-navy via-navy-light to-navy-dark py-20 sm:py-28"
     >
       <div
         aria-hidden
@@ -64,7 +64,7 @@ export function Timeline() {
             className="absolute start-[1.35rem] top-3 bottom-3 w-px overflow-hidden sm:start-1/2 sm:-ms-px"
           >
             <motion.div
-              className="h-full w-full origin-top bg-gradient-to-b from-gold via-cyan to-gold/40"
+              className="h-full w-full origin-top bg-gradient-to-b from-cyan via-blue to-cyan/40"
               initial={{ scaleY: 0 }}
               whileInView={{ scaleY: 1 }}
               viewport={{ once: true, amount: 0.15 }}
@@ -112,7 +112,7 @@ export function Timeline() {
                     className="absolute start-[0.55rem] z-20 flex h-8 w-8 items-center justify-center sm:left-1/2 sm:-translate-x-1/2 sm:start-auto"
                   >
                     <motion.span
-                      className="absolute inset-0 rounded-full bg-gold/25"
+                      className="absolute inset-0 rounded-full bg-cyan/25"
                       animate={{ scale: [1, 1.55, 1], opacity: [0.55, 0, 0.55] }}
                       transition={{
                         duration: 2.2,
@@ -121,7 +121,7 @@ export function Timeline() {
                         delay: index * 0.25,
                       }}
                     />
-                    <span className="relative flex h-8 w-8 items-center justify-center rounded-full border-2 border-gold bg-navy text-xs font-black text-gold shadow-[0_0_20px_rgba(201,162,39,0.45)]">
+                    <span className="relative flex h-8 w-8 items-center justify-center rounded-full border-2 border-cyan bg-navy text-xs font-black text-cyan shadow-[0_0_20px_rgba(0,212,255,0.45)]">
                       {index + 1}
                     </span>
                   </motion.div>
@@ -153,7 +153,7 @@ export function Timeline() {
                     <div className="rounded-3xl border border-white/10 bg-white/[0.07] p-6 shadow-[0_20px_50px_rgba(0,0,0,0.28)] backdrop-blur-sm transition-colors duration-300 hover:border-cyan/30 hover:bg-white/[0.1] sm:p-7">
                       <div className="flex flex-wrap items-start justify-between gap-3">
                         <div>
-                          <p className="text-sm font-bold text-gold">
+                          <p className="text-sm font-bold text-cyan">
                             {day.day}
                           </p>
                           <h3 className="mt-1 text-lg font-extrabold leading-snug text-white sm:text-xl">
@@ -161,7 +161,7 @@ export function Timeline() {
                           </h3>
                         </div>
                         <div className="inline-flex items-center gap-2 rounded-2xl border border-white/15 bg-white/10 px-3 py-1.5 text-sm font-semibold text-white/80">
-                          <Calendar size={15} className="text-gold" />
+                          <Calendar size={15} className="text-cyan" />
                           <span dir="ltr">{day.date}</span>
                         </div>
                       </div>
