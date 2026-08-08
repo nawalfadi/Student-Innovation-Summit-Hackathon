@@ -25,27 +25,24 @@ export function Hero() {
       />
 
       <div className="section-container relative z-10 flex min-h-[calc(100vh-8rem)] flex-col items-center justify-center py-12 text-center">
-        <div className="animate-fade-up relative mx-auto w-full max-w-3xl">
-          <h1 className="relative aspect-[1200/520] w-full">
+        <div className="animate-fade-up relative mx-auto w-full max-w-3xl sm:max-w-4xl">
+          {/* Official identity lockup — one bilingual mark, used as-is
+              regardless of locale (per brand guideline, it isn't split
+              into separate AR/EN artwork). */}
+          <h1 className="relative aspect-[500/318] w-full">
             <Image
-              // Both lockups share the same canvas size so switching
-              // locale doesn't change the logo footprint.
-              src={
-                locale === "en"
-                  ? "/hackathon-logo-en.png"
-                  : "/hackathon-logo-clear.png"
-              }
+              src="/brand-logo.png"
               alt={t.hero.logoAlt}
-              className="object-contain"
+              className="object-contain drop-shadow-[0_18px_60px_rgba(90,56,255,0.35)]"
               fill
-              sizes="(max-width: 768px) 100vw, 48rem"
+              sizes="(max-width: 768px) 92vw, 56rem"
               priority
             />
           </h1>
         </div>
 
         <p
-          className="animate-fade-up mt-8 max-w-2xl text-base leading-9 text-navy/65 sm:text-lg"
+          className="animate-fade-up mt-8 max-w-2xl text-base leading-9 text-white/65 sm:text-lg"
           style={{ animationDelay: "0.12s" }}
         >
           {t.hero.tagline}
@@ -56,14 +53,14 @@ export function Hero() {
           style={{ animationDelay: "0.2s" }}
         >
           <div className="glass-card flex items-center gap-3 px-5 py-4 text-start">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-navy to-blue text-cyan">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[linear-gradient(135deg,var(--color-violet),var(--color-blue),var(--color-cyan))] text-white">
               <CalendarDays size={22} />
             </div>
             <div>
-              <p className="text-xs font-semibold text-navy/45">
+              <p className="text-xs font-semibold text-white/45">
                 {t.site.datesLabel}
               </p>
-              <p className="font-bold text-navy" dir="ltr">
+              <p className="font-bold text-white" dir="ltr">
                 {t.site.dates}
               </p>
             </div>
@@ -74,14 +71,14 @@ export function Hero() {
             rel="noopener noreferrer"
             className="glass-card group flex items-center gap-3 px-5 py-4 text-start sm:max-w-md hover:border-cyan/40"
           >
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-navy to-blue text-cyan">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[linear-gradient(135deg,var(--color-violet),var(--color-blue),var(--color-cyan))] text-white">
               <MapPin size={22} />
             </div>
             <div>
-              <p className="text-xs font-semibold text-navy/45">
+              <p className="text-xs font-semibold text-white/45">
                 {t.site.locationLabel}
               </p>
-              <p className="font-bold leading-6 text-navy underline-offset-4 group-hover:underline">
+              <p className="font-bold leading-6 text-white underline-offset-4 group-hover:underline">
                 {t.site.location}
               </p>
             </div>
@@ -104,7 +101,7 @@ export function Hero() {
               primary action beats two competing calls to action. */}
           <a
             href="#tracks"
-            className="group inline-flex items-center gap-1.5 text-sm font-bold text-navy/60 underline decoration-navy/20 decoration-2 underline-offset-4 transition-colors hover:text-navy hover:decoration-navy/50"
+            className="group inline-flex items-center gap-1.5 text-sm font-bold text-white/60 underline decoration-white/20 decoration-2 underline-offset-4 transition-colors hover:text-white hover:decoration-white/50"
           >
             {t.common.exploreTracks}
             <ChevronDown

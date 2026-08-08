@@ -38,7 +38,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: dictionaries.ar.meta.title,
     description: dictionaries.ar.meta.description,
-    images: [{ url: "/hackathon-logo-clear.png", width: 1200, height: 520 }],
+    images: [{ url: "/og-image.png", width: 1200, height: 630 }],
     locale: "ar_SA",
     type: "website",
   },
@@ -46,12 +46,12 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: dictionaries.ar.meta.title,
     description: dictionaries.ar.meta.description,
-    images: ["/hackathon-logo-clear.png"],
+    images: ["/og-image.png"],
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0b1f44",
+  themeColor: "#0b0f1e",
 };
 
 export default function RootLayout({

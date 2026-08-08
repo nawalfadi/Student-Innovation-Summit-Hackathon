@@ -27,10 +27,11 @@ export function CTA() {
       <div className="section-container relative z-10">
         <Reveal
           y={36}
-          className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-navy via-navy-light to-blue px-8 py-14 text-center shadow-[0_24px_80px_rgba(11,31,68,0.28)] sm:px-16 sm:py-16"
+          className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-gradient-to-br from-navy-dark via-navy to-indigo px-8 py-14 text-center shadow-[0_24px_80px_rgba(0,0,0,0.45)] sm:px-16 sm:py-16"
         >
-          <div className="pointer-events-none absolute -left-16 top-0 h-56 w-56 rounded-full bg-cyan/30 blur-3xl" />
-          <div className="pointer-events-none absolute -right-10 bottom-0 h-48 w-48 rounded-full bg-gold/25 blur-3xl" />
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,var(--color-cyan),var(--color-violet),transparent)] opacity-70" />
+          <div className="pointer-events-none absolute -left-16 top-0 h-56 w-56 rounded-full bg-violet/25 blur-3xl" />
+          <div className="pointer-events-none absolute -right-10 bottom-0 h-48 w-48 rounded-full bg-teal/20 blur-3xl" />
           <div className="relative">
             <div className="mb-5 flex justify-center">
               <EventCountdown dark />
@@ -43,7 +44,7 @@ export function CTA() {
             </p>
             <Button
               size="lg"
-              variant="secondary"
+              variant="primary"
               className="mt-8"
               onClick={() => router.push("/register")}
             >

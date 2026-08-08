@@ -199,18 +199,19 @@ export function RegistrationForm({
     return (
       <div className="px-1 py-10 text-center sm:px-4 sm:py-14">
         <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-cyan/15">
-          <CheckCircle2 size={40} className="text-navy" />
+          <CheckCircle2 size={40} className="text-white" />
         </div>
-        <h3 className="text-2xl font-bold text-navy">{t.form.successTitle}</h3>
-        <p className="mx-auto mt-4 max-w-md leading-8 text-navy/70">
+        <h3 className="text-2xl font-bold text-white">{t.form.successTitle}</h3>
+        <p className="mx-auto mt-4 max-w-md leading-8 text-white/70">
           {serverMessage}
         </p>
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <Link
             href="/"
-            className="btn-shine group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-2xl bg-navy px-6 py-3 text-base font-bold text-white shadow-[0_8px_24px_rgba(27,54,93,0.25)] transition-[background-color,box-shadow] duration-200 hover:bg-navy-light hover:shadow-[0_12px_32px_rgba(27,54,93,0.3)]"
+            className="btn-shine group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-2xl bg-[linear-gradient(120deg,var(--color-violet)_0%,var(--color-indigo)_35%,var(--color-blue)_70%,var(--color-cyan)_100%)] px-6 py-3 text-base font-bold text-white shadow-[0_8px_28px_rgba(90,56,255,0.35)] transition-[filter,box-shadow] duration-200 hover:shadow-[0_14px_38px_rgba(0,212,255,0.4)] hover:brightness-[1.08]"
           >
-            {t.registerPage.backHome}
+            <span className="btn-shine__sweep" aria-hidden />
+            <span className="relative z-10">{t.registerPage.backHome}</span>
           </Link>
         </div>
       </div>
@@ -221,8 +222,8 @@ export function RegistrationForm({
     <form onSubmit={handleSubmit} className="space-y-8">
       <section>
         <div className="mb-4 flex items-center gap-2">
-          <UserPlus size={18} className="text-gold" />
-          <h3 className="font-bold text-navy">
+          <UserPlus size={18} className="text-teal" />
+          <h3 className="font-bold text-white">
             {isShowcase ? t.form.personal : t.form.personalLeader}
           </h3>
         </div>
@@ -349,10 +350,10 @@ export function RegistrationForm({
       {!isShowcase && (
         <section>
           <div className="mb-4 flex items-center gap-2">
-            <Users size={18} className="text-gold" />
-            <h3 className="font-bold text-navy">{t.form.teammates}</h3>
+            <Users size={18} className="text-teal" />
+            <h3 className="font-bold text-white">{t.form.teammates}</h3>
           </div>
-          <p className="mb-4 text-sm leading-7 text-navy/65">
+          <p className="mb-4 text-sm leading-7 text-white/65">
             {t.form.teammatesHint}
           </p>
 
@@ -372,12 +373,12 @@ export function RegistrationForm({
             {form.members.map((member, index) => (
               <div
                 key={index}
-                className="rounded-2xl border border-navy/8 bg-white/60 p-4"
+                className="rounded-2xl border border-white/8 bg-white/[0.04] p-4"
               >
                 <div className="mb-3 flex items-center justify-between gap-3">
-                  <p className="text-sm font-semibold text-navy">
+                  <p className="text-sm font-semibold text-white">
                     {t.form.teammate} {index + 1}{" "}
-                    <span className="font-normal text-navy/50">
+                    <span className="font-normal text-white/50">
                       ({t.form.member} {index + 2})
                     </span>
                   </p>
@@ -385,7 +386,7 @@ export function RegistrationForm({
                     <button
                       type="button"
                       onClick={() => removeTeammate(index)}
-                      className="inline-flex items-center gap-1.5 rounded-lg px-2 py-1 text-xs font-semibold text-red-600 hover:bg-red-50"
+                      className="inline-flex items-center gap-1.5 rounded-lg px-2 py-1 text-xs font-semibold text-red-400 hover:bg-red-500/10"
                     >
                       <Trash2 size={14} />
                       {t.form.removeTeammate}
@@ -424,25 +425,25 @@ export function RegistrationForm({
               <button
                 type="button"
                 onClick={addTeammate}
-                className="flex w-full items-center justify-center gap-2 rounded-2xl border border-dashed border-navy/20 bg-white/40 px-4 py-3 text-sm font-bold text-navy transition-colors hover:border-cyan/40 hover:bg-cyan/5"
+                className="flex w-full items-center justify-center gap-2 rounded-2xl border border-dashed border-white/20 bg-white/[0.03] px-4 py-3 text-sm font-bold text-white transition-colors hover:border-cyan/40 hover:bg-cyan/5"
               >
-                <Plus size={16} className="text-gold" />
+                <Plus size={16} className="text-teal" />
                 {t.form.addTeammate}
-                <span className="font-normal text-navy/45">
+                <span className="font-normal text-white/45">
                   ({form.members.length}/{MAX_TEAMMATES})
                 </span>
               </button>
             ) : (
-              <p className="rounded-2xl border border-cyan/25 bg-cyan/10 px-4 py-3 text-center text-sm text-navy/70">
+              <p className="rounded-2xl border border-cyan/25 bg-cyan/10 px-4 py-3 text-center text-sm text-white/70">
                 {t.form.teammatesMaxReached}
               </p>
             )}
 
             {errors.members && (
-              <p className="text-sm text-red-600">{errors.members}</p>
+              <p className="text-sm text-red-400">{errors.members}</p>
             )}
             {errors.memberCount && (
-              <p className="text-sm text-red-600">{errors.memberCount}</p>
+              <p className="text-sm text-red-400">{errors.memberCount}</p>
             )}
           </div>
         </section>
@@ -468,13 +469,13 @@ export function RegistrationForm({
 
       {isShowcase && (
         <section>
-          <p className="mb-2 text-sm font-semibold text-navy">
+          <p className="mb-2 text-sm font-semibold text-white">
             {t.form.projectFile}
-            <span className="ms-0.5 text-red-500" aria-hidden>
+            <span className="ms-0.5 text-red-400" aria-hidden>
               *
             </span>
           </p>
-          <p className="mb-3 text-sm text-navy/60">{t.form.projectFileHint}</p>
+          <p className="mb-3 text-sm text-white/60">{t.form.projectFileHint}</p>
           <input
             ref={fileInputRef}
             type="file"
@@ -487,16 +488,16 @@ export function RegistrationForm({
             <div
               className={`flex items-center gap-3 rounded-2xl border px-4 py-3 ${
                 errors.projectFile
-                  ? "border-red-400 bg-red-50"
+                  ? "border-red-400 bg-red-500/10"
                   : "border-cyan/30 bg-cyan/10"
               }`}
             >
-              <FileUp size={18} className="shrink-0 text-navy" />
+              <FileUp size={18} className="shrink-0 text-white" />
               <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-semibold text-navy">
+                <p className="truncate text-sm font-semibold text-white">
                   {projectFile.name}
                 </p>
-                <p className="text-xs text-navy/55">
+                <p className="text-xs text-white/55">
                   {(projectFile.size / (1024 * 1024)).toFixed(2)} MB
                 </p>
               </div>
@@ -506,7 +507,7 @@ export function RegistrationForm({
                   onFileChange(null);
                   if (fileInputRef.current) fileInputRef.current.value = "";
                 }}
-                className="rounded-lg p-2 text-navy/50 hover:bg-white/70 hover:text-navy"
+                className="rounded-lg p-2 text-white/50 hover:bg-white/10 hover:text-white"
                 aria-label={t.common.cancel}
               >
                 <X size={16} />
@@ -518,29 +519,29 @@ export function RegistrationForm({
               onClick={() => fileInputRef.current?.click()}
               className={`flex w-full flex-col items-center justify-center gap-2 rounded-2xl border border-dashed px-4 py-8 transition-colors ${
                 errors.projectFile
-                  ? "border-red-400 bg-red-50"
-                  : "border-navy/20 bg-white/50 hover:border-cyan/40 hover:bg-cyan/5"
+                  ? "border-red-400 bg-red-500/10"
+                  : "border-white/20 bg-white/[0.03] hover:border-cyan/40 hover:bg-cyan/5"
               }`}
             >
-              <Upload size={22} className="text-gold" />
-              <span className="text-sm font-bold text-navy">
+              <Upload size={22} className="text-teal" />
+              <span className="text-sm font-bold text-white">
                 {t.form.projectFile}
               </span>
             </button>
           )}
           {errors.projectFile && (
-            <p className="mt-2 text-sm text-red-600">{errors.projectFile}</p>
+            <p className="mt-2 text-sm text-red-400">{errors.projectFile}</p>
           )}
         </section>
       )}
 
       {serverMessage && (
-        <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+        <div className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-300">
           {serverMessage}
         </div>
       )}
 
-      <div className="flex flex-col gap-3 border-t border-navy/8 pt-4 sm:flex-row">
+      <div className="flex flex-col gap-3 border-t border-white/8 pt-4 sm:flex-row">
         <Button type="submit" className="flex-1" disabled={submitting}>
           {submitting ? (
             <>

@@ -29,7 +29,7 @@ export function UniversityMark({
           <p
             className={cn(
               "text-xs font-bold",
-              onDark ? "text-white" : "text-navy"
+              onDark ? "text-white" : "text-white"
             )}
           >
             جامعة اليمامة
@@ -37,7 +37,7 @@ export function UniversityMark({
           <p
             className={cn(
               "text-[10px]",
-              onDark ? "text-white/60" : "text-navy/55"
+              onDark ? "text-white/60" : "text-white/55"
             )}
           >
             Al Yamamah University

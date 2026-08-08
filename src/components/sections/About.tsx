@@ -50,9 +50,10 @@ export function About() {
               everywhere else — the page needs at least one section that
               doesn't look like a repeat of the last one. */}
           <RevealGroup className="relative z-10 grid gap-6 lg:grid-cols-5 lg:gap-8">
-            <RevealItem className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-navy via-navy-light to-blue p-8 text-white shadow-[0_24px_64px_rgba(11,31,68,0.35)] sm:p-10 lg:col-span-3">
-              <div className="pointer-events-none absolute -left-10 -top-10 h-48 w-48 rounded-full bg-cyan/30 blur-3xl" />
-              <div className="pointer-events-none absolute -right-8 bottom-0 h-40 w-40 rounded-full bg-gold/20 blur-3xl" />
+            <RevealItem className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-navy-dark via-navy to-indigo p-8 text-white shadow-[0_24px_64px_rgba(0,0,0,0.4)] sm:p-10 lg:col-span-3">
+              <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,var(--color-violet),var(--color-cyan),transparent)] opacity-60" />
+              <div className="pointer-events-none absolute -left-10 -top-10 h-48 w-48 rounded-full bg-violet/25 blur-3xl" />
+              <div className="pointer-events-none absolute -right-8 bottom-0 h-40 w-40 rounded-full bg-teal/20 blur-3xl" />
               <div className="relative">
                 <div className="mb-5 inline-flex items-center gap-2 rounded-2xl bg-white/10 px-3 py-1.5 text-xs font-bold text-cyan ring-1 ring-white/15">
                   <Sparkles size={14} />
@@ -65,7 +66,7 @@ export function About() {
                   {t.about.missionBody}
                 </p>
                 <div className="mt-8 rounded-2xl border border-white/10 bg-white/[0.06] p-5 backdrop-blur-sm">
-                  <p className="text-sm font-bold text-gold">
+                  <p className="text-sm font-bold text-teal">
                     {t.about.goalTitle}
                   </p>
                   <p className="mt-2 text-sm leading-7 text-white/70">
@@ -93,15 +94,15 @@ export function About() {
                     transition={{ type: "spring", stiffness: 300, damping: 22 }}
                     className="glass-card relative flex gap-5 p-6"
                   >
-                    <div className="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-navy to-blue text-lg font-black text-cyan shadow-lg shadow-navy/20 ring-4 ring-cream">
+                    <div className="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-[linear-gradient(140deg,var(--color-violet),var(--color-blue),var(--color-cyan))] text-lg font-black text-white shadow-lg shadow-violet/30 ring-4 ring-navy">
                       {step.step}
                     </div>
                     <div>
                       <div className="mb-1.5 flex items-center gap-2">
                         <Icon size={18} className="text-blue" />
-                        <h4 className="font-bold text-navy">{step.title}</h4>
+                        <h4 className="font-bold text-white">{step.title}</h4>
                       </div>
-                      <p className="text-sm leading-7 text-navy/65">
+                      <p className="text-sm leading-7 text-white/65">
                         {step.description}
                       </p>
                     </div>

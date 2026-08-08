@@ -20,11 +20,11 @@ export function Textarea({
     <div className="space-y-2">
       <label
         htmlFor={textareaId}
-        className="block text-sm font-semibold text-navy"
+        className="block text-sm font-semibold text-white/85"
       >
         {label}
         {props.required && (
-          <span className="ms-0.5 text-red-500" aria-hidden>
+          <span className="ms-0.5 text-red-400" aria-hidden>
             *
           </span>
         )}
@@ -34,14 +34,14 @@ export function Textarea({
         aria-invalid={error ? true : undefined}
         aria-describedby={errorId}
         className={cn(
-          "min-h-28 w-full resize-y rounded-2xl border bg-white/80 px-4 py-3 text-navy outline-none transition-colors placeholder:text-navy/40 focus:border-cyan focus:ring-2 focus:ring-cyan/20",
-          error ? "border-red-400" : "border-navy/15",
+          "min-h-28 w-full resize-y rounded-2xl border bg-white/[0.04] px-4 py-3 text-white outline-none transition-colors placeholder:text-white/35 focus:border-cyan focus:bg-white/[0.06] focus:ring-2 focus:ring-cyan/20",
+          error ? "border-red-400/70" : "border-white/12 hover:border-white/20",
           className
         )}
         {...props}
       />
       {error && (
-        <p id={errorId} className="text-sm text-red-600">
+        <p id={errorId} className="text-sm text-red-400">
           {error}
         </p>
       )}

@@ -13,11 +13,11 @@ export function Input({ label, error, className, id, ...props }: InputProps) {
     <div className="space-y-2">
       <label
         htmlFor={inputId}
-        className="block text-sm font-semibold text-navy"
+        className="block text-sm font-semibold text-white/85"
       >
         {label}
         {props.required && (
-          <span className="ms-0.5 text-red-500" aria-hidden>
+          <span className="ms-0.5 text-red-400" aria-hidden>
             *
           </span>
         )}
@@ -27,8 +27,8 @@ export function Input({ label, error, className, id, ...props }: InputProps) {
         aria-invalid={error ? true : undefined}
         aria-describedby={errorId}
         className={cn(
-          "w-full rounded-2xl border bg-white/80 px-4 py-3 text-navy outline-none transition-colors placeholder:text-navy/40 focus:border-cyan focus:ring-2 focus:ring-cyan/20",
-          error ? "border-red-400" : "border-navy/15",
+          "w-full rounded-2xl border bg-white/[0.04] px-4 py-3 text-white outline-none transition-colors placeholder:text-white/35 focus:border-cyan focus:bg-white/[0.06] focus:ring-2 focus:ring-cyan/20",
+          error ? "border-red-400/70" : "border-white/12 hover:border-white/20",
           className
         )}
         {...props}

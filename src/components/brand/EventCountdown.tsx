@@ -49,18 +49,9 @@ export function EventCountdown({
 
   return (
     <div
-      className={cn(
-        "mx-auto w-full max-w-sm text-center",
-        dark ? "text-white" : "text-navy",
-        className
-      )}
+      className={cn("mx-auto w-full max-w-sm text-center text-white", className)}
     >
-      <p
-        className={cn(
-          "text-xs font-bold tracking-[0.2em]",
-          dark ? "text-gold" : "text-gold-dark"
-        )}
-      >
+      <p className="text-xs font-bold tracking-[0.2em] text-teal">
         {t.hero.statusBadge}
       </p>
 
@@ -70,14 +61,14 @@ export function EventCountdown({
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          className="text-6xl font-black leading-none tracking-tight text-gold sm:text-7xl"
+          className="text-6xl font-black leading-none tracking-tight text-teal sm:text-7xl"
         >
           {daysLeft ?? "—"}
         </motion.span>
         <span
           className={cn(
             "mb-1.5 text-lg font-bold",
-            dark ? "text-white/65" : "text-navy/55"
+            dark ? "text-white/65" : "text-white/55"
           )}
         >
           {dayLabel}
@@ -87,7 +78,7 @@ export function EventCountdown({
       <p
         className={cn(
           "mt-1 text-sm font-semibold",
-          dark ? "text-white/50" : "text-navy/45"
+          dark ? "text-white/50" : "text-white/45"
         )}
       >
         {t.hero.countdownUntil}

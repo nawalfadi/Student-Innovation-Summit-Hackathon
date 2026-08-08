@@ -75,6 +75,10 @@ export function DecorativeSwirl({
         height={Math.round(h * 2)}
         sizes={`${Math.round((w / artboardWidth) * 100)}vw`}
         className="h-full w-full max-w-none object-contain"
+        // The source ribbon art was drawn full-rainbow for a light page;
+        // re-tint it into the brand's cyan/teal register (mono-hue glass)
+        // so it reads as "this identity" rather than generic stock gradient.
+        style={{ filter: "grayscale(1) sepia(1) hue-rotate(152deg) saturate(3.4) brightness(1.1)" }}
         priority={false}
         loading="lazy"
       />

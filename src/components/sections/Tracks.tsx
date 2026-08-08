@@ -16,7 +16,19 @@ const iconMap = {
 const accents = [
   "shadow-cyan/25 ring-cyan/20 group-hover:shadow-cyan/40",
   "shadow-blue/25 ring-blue/20 group-hover:shadow-blue/40",
-  "shadow-navy/25 ring-navy/15 group-hover:shadow-navy/40",
+  "shadow-teal/25 ring-teal/20 group-hover:shadow-teal/40",
+];
+
+const iconChips = [
+  "bg-[linear-gradient(140deg,var(--color-blue),var(--color-cyan))]",
+  "bg-[linear-gradient(140deg,var(--color-violet),var(--color-blue))]",
+  "bg-[linear-gradient(140deg,var(--color-cyan),var(--color-teal))]",
+];
+
+const numberColors = [
+  "text-cyan/40 group-hover:text-cyan/70",
+  "text-violet/40 group-hover:text-violet/70",
+  "text-teal/40 group-hover:text-teal/70",
 ];
 
 export function Tracks() {
@@ -69,36 +81,38 @@ export function Tracks() {
                 transition={{ type: "spring", stiffness: 280, damping: 20 }}
                 className="glass-card group relative flex h-full flex-col overflow-hidden p-8"
               >
-                <div className="pointer-events-none absolute -left-8 top-0 h-32 w-32 rounded-full bg-gold/15 blur-2xl transition-transform duration-500 group-hover:scale-150" />
+                <div className="pointer-events-none absolute -left-8 top-0 h-32 w-32 rounded-full bg-teal/15 blur-2xl transition-transform duration-500 group-hover:scale-150" />
                 <div className="pointer-events-none absolute -right-6 bottom-0 h-28 w-28 rounded-full bg-cyan/15 blur-2xl" />
 
                 <div className="relative z-10 flex h-full flex-col">
                   <div className="mb-6 flex items-center justify-between">
                     <div
-                      className={`flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-navy to-blue text-cyan shadow-lg ring-1 transition-all duration-500 ease-out group-hover:-rotate-6 group-hover:scale-110 ${accents[index % accents.length]}`}
+                      className={`flex h-14 w-14 items-center justify-center rounded-2xl text-white shadow-lg ring-1 transition-all duration-500 ease-out group-hover:-rotate-6 group-hover:scale-110 ${iconChips[index % iconChips.length]} ${accents[index % accents.length]}`}
                     >
                       <Icon size={26} />
                     </div>
-                    <span className="text-4xl font-black text-navy/10 transition-colors duration-300 group-hover:text-navy/20">
+                    <span
+                      className={`text-4xl font-black transition-colors duration-300 ${numberColors[index % numberColors.length]}`}
+                    >
                       0{index + 1}
                     </span>
                   </div>
-                  <h3 className="text-xl font-extrabold leading-snug text-navy sm:text-2xl">
+                  <h3 className="text-xl font-extrabold leading-snug text-white sm:text-2xl">
                     {track.name}
                   </h3>
                   <p className="mt-1 text-sm font-semibold text-blue">
                     {track.nameEn}
                   </p>
-                  <p className="mt-4 leading-8 text-navy/65">
+                  <p className="mt-4 leading-8 text-white/65">
                     {track.description}
                   </p>
-                  <ul className="mt-6 flex flex-1 flex-col gap-2.5 border-t border-navy/8 pt-6">
+                  <ul className="mt-6 flex flex-1 flex-col gap-2.5 border-t border-white/8 pt-6">
                     {track.highlights.map((item) => (
                       <li
                         key={item}
-                        className="flex items-start gap-3 rounded-2xl border border-cyan/20 bg-white/80 px-3.5 py-3 text-sm font-bold leading-6 text-navy shadow-[0_4px_16px_rgba(11,31,68,0.08)] transition-all duration-300 group-hover:-translate-y-0.5 group-hover:border-blue/35 group-hover:bg-white group-hover:shadow-[0_10px_28px_rgba(11,31,68,0.12)]"
+                        className="flex items-start gap-3 rounded-2xl border border-white/8 bg-white/[0.04] px-3.5 py-3 text-sm font-bold leading-6 text-white shadow-[0_4px_16px_rgba(0,0,0,0.2)] transition-all duration-300 group-hover:-translate-y-0.5 group-hover:border-cyan/30 group-hover:bg-white/[0.07] group-hover:shadow-[0_10px_28px_rgba(0,0,0,0.3)]"
                       >
-                        <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-navy to-blue text-cyan">
+                        <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-[linear-gradient(140deg,var(--color-violet),var(--color-cyan))] text-white">
                           <Check size={14} strokeWidth={3} />
                         </span>
                         <span>{item}</span>

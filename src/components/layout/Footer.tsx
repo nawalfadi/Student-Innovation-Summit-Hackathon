@@ -100,10 +100,11 @@ export function Footer() {
   const phoneHref = `tel:${siteConstants.phone.replace(/\s/g, "")}`;
 
   return (
-    <footer className="relative overflow-hidden border-t border-navy/8 bg-navy text-white">
+    <footer className="relative overflow-hidden bg-navy-dark text-white">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,var(--color-violet),var(--color-cyan),var(--color-teal),transparent)] opacity-60" />
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -left-20 top-10 h-64 w-64 rounded-full bg-cyan/20 blur-3xl" />
-        <div className="absolute -right-10 bottom-0 h-56 w-56 rounded-full bg-gold/15 blur-3xl" />
+        <div className="absolute -left-20 top-10 h-64 w-64 rounded-full bg-violet/15 blur-3xl" />
+        <div className="absolute -right-10 bottom-0 h-56 w-56 rounded-full bg-teal/12 blur-3xl" />
       </div>
 
       <Reveal y={20} className="section-container relative z-10 py-12 sm:py-14">
@@ -117,7 +118,7 @@ export function Footer() {
 
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
           <div>
-            <h4 className="font-semibold text-gold">{t.footer.eventInfo}</h4>
+            <h4 className="font-semibold text-teal">{t.footer.eventInfo}</h4>
             <ul className="mt-4 space-y-3 text-sm text-white/65">
               <li className="flex items-start gap-2.5">
                 <CalendarDays size={16} className="mt-0.5 shrink-0 text-cyan" />
@@ -131,7 +132,7 @@ export function Footer() {
                   href={siteConstants.locationUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="transition-colors hover:text-gold"
+                  className="transition-colors hover:text-teal"
                 >
                   {t.site.location}
                 </a>
@@ -140,12 +141,12 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="font-semibold text-gold">{t.footer.contact}</h4>
+            <h4 className="font-semibold text-teal">{t.footer.contact}</h4>
             <ul className="mt-4 space-y-3 text-sm text-white/65">
               <li>
                 <a
                   href={`mailto:${siteConstants.email}`}
-                  className="inline-flex items-center gap-2.5 transition-colors hover:text-gold"
+                  className="inline-flex items-center gap-2.5 transition-colors hover:text-teal"
                 >
                   <Mail size={16} className="shrink-0 text-cyan" />
                   <span dir="ltr">{siteConstants.email}</span>
@@ -154,7 +155,7 @@ export function Footer() {
               <li>
                 <a
                   href={phoneHref}
-                  className="inline-flex items-center gap-2.5 transition-colors hover:text-gold"
+                  className="inline-flex items-center gap-2.5 transition-colors hover:text-teal"
                   dir="ltr"
                 >
                   <Phone size={16} className="shrink-0 text-cyan" />
@@ -165,7 +166,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="font-semibold text-gold">{t.footer.social}</h4>
+            <h4 className="font-semibold text-teal">{t.footer.social}</h4>
             <div className="mt-4 flex flex-wrap gap-2.5">
               {socialLinks.map(({ key, href, label, icon: Icon }) => (
                 <a
@@ -174,7 +175,7 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/15 bg-white/5 text-white/80 transition-colors hover:border-gold/40 hover:bg-gold/15 hover:text-gold"
+                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/15 bg-white/5 text-white/80 transition-colors hover:border-teal/40 hover:bg-teal/15 hover:text-teal"
                 >
                   <Icon />
                 </a>
@@ -183,7 +184,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="font-semibold text-gold">{t.footer.community}</h4>
+            <h4 className="font-semibold text-teal">{t.footer.community}</h4>
             <p className="mt-4 text-sm leading-6 text-white/55">
               {t.footer.whatsappHint}
             </p>
@@ -204,10 +205,10 @@ export function Footer() {
             © 2026 {t.site.university}. {t.footer.rights}
           </p>
           <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
-            <Link href="/privacy" className="transition-colors hover:text-gold">
+            <Link href="/privacy" className="transition-colors hover:text-teal">
               {t.footer.privacy}
             </Link>
-            <Link href="/terms" className="transition-colors hover:text-gold">
+            <Link href="/terms" className="transition-colors hover:text-teal">
               {t.footer.terms}
             </Link>
           </div>

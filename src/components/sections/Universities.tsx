@@ -24,10 +24,10 @@ const universityLogos: Record<string, string> = {
 };
 
 const monogramPalettes = [
-  "from-navy to-navy-light",
-  "from-navy-light to-blue",
+  "from-violet to-blue",
   "from-blue to-cyan",
-  "from-navy-dark to-navy",
+  "from-cyan to-teal",
+  "from-indigo to-violet",
 ];
 
 export function Universities() {
@@ -86,7 +86,7 @@ export function Universities() {
               transition={{ type: "spring", stiffness: 320, damping: 22 }}
               className={`glass-card relative flex flex-col items-center justify-center p-6 text-center ${
                 uni.featured
-                  ? "host-card-glow ring-1 ring-gold/40 sm:col-span-2 sm:p-8 lg:col-span-1"
+                  ? "host-card-glow ring-1 ring-teal/40 sm:col-span-2 sm:p-8 lg:col-span-1"
                   : ""
               }`}
             >
@@ -94,14 +94,14 @@ export function Universities() {
                   the centered content flow, so it can't push Al Yamamah's
                   logo/name out of alignment with everyone else's. */}
               {uni.featured && (
-                <span className="absolute -top-3 rounded-full bg-gold px-3 py-1 text-xs font-bold text-navy-dark shadow-md shadow-gold/30 ltr:right-5 rtl:left-5">
+                <span className="absolute top-4 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-teal px-2.5 py-[3px] text-[9px] font-bold leading-none tracking-wide text-navy-dark shadow-md shadow-teal/30">
                   {t.universities.hostBadge}
                 </span>
               )}
               {uni.featured ? (
                 <div className="mb-4 flex h-16 w-full items-center justify-center px-2">
                   <Image
-                    src="/alyamamah-logo-v2.png"
+                    src="/alyamamah-logo-white.png"
                     alt={uni.name}
                     width={200}
                     height={48}
@@ -109,13 +109,13 @@ export function Universities() {
                   />
                 </div>
               ) : universityLogos[uni.abbr] ? (
-                <div className="mb-4 flex h-16 w-full items-center justify-center px-2">
+                <div className="mb-4 flex h-16 w-full items-center justify-center rounded-xl bg-white/95 px-3 py-2 shadow-[0_6px_20px_rgba(0,0,0,0.25)]">
                   <Image
                     src={universityLogos[uni.abbr]}
                     alt={uni.name}
                     width={240}
                     height={160}
-                    className="h-16 w-auto max-w-full object-contain"
+                    className="h-12 w-auto max-w-full object-contain"
                   />
                 </div>
               ) : (
@@ -126,7 +126,7 @@ export function Universities() {
                 </div>
               )}
               {!uni.featured && !universityLogos[uni.abbr] && (
-                <GraduationCap size={20} className="mb-2 text-navy/35" />
+                <GraduationCap size={20} className="mb-2 text-white/35" />
               )}
               {/* Fixed-height slot, vertically centered — keeps every
                   university's name anchored to the same baseline whether
@@ -134,11 +134,11 @@ export function Universities() {
                   Ibn Saud Islamic University" (wraps), instead of shorter names
                   floating higher than their neighbors in the row. */}
               <div className="flex min-h-[2.75rem] w-full flex-col items-center justify-center sm:min-h-[3.25rem]">
-                <h3 className="text-sm font-bold leading-tight text-navy sm:text-base">
+                <h3 className="text-sm font-bold leading-tight text-white sm:text-base">
                   {uni.name}
                 </h3>
                 {uni.subtitle ? (
-                  <p className="mt-1 text-xs font-semibold tracking-wide text-navy/50">
+                  <p className="mt-1 text-xs font-semibold tracking-wide text-white/50">
                     {uni.subtitle}
                   </p>
                 ) : null}

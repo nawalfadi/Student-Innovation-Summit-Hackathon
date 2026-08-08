@@ -17,14 +17,14 @@ interface ButtonProps extends Omit<HTMLMotionProps<"button">, "children"> {
 
 const variants: Record<ButtonVariant, string> = {
   primary:
-    "bg-gradient-to-br from-navy to-blue text-white hover:brightness-110 shadow-[0_8px_24px_rgba(11,31,68,0.28)] hover:shadow-[0_12px_32px_rgba(45,107,255,0.3)]",
+    "bg-[linear-gradient(120deg,var(--color-violet)_0%,var(--color-indigo)_35%,var(--color-blue)_70%,var(--color-cyan)_100%)] text-white shadow-[0_8px_28px_rgba(90,56,255,0.35)] hover:shadow-[0_14px_40px_rgba(0,212,255,0.4)] hover:brightness-[1.08]",
   secondary:
-    "bg-gold text-navy-dark hover:bg-gold-light shadow-[0_8px_24px_rgba(212,160,23,0.3)]",
+    "border border-white/20 bg-white/[0.06] text-white backdrop-blur-sm hover:border-cyan/40 hover:bg-white/[0.1]",
   outline:
-    "border-2 border-navy/20 bg-white/40 text-navy hover:border-navy/40 hover:bg-white/70 backdrop-blur-sm",
-  ghost: "text-navy hover:bg-navy/5",
+    "border-2 border-white/15 bg-transparent text-white hover:border-white/35 hover:bg-white/5",
+  ghost: "text-white/80 hover:text-white hover:bg-white/5",
   glass:
-    "border border-white/70 bg-white/50 text-navy backdrop-blur-xl hover:bg-white/80 shadow-sm",
+    "border border-white/10 bg-white/[0.04] text-white backdrop-blur-xl hover:bg-white/[0.08] shadow-sm",
 };
 
 const sizes: Record<ButtonSize, string> = {
@@ -72,7 +72,8 @@ export function Button({
       whileTap={{ scale: 0.955 }}
       transition={{ type: "spring", stiffness: 420, damping: 24 }}
       className={cn(
-        "btn-shine group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-2xl font-bold transition-[background-color,border-color,box-shadow] duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan focus-visible:ring-offset-2 focus-visible:ring-offset-cream disabled:cursor-not-allowed disabled:opacity-60",
+        "btn-shine group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-2xl font-bold transition-[background-color,border-color,box-shadow,filter] duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan focus-visible:ring-offset-2 focus-visible:ring-offset-navy disabled:cursor-not-allowed disabled:opacity-60",
+        "[&_svg:last-child]:transition-transform [&_svg:last-child]:duration-300 group-hover:ltr:[&_svg:last-child]:translate-x-1 group-hover:rtl:[&_svg:last-child]:-translate-x-1",
         variants[variant],
         sizes[size],
         className

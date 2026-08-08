@@ -90,7 +90,7 @@ export function Header() {
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-all duration-300 ease-out",
         scrolled
-          ? "border-b border-white/40 bg-white/55 shadow-[0_8px_32px_rgba(27,54,93,0.08)] backdrop-blur-xl backdrop-saturate-150"
+          ? "border-b border-white/8 bg-navy/75 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-xl backdrop-saturate-150"
           : "border-b border-transparent bg-transparent shadow-none backdrop-blur-0"
       )}
     >
@@ -105,8 +105,8 @@ export function Header() {
           className="section-container flex items-center justify-between gap-4 pt-3 sm:pt-4"
           dir="ltr"
         >
-          <Vision2030Mark compact />
-          <UniversityMark />
+          <Vision2030Mark compact variant="light" />
+          <UniversityMark onDark />
         </div>
       </div>
 
@@ -128,9 +128,13 @@ export function Header() {
           )}
           dir="ltr"
         >
-          <UniversityMark className="[&_img]:!h-7" />
-          <span className="hidden h-6 w-px bg-navy/10 sm:block" aria-hidden />
-          <Vision2030Mark compact className="hidden sm:block [&_img]:!h-8" />
+          <UniversityMark onDark className="[&_img]:!h-7" />
+          <span className="hidden h-6 w-px bg-white/10 sm:block" aria-hidden />
+          <Vision2030Mark
+            compact
+            variant="light"
+            className="hidden sm:block [&_img]:!h-8"
+          />
         </div>
 
         {/* Nav — always centered, same size whether at the top of the
@@ -159,6 +163,7 @@ export function Header() {
           <button
             type="button"
             onClick={toggleLocale}
+            dir="ltr"
             className={cn(
               "header-lang-toggle transition-all duration-300",
               scrolled && "scale-[0.95]"

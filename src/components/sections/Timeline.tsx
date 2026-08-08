@@ -21,7 +21,7 @@ export function Timeline() {
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute -right-16 top-1/3 h-80 w-80 rounded-full bg-gold/15 blur-[100px]"
+        className="pointer-events-none absolute -right-16 top-1/3 h-80 w-80 rounded-full bg-violet/15 blur-[100px]"
       />
       <div
         aria-hidden
@@ -64,7 +64,7 @@ export function Timeline() {
             className="absolute start-[1.35rem] top-3 bottom-3 w-px overflow-hidden sm:start-1/2 sm:-ms-px"
           >
             <motion.div
-              className="h-full w-full origin-top bg-gradient-to-b from-cyan via-blue to-cyan/40"
+              className="summit-path-line h-full w-full origin-top"
               initial={{ scaleY: 0 }}
               whileInView={{ scaleY: 1 }}
               viewport={{ once: true, amount: 0.15 }}
@@ -121,7 +121,7 @@ export function Timeline() {
                         delay: index * 0.25,
                       }}
                     />
-                    <span className="relative flex h-8 w-8 items-center justify-center rounded-full border-2 border-cyan bg-navy text-xs font-black text-cyan shadow-[0_0_20px_rgba(0,212,255,0.45)]">
+                    <span className="summit-node relative flex h-8 w-8 items-center justify-center rounded-full text-xs font-black text-cyan">
                       {index + 1}
                     </span>
                   </motion.div>
