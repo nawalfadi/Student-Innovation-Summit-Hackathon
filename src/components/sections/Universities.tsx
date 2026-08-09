@@ -1,40 +1,37 @@
 "use client";
 
-import Image from "next/image";
-import { GraduationCap } from "lucide-react";
-import { DecorativeSwirl } from "@/components/brand/DecorativeSwirl";
 import { SectionSpray } from "@/components/brand/SectionSpray";
 import { SectionHeading } from "@/components/layout/SectionHeading";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { useLanguage } from "@/context/LanguageContext";
 
-// Real crest artwork, trimmed of its baked-in whitespace so every logo
-// reads at a consistent visual size regardless of source canvas. Falls
-// back to a designed monogram (not a bare gray box) for any university
-// added later without artwork on hand yet.
-const universityLogos: Record<string, string> = {
-  KSU: "/decor/Unis-Logo-trimmed/KSU.png",
-  PNU: "/decor/Unis-Logo-trimmed/PNU.png",
-  AU: "/decor/Unis-Logo-trimmed/AU.png",
-  PSU: "/decor/Unis-Logo-trimmed/PSU.png",
-  IMSIU: "/decor/Unis-Logo-trimmed/IMSIU.png",
-  PSAU: "/decor/Unis-Logo-trimmed/PSAU.png",
-  SEU: "/decor/Unis-Logo-trimmed/SEU.png",
-  DAU: "/decor/Unis-Logo-trimmed/DAU.png",
-};
+/**
+ * Sourced from /Universities (Arabic filenames), served from /public/universities.
+ * Cache-bust query updated whenever assets are refreshed from that folder.
+ */
+const CACHE_BUST = "v20260810c";
 
-const monogramPalettes = [
-  "from-violet to-blue",
-  "from-blue to-cyan",
-  "from-cyan to-teal",
-  "from-indigo to-violet",
+const universityLogos: { abbr: string; src: string; alt: string }[] = [
+  { abbr: "YU", src: `/alyamamah-logo-white.png?${CACHE_BUST}`, alt: "Al Yamamah University" },
+  { abbr: "KSU", src: `/universities/ksu.png?${CACHE_BUST}`, alt: "King Saud University" },
+  { abbr: "PNU", src: `/universities/pnu.png?${CACHE_BUST}`, alt: "Princess Nourah University" },
+  { abbr: "AU", src: `/universities/au.png?${CACHE_BUST}`, alt: "Alfaisal University" },
+  { abbr: "DAU", src: `/universities/dau.png?${CACHE_BUST}`, alt: "Dar Al Uloom University" },
+  { abbr: "PSU", src: `/universities/psu.png?${CACHE_BUST}`, alt: "Prince Sultan University" },
+  {
+    abbr: "IMSIU",
+    src: `/universities/imsiu.png?${CACHE_BUST}`,
+    alt: "Imam Mohammad Ibn Saud Islamic University",
+  },
+  { abbr: "PSAU", src: `/universities/psau.png?${CACHE_BUST}`, alt: "Prince Sattam University" },
+  { abbr: "SEU", src: `/universities/seu.png?${CACHE_BUST}`, alt: "Saudi Electronic University" },
 ];
 
 export function Universities() {
   const { t } = useLanguage();
 
   return (
-    <section id="universities" className="relative overflow-hidden py-20 sm:py-28">
+    <section id="venue" className="relative overflow-hidden py-20 sm:py-28">
       <SectionSpray
         tone="sky"
         className="-left-[12%] top-[4%] h-72 w-80 lg:h-96 lg:w-[28rem]"
@@ -44,108 +41,70 @@ export function Universities() {
         className="-right-[12%] top-[38%] h-72 w-80 lg:h-96 lg:w-[28rem]"
       />
 
-      <DecorativeSwirl
-        src="/decor/swirl-universities.png"
-        left={-23}
-        top={-48}
-        width={409}
-        height={394}
-        opacity={0.7}
-        rotate={141}
-      />
-      <DecorativeSwirl
-        src="/decor/swirl-universities.png"
-        left={1074}
-        top={-187}
-        width={413}
-        height={409}
-        opacity={0.7}
-        rotate={52}
-      />
-
       <div className="section-container relative z-10">
         <Reveal>
           <SectionHeading
-            badge={t.universities.badge}
             title={t.universities.title}
             subtitle={t.universities.subtitle}
           />
         </Reveal>
 
-        <RevealGroup
-          className="mt-16 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4"
-          stagger={0.06}
-        >
-          {t.universities.list.map((uni, index) => (
-            <RevealItem
-              // uni.abbr alone is stable across locales (uni.name is
-              // translated text and used to change on language switch,
-              // forcing an unnecessary remount of every card).
-              key={uni.abbr}
-              whileHover={{ y: -4, scale: 1.02 }}
-              transition={{ type: "spring", stiffness: 320, damping: 22 }}
-              className={`glass-card relative flex flex-col items-center justify-center p-6 text-center ${
-                uni.featured
-                  ? "host-card-glow ring-1 ring-teal/40 sm:col-span-2 sm:p-8 lg:col-span-1"
-                  : ""
-              }`}
+        <Reveal>
+          <div className="landing-glass relative mx-auto mt-14 min-h-[18rem] max-w-6xl overflow-hidden rounded-3xl px-6 py-10 sm:min-h-[22rem] sm:px-10 sm:py-12 lg:min-h-[24rem] lg:px-14 lg:py-14">
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,var(--color-violet),var(--color-blue),var(--color-cyan),transparent)] opacity-70"
+            />
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -left-16 -top-20 h-56 w-56 rounded-full bg-violet/35 blur-3xl"
+            />
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -right-14 top-1/3 h-52 w-52 rounded-full bg-blue/30 blur-3xl"
+            />
+            <div
+              aria-hidden
+              className="pointer-events-none absolute bottom-[-20%] left-1/3 h-48 w-64 rounded-full bg-indigo/25 blur-3xl"
+            />
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(112,0,255,0.14),transparent_55%),radial-gradient(ellipse_at_bottom_right,rgba(0,123,255,0.16),transparent_50%)]"
+            />
+
+            <RevealGroup
+              className="relative z-10 flex h-full min-h-[inherit] flex-col items-center justify-center gap-10 sm:gap-12 lg:gap-14"
+              stagger={0.05}
             >
-              {/* Host ribbon — pinned to the card itself, not stacked in
-                  the centered content flow, so it can't push Al Yamamah's
-                  logo/name out of alignment with everyone else's. */}
-              {uni.featured && (
-                <span className="absolute top-4 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-teal px-2.5 py-[3px] text-[9px] font-bold leading-none tracking-wide text-navy-dark shadow-md shadow-teal/30">
-                  {t.universities.hostBadge}
-                </span>
+              {[universityLogos.slice(0, 5), universityLogos.slice(5, 10)].map(
+                (row, rowIndex) => (
+                  <div
+                    key={rowIndex}
+                    className="flex w-full flex-wrap items-center justify-center gap-x-8 gap-y-8 sm:gap-x-10 lg:gap-x-12"
+                  >
+                    {row.map((logo) => (
+                      <RevealItem
+                        key={logo.abbr}
+                        className="flex h-20 w-32 items-center justify-center sm:h-24 sm:w-36 lg:h-28 lg:w-40"
+                      >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={logo.src}
+                          alt={logo.alt}
+                          className={
+                            logo.abbr === "YU"
+                              ? "h-full w-full max-h-full scale-[1.25] object-contain"
+                              : "h-full w-full max-h-full object-contain"
+                          }
+                        />
+                      </RevealItem>
+                    ))}
+                  </div>
+                )
               )}
-              {uni.featured ? (
-                <div className="mb-4 flex h-16 w-full items-center justify-center px-2">
-                  <Image
-                    src="/alyamamah-logo-white.png"
-                    alt={uni.name}
-                    width={200}
-                    height={48}
-                    className="h-11 w-auto"
-                  />
-                </div>
-              ) : universityLogos[uni.abbr] ? (
-                <div className="mb-4 flex h-16 w-full items-center justify-center rounded-xl bg-white/95 px-3 py-2 shadow-[0_6px_20px_rgba(0,0,0,0.25)]">
-                  <Image
-                    src={universityLogos[uni.abbr]}
-                    alt={uni.name}
-                    width={240}
-                    height={160}
-                    className="h-12 w-auto max-w-full object-contain"
-                  />
-                </div>
-              ) : (
-                <div
-                  className={`mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br text-base font-black tracking-tight text-white shadow-lg shadow-navy/15 ring-1 ring-white/20 ${monogramPalettes[index % monogramPalettes.length]}`}
-                >
-                  {uni.abbr}
-                </div>
-              )}
-              {!uni.featured && !universityLogos[uni.abbr] && (
-                <GraduationCap size={20} className="mb-2 text-white/35" />
-              )}
-              {/* Fixed-height slot, vertically centered — keeps every
-                  university's name anchored to the same baseline whether
-                  it's "Prince Sattam University" (one line) or "Imam Mohammad
-                  Ibn Saud Islamic University" (wraps), instead of shorter names
-                  floating higher than their neighbors in the row. */}
-              <div className="flex min-h-[2.75rem] w-full flex-col items-center justify-center sm:min-h-[3.25rem]">
-                <h3 className="text-sm font-bold leading-tight text-white sm:text-base">
-                  {uni.name}
-                </h3>
-                {uni.subtitle ? (
-                  <p className="mt-1 text-xs font-semibold tracking-wide text-white/50">
-                    {uni.subtitle}
-                  </p>
-                ) : null}
-              </div>
-            </RevealItem>
-          ))}
-        </RevealGroup>
+            </RevealGroup>
+          </div>
+        </Reveal>
       </div>
     </section>
   );

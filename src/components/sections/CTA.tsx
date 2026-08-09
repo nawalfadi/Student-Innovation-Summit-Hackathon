@@ -14,7 +14,7 @@ export function CTA() {
   const CtaIcon = locale === "ar" ? ArrowLeft : ArrowRight;
 
   return (
-    <section className="relative overflow-hidden py-16 sm:py-24">
+    <section id="contact" className="relative overflow-hidden py-16 sm:py-24">
       <SectionSpray
         tone="sky"
         className="-left-[12%] top-[0%] h-64 w-80 lg:h-80 lg:w-96"

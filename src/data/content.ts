@@ -2,7 +2,10 @@
 export const siteConstants = {
   locationUrl: "https://maps.app.goo.gl/bptKJKxiwc2ttjH29?g_st=ic",
   email: "darsa@yu.edu.sa",
-  phone: "+966 11 000 0000",
+  phones: [
+    { display: "920003998", href: "tel:920003998" },
+    { display: "+966 11 224 2222", href: "tel:+966112242222" },
+  ],
   /** Replace with the real WhatsApp Community invite link before launch. */
   whatsappCommunityUrl: "https://chat.whatsapp.com/REPLACE_WITH_INVITE",
   social: {

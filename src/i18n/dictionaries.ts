@@ -30,17 +30,40 @@ export type Dictionary = {
     language: string;
     langAr: string;
     langEn: string;
+    themeLight: string;
+    themeDark: string;
   };
   hero: {
-    tagline: string;
+    label: string;
+    title: string;
+    titleEn: string;
+    hackathonTag: string;
+    description: string;
+    descriptionAccent: string;
+    exploreChallenges: string;
+    discoverMore: string;
     logoAlt: string;
+    tagline: string;
     statusBadge: string;
+    countdownTitle: string;
+    countdownDays: string;
+    countdownHours: string;
+    countdownMinutes: string;
+    countdownSeconds: string;
     countdownPrefix: string;
     countdownSuffix: string;
     countdownSuffixOne: string;
     countdownUntil: string;
     countdownNow: string;
     countdownLive: string;
+  };
+  features: {
+    items: {
+      id: string;
+      title: string;
+      description: string;
+      icon: "innovation" | "collaboration" | "empowerment" | "future";
+    }[];
   };
   about: {
     badge: string;
@@ -152,6 +175,9 @@ export type Dictionary = {
     team: string;
     teammates: string;
     teammatesHint: string;
+    teammatesHintShowcase: string;
+    isTeam: string;
+    isTeamHint: string;
     addTeammate: string;
     removeTeammate: string;
     teammatesMaxReached: string;
@@ -234,7 +260,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     },
     site: {
       title: "هاكاثون قمة الابتكار الطلابي 2026",
-      dates: "10 – 12 / 9 / 2026",
+      dates: "8 – 10 / 10 / 2026",
       datesLabel: "تاريخ الحدث",
       location: "جامعة اليمامة — المبنى الرئيسي — الرياض",
       locationLabel: "مكان الحدث",
@@ -242,27 +268,46 @@ export const dictionaries: Record<Locale, Dictionary> = {
       vision2030: "رؤية السعودية 2030",
     },
     nav: [
+      { href: "#home", label: "الرئيسية" },
       { href: "#about", label: "عن الهاكاثون" },
-      { href: "#tracks", label: "المسارات" },
-      { href: "#timeline", label: "تاريخ الحدث" },
-      { href: "#universities", label: "الجامعات" },
+      { href: "#tracks", label: "التحديات" },
+      { href: "#prizes", label: "الجوائز" },
+      { href: "#timeline", label: "الجدول الزمني" },
+      { href: "#venue", label: "المكان" },
+      { href: "#partners", label: "الشركاء" },
+      { href: "#contact", label: "تواصل معنا" },
     ],
     common: {
       registerNow: "سجّل الآن",
-      exploreTracks: "استكشف المسارات",
+      exploreTracks: "استكشاف التحديات",
       menu: "القائمة",
       close: "إغلاق",
       cancel: "إلغاء",
       submit: "إرسال التسجيل",
       submitting: "جاري الإرسال...",
       language: "English",
-      langAr: "ع",
+      langAr: "AR",
       langEn: "EN",
+      themeLight: "الوضع الفاتح",
+      themeDark: "الوضع الداكن",
     },
     hero: {
-      tagline: "ابتكر حلول الغد — تمكين بلا حدود لجيل الابتكار",
+      label: "هاكاثون",
+      title: "قمة الابتكار الطلابي",
+      titleEn: "STUDENT INNOVATION SUMMIT",
+      hackathonTag: "HACKATHON",
+      description: "ابتكر اليوم .. لتقود الغد",
+      descriptionAccent: "",
+      exploreChallenges: "استكشاف التحديات",
+      discoverMore: "اكتشف المزيد",
+      tagline: "ابتكر اليوم .. لتقود الغد",
       logoAlt: "هاكاثون قمة الابتكار الطلابي 2026",
       statusBadge: "التسجيل مفتوح",
+      countdownTitle: "الهاكاثون يبدأ خلال",
+      countdownDays: "يوم",
+      countdownHours: "ساعة",
+      countdownMinutes: "دقيقة",
+      countdownSeconds: "ثانية",
       countdownPrefix: "الانطلاق خلال",
       countdownSuffix: "يوم",
       countdownSuffixOne: "يوم",
@@ -270,15 +315,44 @@ export const dictionaries: Record<Locale, Dictionary> = {
       countdownNow: "الآن",
       countdownLive: "الحدث منطلق الآن",
     },
+    features: {
+      /* RTL: first item appears on the right → ابتكار · تعاون · تمكين · مستقبل */
+      items: [
+        {
+          id: "innovation",
+          title: "ابتكار",
+          description: "حوّل أفكارك إلى حلول تقنية مبتكرة",
+          icon: "innovation",
+        },
+        {
+          id: "collaboration",
+          title: "تعاون",
+          description: "اعمل مع فريقك وشارك مع أفضل العقول",
+          icon: "collaboration",
+        },
+        {
+          id: "empowerment",
+          title: "تمكين",
+          description: "اكتسب مهارات جديدة وطوّر من قدراتك",
+          icon: "empowerment",
+        },
+        {
+          id: "future",
+          title: "مستقبل",
+          description: "صمم اليوم ما سيغيّر مستقبل الغد",
+          icon: "future",
+        },
+      ],
+    },
     about: {
       badge: "عن الهاكاثون",
       title: "مبادرة تقنية لإطلاق الطاقات الطلابية",
       subtitle:
-        "هاكاثون قمة الابتكار الطلابي مبادرة تقنية وإبداعية رائدة تمكّن طلبة الجامعات من بناء حلول برمجية وتطبيقات ذكية تعالج تحديات حقيقية داخل الحرم الجامعي — مع معرض لمشاريع الخريجين على هامش القمة.",
+        "هاكاثون قمة الابتكار الطلابي مبادرة تقنية وإبداعية رائدة تمكّن طلبة الجامعات من بناء حلول برمجية وتطبيقات ذكية تعالج تحديات حقيقية داخل الحرم الجامعي مع معرض لمشاريع الخريجين على هامش القمة.",
       missionBadge: "الرؤية",
       missionTitle: "تمكين بلا حدود لجيل الابتكار",
       missionBody:
-        "نسعى إلى كسر الحواجز بين التعليم الأكاديمي وسوق العمل، وتمكين الطلاب ليكونوا قادة جاهزين للمستقبل ورواداً في التحول الرقمي — استثماراً مباشراً في مستهدفات رؤية المملكة 2030 عبر تنمية القدرات البشرية وتعزيز الابتكار والتعاون والأثر.",
+        "نسعى إلى كسر الحواجز بين التعليم الأكاديمي وسوق العمل، وتمكين الطلاب ليكونوا قادة جاهزين للمستقبل ورواداً في التحول الرقمي، استثماراً مباشراً في مستهدفات رؤية المملكة 2030 عبر تنمية القدرات البشرية وتعزيز الابتكار والتعاون والأثر.",
       goalTitle: "الهدف الاستراتيجي",
       goalBody:
         "إتاحة الفرصة للمطورين والمصممين والمبتكرين لتطبيق مهاراتهم في مشاريع عملية ذات أثر ملموس، وتطوير منتجات ونماذج أولية قابلة للتطبيق لرفع كفاءة العمليات الأكاديمية والإدارية داخل الجامعة.",
@@ -304,10 +378,10 @@ export const dictionaries: Record<Locale, Dictionary> = {
       },
     ],
     tracks: {
-      badge: "المسارات",
+      badge: "التحديات",
       title: "ثلاثة مسارات استراتيجية لخدمة المنظومة الجامعية",
       subtitle:
-        "كل مشروع يُطوَّر خلال الأيام الثلاثة يستهدف تحسين تجربة الطالب في أحد هذه المسارات — يقوده قائد الفريق ويضم حتى 4 زملاء.",
+        "كل مشروع يُطوَّر خلال الأيام الثلاثة يستهدف تحسين تجربة الطالب في أحد هذه المسارات يقوده قائد الفريق ويضم حتى 4 زملاء.",
       items: [
         {
           id: "academic",
@@ -354,11 +428,11 @@ export const dictionaries: Record<Locale, Dictionary> = {
       badge: "الجدول الزمني",
       title: "ثلاثة أيام من الابتكار والتطوير",
       subtitle:
-        "من 10 إلى 12 سبتمبر 2026 في جامعة اليمامة: افتتاح وإطلاق التحديات، جلسات إرشاد وتطوير، ثم العروض الختامية ومعرض مشاريع الخريجين.",
+        "من 8 إلى 10 أكتوبر 2026 في جامعة اليمامة: افتتاح وإطلاق التحديات، جلسات إرشاد وتطوير، ثم العروض الختامية ومعرض مشاريع الخريجين.",
       days: [
         {
           day: "اليوم الأول",
-          date: "10 / 9 / 2026",
+          date: "8 / 10 / 2026",
           title: "الافتتاح الرسمي وانطلاق التطوير",
           items: [
             "الافتتاح الرسمي وإطلاق التحديات والمسارات",
@@ -368,7 +442,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
         },
         {
           day: "اليوم الثاني",
-          date: "11 / 9 / 2026",
+          date: "9 / 10 / 2026",
           title: "التعلّم والإرشاد والتطوير",
           items: [
             "جلسات تعليمية وحوارية مع الخبراء",
@@ -378,7 +452,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
         },
         {
           day: "اليوم الثالث",
-          date: "12 / 9 / 2026",
+          date: "10 / 10 / 2026",
           title: "العروض الختامية ومعرض الخريجين",
           items: [
             "العروض الختامية أمام لجنة التحكيم",
@@ -392,7 +466,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       badge: "الجامعات المستهدفة",
       title: "نخبة من الجامعات السعودية",
       subtitle:
-        "نرحب بطلاب وطالبات الجامعات المشاركة في هذا الحدث الوطني للابتكار — 10 إلى 12 سبتمبر 2026 في جامعة اليمامة.",
+        "نرحب بطلاب وطالبات الجامعات المشاركة في هذا الحدث الوطني للابتكار 8 إلى 10 أكتوبر 2026 في جامعة اليمامة.",
       hostBadge: "الجامعة المضيفة",
       list: [
         {
@@ -413,7 +487,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     },
     cta: {
       title: "جاهز للتحدي؟",
-      body: "انضم إلى هاكاثون قمة الابتكار الطلابي 10–12 سبتمبر 2026 في جامعة اليمامة. سجّل مع فريقك، أو اعرض مشروع تخرجك في المعرض. المقاعد محدودة!",
+      body: "انضم إلى هاكاثون قمة الابتكار الطلابي 8–10 أكتوبر 2026 في جامعة اليمامة. سجّل مع فريقك، أو اعرض مشروع تخرجك في المعرض. المقاعد محدودة!",
     },
     registerPage: {
       title: "اختر نوع المشاركة",
@@ -426,13 +500,14 @@ export const dictionaries: Record<Locale, Dictionary> = {
         "قائد الفريق يسجّل نفسه ويضيف حتى 4 زملاء",
         "التخصص والسنة الدراسية",
         "اختيار مسار الهاكاثون ووصف الفكرة",
+        "رفع ملف المشروع",
         "المشاركة في أيام الهاكاثون والتحكيم",
       ],
       exhibitTitle: "معرض مشاريع التخرج",
       exhibitHint:
         "لست مشاركاً في الهاكاثون؟ سجّل لعرض مشروع تخرجك أو مشروعك أمام الزوار.",
       exhibitPoints: [
-        "تسجيل فردي — بدون بيانات فريق",
+        "تسجيل فردي أو كفريق — يمكنك إضافة الأعضاء",
         "التخصص وسنة التخرج",
         "رفع ملف المشروع ووصفه",
         "عرض المشروع في المعرض خلال القمة",
@@ -535,6 +610,10 @@ export const dictionaries: Record<Locale, Dictionary> = {
       teammates: "أعضاء الفريق",
       teammatesHint:
         "أنت القائد (العضو الأول). أدخل الزميل الأول، ثم أضف المزيد حتى 4 زملاء.",
+      teammatesHintShowcase:
+        "أضف أعضاء فريق المشروع (من 1 إلى 4) مع بريد كل عضو.",
+      isTeam: "هل تسجّل كفريق؟",
+      isTeamHint: "فعّل الخيار إن كان مشروع التخرج بفريق — ثم أضف الأعضاء.",
       addTeammate: "إضافة زميل",
       removeTeammate: "إزالة",
       teammatesMaxReached: "وصلت للحد الأقصى: 4 زملاء (فريق من 5 مع القائد)",
@@ -646,7 +725,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     },
     site: {
       title: "Student Innovation Summit Hackathon 2026",
-      dates: "10 – 12 / 9 / 2026",
+      dates: "8 – 10 / 10 / 2026",
       datesLabel: "Event Date",
       location: "Al Yamamah University — Main Building — Riyadh",
       locationLabel: "Venue",
@@ -654,27 +733,46 @@ export const dictionaries: Record<Locale, Dictionary> = {
       vision2030: "Saudi Vision 2030",
     },
     nav: [
+      { href: "#home", label: "Home" },
       { href: "#about", label: "About" },
-      { href: "#tracks", label: "Tracks" },
-      { href: "#timeline", label: "Schedule" },
-      { href: "#universities", label: "Universities" },
+      { href: "#tracks", label: "Challenges" },
+      { href: "#prizes", label: "Prizes" },
+      { href: "#timeline", label: "Timeline" },
+      { href: "#venue", label: "Venue" },
+      { href: "#partners", label: "Partners" },
+      { href: "#contact", label: "Contact" },
     ],
     common: {
       registerNow: "Register Now",
-      exploreTracks: "Explore Tracks",
+      exploreTracks: "Explore Challenges",
       menu: "Menu",
       close: "Close",
       cancel: "Cancel",
       submit: "Submit Registration",
       submitting: "Submitting...",
       language: "العربية",
-      langAr: "ع",
+      langAr: "AR",
       langEn: "EN",
+      themeLight: "Light mode",
+      themeDark: "Dark mode",
     },
     hero: {
-      tagline: "Innovate tomorrow’s solutions — boundless empowerment for the innovation generation",
+      label: "HACKATHON",
+      title: "Student Innovation Summit",
+      titleEn: "STUDENT INNOVATION SUMMIT",
+      hackathonTag: "HACKATHON",
+      description: "Innovate Today... to Lead Tomorrow",
+      descriptionAccent: "",
+      exploreChallenges: "Explore Challenges",
+      discoverMore: "Discover more",
+      tagline: "Innovate Today... to Lead Tomorrow",
       logoAlt: "Student Innovation Summit Hackathon 2026",
       statusBadge: "Registration open",
+      countdownTitle: "Hackathon starts in",
+      countdownDays: "Days",
+      countdownHours: "Hours",
+      countdownMinutes: "Minutes",
+      countdownSeconds: "Seconds",
       countdownPrefix: "Starts in",
       countdownSuffix: "days",
       countdownSuffixOne: "day",
@@ -682,18 +780,46 @@ export const dictionaries: Record<Locale, Dictionary> = {
       countdownNow: "Now",
       countdownLive: "The event is live",
     },
+    features: {
+      items: [
+        {
+          id: "innovation",
+          title: "Innovation",
+          description: "Turn your ideas into innovative tech solutions",
+          icon: "innovation",
+        },
+        {
+          id: "collaboration",
+          title: "Collaboration",
+          description: "Work with your team and share with the best minds",
+          icon: "collaboration",
+        },
+        {
+          id: "empowerment",
+          title: "Empowerment",
+          description: "Gain new skills and grow your capabilities",
+          icon: "empowerment",
+        },
+        {
+          id: "future",
+          title: "Future",
+          description: "Design today what will change tomorrow",
+          icon: "future",
+        },
+      ],
+    },
     about: {
       badge: "About the Hackathon",
       title: "A technical initiative to unlock student potential",
       subtitle:
-        "Student Innovation Summit Hackathon is a leading technical and creative initiative that empowers university students to build smart software solutions for real challenges on campus — alongside a graduates project exhibition during the summit.",
+        "Student Innovation Summit Hackathon is a leading technical and creative initiative that empowers university students to build smart software solutions for real challenges on campus alongside a graduates project exhibition during the summit.",
       missionBadge: "Vision",
       missionTitle: "Boundless empowerment for the innovation generation",
       missionBody:
-        "We aim to break traditional barriers between academic education and the job market, and empower students to become future-ready leaders and pioneers of digital transformation — a direct investment in Saudi Vision 2030 through human-capital development, innovation, collaboration, and impact.",
+        "We aim to break traditional barriers between academic education and the job market, and empower students to become future-ready leaders and pioneers of digital transformation, a direct investment in Saudi Vision 2030 through human-capital development, innovation, collaboration, and impact.",
       goalTitle: "Strategic goal",
       goalBody:
-        "Give developers, designers, and innovators the chance to apply their skills in practical, high-impact projects — and build products and prototypes that raise academic and administrative efficiency across the university.",
+        "Give developers, designers, and innovators the chance to apply their skills in practical, high impact projects and build products and prototypes that raise academic and administrative efficiency across the university.",
     },
     journey: [
       {
@@ -706,7 +832,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
         step: "02",
         title: "Collaboration & empowerment",
         description:
-          "Cross-disciplinary teams work with expert mentors to ship usable prototypes.",
+          "Cross disciplinary teams work with expert mentors to ship usable prototypes.",
       },
       {
         step: "03",
@@ -719,7 +845,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       badge: "Tracks",
       title: "Three strategic tracks serving the university ecosystem",
       subtitle:
-        "Every project built over the three days targets improving the student experience in one of these tracks — led by a team leader with up to 4 teammates.",
+        "Every project built over the three days targets improving the student experience in one of these tracks led by a team leader with up to 4 teammates.",
       items: [
         {
           id: "academic",
@@ -766,11 +892,11 @@ export const dictionaries: Record<Locale, Dictionary> = {
       badge: "Timeline",
       title: "Three days of innovation and building",
       subtitle:
-        "September 10–12, 2026 at Al Yamamah University: opening and challenge launch, mentoring and development, then final pitches and the graduates exhibition.",
+        "October 8–10, 2026 at Al Yamamah University: opening and challenge launch, mentoring and development, then final pitches and the graduates exhibition.",
       days: [
         {
           day: "Day 1",
-          date: "10 / 9 / 2026",
+          date: "8 / 10 / 2026",
           title: "Official opening & development kickoff",
           items: [
             "Official opening and challenge/track launch",
@@ -780,7 +906,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
         },
         {
           day: "Day 2",
-          date: "11 / 9 / 2026",
+          date: "9 / 10 / 2026",
           title: "Learning, mentorship & building",
           items: [
             "Educational and dialogue sessions with experts",
@@ -790,7 +916,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
         },
         {
           day: "Day 3",
-          date: "12 / 9 / 2026",
+          date: "10 / 10 / 2026",
           title: "Final pitches & graduates exhibition",
           items: [
             "Final pitches before the judging panel",
@@ -804,7 +930,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       badge: "Target Universities",
       title: "Leading Saudi universities",
       subtitle:
-        "We welcome students from participating universities to this national innovation event — September 10–12, 2026 at Al Yamamah University.",
+        "We welcome students from participating universities to this national innovation event October 8–10, 2026 at Al Yamamah University.",
       hostBadge: "Host University",
       list: [
         {
@@ -828,7 +954,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     },
     cta: {
       title: "Ready for the challenge?",
-      body: "Join the Student Innovation Summit Hackathon, September 10–12, 2026 at Al Yamamah University. Register with your team, or present your graduation project at the exhibit. Seats are limited!",
+      body: "Join the Student Innovation Summit Hackathon, October 8–10, 2026 at Al Yamamah University. Register with your team, or present your graduation project at the exhibit. Seats are limited!",
     },
     registerPage: {
       title: "Choose how to participate",
@@ -841,13 +967,14 @@ export const dictionaries: Record<Locale, Dictionary> = {
         "Team leader registers themselves and adds up to 4 teammates",
         "Major and year in university",
         "Choose a hackathon track and describe your idea",
+        "Upload project file",
         "Compete across hackathon days and judging",
       ],
       exhibitTitle: "Graduation Project Exhibit",
       exhibitHint:
         "Not joining the hackathon? Register to present your graduation project to visitors.",
       exhibitPoints: [
-        "Individual registration — no team details",
+        "Register individually or as a team — add members if needed",
         "Major and graduation year",
         "Upload and describe your project file",
         "Present at the exhibit during the summit",
@@ -951,6 +1078,11 @@ export const dictionaries: Record<Locale, Dictionary> = {
       teammates: "Teammates",
       teammatesHint:
         "You are the leader (member 1). Enter the first teammate, then add more up to 4.",
+      teammatesHintShowcase:
+        "Add project team members (1 to 4) with each member’s email.",
+      isTeam: "Are you registering as a team?",
+      isTeamHint:
+        "Turn this on if your graduation project is a team project — then add members.",
       addTeammate: "Add teammate",
       removeTeammate: "Remove",
       teammatesMaxReached: "Maximum reached: 4 teammates (team of 5 with the leader)",

@@ -5,8 +5,8 @@ import { motion } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
 import { cn } from "@/lib/utils";
 
-// Hackathon Day 1 — 10/09/2026, 09:00 Riyadh time (UTC+3).
-const EVENT_START = new Date("2026-09-10T09:00:00+03:00").getTime();
+// Hackathon Day 1 — 08/10/2026, 09:00 Riyadh time (UTC+3).
+const EVENT_START = new Date("2026-10-08T09:00:00+03:00").getTime();
 
 export function EventCountdown({
   className,
@@ -49,7 +49,11 @@ export function EventCountdown({
 
   return (
     <div
-      className={cn("mx-auto w-full max-w-sm text-center text-white", className)}
+      className={cn(
+        "mx-auto w-full max-w-sm text-center",
+        dark ? "text-white" : "text-fg",
+        className
+      )}
     >
       <p className="text-xs font-bold tracking-[0.2em] text-teal">
         {t.hero.statusBadge}
@@ -68,7 +72,7 @@ export function EventCountdown({
         <span
           className={cn(
             "mb-1.5 text-lg font-bold",
-            dark ? "text-white/65" : "text-white/55"
+            dark ? "text-white/65" : "text-fg/55"
           )}
         >
           {dayLabel}
@@ -78,7 +82,7 @@ export function EventCountdown({
       <p
         className={cn(
           "mt-1 text-sm font-semibold",
-          dark ? "text-white/50" : "text-white/45"
+          dark ? "text-white/50" : "text-fg/45"
         )}
       >
         {t.hero.countdownUntil}

@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState, type ReactNode } from "react";
 import { motion, type Variants, type HTMLMotionProps } from "framer-motion";
 
 /** Matches the site's existing `fade-up` cubic-bezier so scroll reveals feel
@@ -14,25 +15,34 @@ interface RevealProps extends HTMLMotionProps<"div"> {
   duration?: number;
 }
 
-/** Fades + slides a single element in as it enters the viewport. */
+/**
+ * Fades + slides in on scroll.
+ * Renders a plain div until after mount so SSR HTML matches the client's
+ * first paint (avoids hydration mismatches from motion initial styles).
+ */
 export function Reveal({
   delay = 0,
-  y = 20,
-  amount = 0.15,
+  y = 14,
+  amount = 0.12,
   once = true,
-  duration = 0.45,
+  duration = 0.35,
   className,
   children,
-  ...props
 }: RevealProps) {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  if (!mounted) {
+    return <div className={className}>{children as ReactNode}</div>;
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once, amount, margin: "0px 0px -40px 0px" }}
+      viewport={{ once, amount, margin: "0px 0px -24px 0px" }}
       transition={{ duration, delay, ease: EASE_OUT }}
       className={className}
-      {...props}
     >
       {children}
     </motion.div>
@@ -48,13 +58,19 @@ interface RevealGroupProps extends HTMLMotionProps<"div"> {
 /** Stagger container — pair with <RevealItem> children for a cascading
  *  card-by-card reveal (tracks grid, timeline days, university list...). */
 export function RevealGroup({
-  amount = 0.15,
+  amount = 0.12,
   once = true,
-  stagger = 0.1,
+  stagger = 0.06,
   className,
   children,
-  ...props
 }: RevealGroupProps) {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  if (!mounted) {
+    return <div className={className}>{children as ReactNode}</div>;
+  }
+
   return (
     <motion.div
       initial="hidden"
@@ -63,11 +79,10 @@ export function RevealGroup({
       variants={{
         hidden: {},
         show: {
-          transition: { staggerChildren: stagger, delayChildren: 0.04 },
+          transition: { staggerChildren: stagger, delayChildren: 0.02 },
         },
       }}
       className={className}
-      {...props}
     >
       {children}
     </motion.div>
@@ -75,11 +90,11 @@ export function RevealGroup({
 }
 
 const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 18 },
+  hidden: { opacity: 0, y: 12 },
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.4, ease: EASE_OUT },
+    transition: { duration: 0.32, ease: EASE_OUT },
   },
 };
 
@@ -89,6 +104,13 @@ export function RevealItem({
   children,
   ...props
 }: HTMLMotionProps<"div">) {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  if (!mounted) {
+    return <div className={className}>{children as ReactNode}</div>;
+  }
+
   return (
     <motion.div variants={itemVariants} className={className} {...props}>
       {children}

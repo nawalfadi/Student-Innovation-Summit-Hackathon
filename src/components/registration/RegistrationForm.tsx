@@ -37,6 +37,7 @@ const MAX_TEAMMATES = 4;
 function createInitialForm(
   participationType: ParticipationType
 ): RegistrationPayload {
+  const isShowcase = participationType === "showcase";
   return {
     fullName: "",
     universityId: "",
@@ -44,10 +45,13 @@ function createInitialForm(
     email: "",
     phone: "",
     participationType,
-    track: participationType === "hackathon" ? "academic" : undefined,
+    track: isShowcase ? undefined : "academic",
     teamName: "",
-    memberCount: MIN_TEAMMATES + 1,
-    members: Array.from({ length: MIN_TEAMMATES }, () => emptyMember()),
+    memberCount: isShowcase ? 1 : MIN_TEAMMATES + 1,
+    members: isShowcase
+      ? []
+      : Array.from({ length: MIN_TEAMMATES }, () => emptyMember()),
+    isTeam: false,
     projectIdea: "",
     major: "",
     universityYear: "",
@@ -57,12 +61,10 @@ function createInitialForm(
 
 interface RegistrationFormProps {
   participationType: ParticipationType;
-  onBack: () => void;
 }
 
 export function RegistrationForm({
   participationType,
-  onBack,
 }: RegistrationFormProps) {
   const { t, locale } = useLanguage();
   const isShowcase = participationType === "showcase";
@@ -75,6 +77,9 @@ export function RegistrationForm({
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [serverMessage, setServerMessage] = useState("");
+
+  const showTeamSection = !isShowcase || Boolean(form.isTeam);
+  const minTeammates = MIN_TEAMMATES;
 
   const updateMember = (
     index: number,
@@ -93,9 +98,32 @@ export function RegistrationForm({
   };
 
   const removeTeammate = (index: number) => {
-    if (form.members.length <= MIN_TEAMMATES) return;
+    if (form.members.length <= minTeammates) return;
     const members = form.members.filter((_, i) => i !== index);
     setForm({ ...form, members, memberCount: members.length + 1 });
+  };
+
+  const setShowcaseIsTeam = (isTeam: boolean) => {
+    if (isTeam) {
+      const members =
+        form.members.length > 0
+          ? form.members
+          : Array.from({ length: MIN_TEAMMATES }, () => emptyMember());
+      setForm({
+        ...form,
+        isTeam: true,
+        members,
+        memberCount: members.length + 1,
+      });
+      return;
+    }
+    setForm({
+      ...form,
+      isTeam: false,
+      teamName: "",
+      members: [],
+      memberCount: 1,
+    });
   };
 
   function validateLocalFile(file: File | null): string | null {
@@ -133,7 +161,7 @@ export function RegistrationForm({
     setErrors({});
     setServerMessage("");
 
-    if (isShowcase) {
+    {
       const fileError = validateLocalFile(projectFile);
       if (fileError) {
         setErrors({ projectFile: fileError });
@@ -143,40 +171,50 @@ export function RegistrationForm({
     }
 
     try {
-      let response: Response;
-
-      if (isShowcase && projectFile) {
-        const fd = new FormData();
-        fd.append("fullName", form.fullName);
-        fd.append("universityId", form.universityId);
-        fd.append("universityName", form.universityName);
-        fd.append("email", form.email);
-        fd.append("phone", form.phone);
-        fd.append("participationType", "showcase");
-        fd.append("teamName", "");
-        fd.append("memberCount", "1");
-        fd.append("members", JSON.stringify([]));
-        fd.append("projectIdea", form.projectIdea);
-        fd.append("major", form.major ?? "");
-        fd.append("graduationYear", form.graduationYear ?? "");
-        fd.append("locale", locale);
-        fd.append("projectFile", projectFile);
-        response = await fetch("/api/register", {
-          method: "POST",
-          body: fd,
-        });
-      } else {
-        response = await fetch("/api/register", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            ...form,
-            participationType,
-            memberCount: form.members.length + 1,
-            locale,
-          }),
-        });
+      if (!projectFile) {
+        setErrors({ projectFile: t.validation.projectFile });
+        setSubmitting(false);
+        return;
       }
+
+      const fd = new FormData();
+      fd.append("fullName", form.fullName);
+      fd.append("universityId", isShowcase ? "" : form.universityId);
+      fd.append("universityName", form.universityName);
+      fd.append("email", form.email);
+      fd.append("phone", form.phone);
+      fd.append("participationType", participationType);
+      fd.append("projectIdea", form.projectIdea);
+      fd.append("major", form.major ?? "");
+      fd.append("locale", locale);
+      fd.append("projectFile", projectFile);
+
+      if (isShowcase) {
+        const asTeam = Boolean(form.isTeam);
+        fd.append("isTeam", asTeam ? "true" : "false");
+        fd.append("teamName", asTeam ? form.teamName : "");
+        fd.append(
+          "memberCount",
+          String(asTeam ? form.members.length + 1 : 1)
+        );
+        fd.append(
+          "members",
+          JSON.stringify(asTeam ? form.members : [])
+        );
+        fd.append("graduationYear", form.graduationYear ?? "");
+      } else {
+        fd.append("isTeam", "true");
+        fd.append("track", form.track ?? "academic");
+        fd.append("teamName", form.teamName);
+        fd.append("memberCount", String(form.members.length + 1));
+        fd.append("members", JSON.stringify(form.members));
+        fd.append("universityYear", form.universityYear ?? "");
+      }
+
+      const response = await fetch("/api/register", {
+        method: "POST",
+        body: fd,
+      });
 
       const result = await response.json();
 
@@ -199,10 +237,10 @@ export function RegistrationForm({
     return (
       <div className="px-1 py-10 text-center sm:px-4 sm:py-14">
         <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-cyan/15">
-          <CheckCircle2 size={40} className="text-white" />
+          <CheckCircle2 size={40} className="text-fg" />
         </div>
-        <h3 className="text-2xl font-bold text-white">{t.form.successTitle}</h3>
-        <p className="mx-auto mt-4 max-w-md leading-8 text-white/70">
+        <h3 className="text-2xl font-bold text-fg">{t.form.successTitle}</h3>
+        <p className="mx-auto mt-4 max-w-md leading-8 text-fg/70">
           {serverMessage}
         </p>
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
@@ -223,7 +261,7 @@ export function RegistrationForm({
       <section>
         <div className="mb-4 flex items-center gap-2">
           <UserPlus size={18} className="text-teal" />
-          <h3 className="font-bold text-white">
+          <h3 className="font-bold text-fg">
             {isShowcase ? t.form.personal : t.form.personalLeader}
           </h3>
         </div>
@@ -237,17 +275,19 @@ export function RegistrationForm({
             placeholder={t.form.placeholders.fullName}
             required
           />
-          <Input
-            label={t.form.universityId}
-            name="universityId"
-            value={form.universityId}
-            onChange={(e) =>
-              setForm({ ...form, universityId: e.target.value })
-            }
-            error={errors.universityId}
-            placeholder={t.form.placeholders.universityId}
-            required
-          />
+          {!isShowcase && (
+            <Input
+              label={t.form.universityId}
+              name="universityId"
+              value={form.universityId}
+              onChange={(e) =>
+                setForm({ ...form, universityId: e.target.value })
+              }
+              error={errors.universityId}
+              placeholder={t.form.placeholders.universityId}
+              required
+            />
+          )}
           <Select
             label={t.form.universityName}
             name="universityName"
@@ -347,13 +387,34 @@ export function RegistrationForm({
         </section>
       )}
 
-      {!isShowcase && (
+      {isShowcase && (
+        <section>
+          <label className="flex cursor-pointer items-start gap-3 rounded-2xl border border-fg/10 bg-[var(--input-bg)] px-4 py-4 transition-colors hover:border-cyan/35">
+            <input
+              type="checkbox"
+              checked={Boolean(form.isTeam)}
+              onChange={(e) => setShowcaseIsTeam(e.target.checked)}
+              className="mt-1 h-4 w-4 shrink-0 accent-cyan"
+            />
+            <span>
+              <span className="block text-sm font-bold text-fg">
+                {t.form.isTeam}
+              </span>
+              <span className="mt-1 block text-sm leading-6 text-fg/60">
+                {t.form.isTeamHint}
+              </span>
+            </span>
+          </label>
+        </section>
+      )}
+
+      {showTeamSection && (
         <section>
           <div className="mb-4 flex items-center gap-2">
             <Users size={18} className="text-teal" />
-            <h3 className="font-bold text-white">{t.form.teammates}</h3>
+            <h3 className="font-bold text-fg">{t.form.teammates}</h3>
           </div>
-          <p className="mb-4 text-sm leading-7 text-white/65">
+          <p className="mb-4 text-sm leading-7 text-fg/65">
             {t.form.teammatesHint}
           </p>
 
@@ -373,16 +434,16 @@ export function RegistrationForm({
             {form.members.map((member, index) => (
               <div
                 key={index}
-                className="rounded-2xl border border-white/8 bg-white/[0.04] p-4"
+                className="rounded-2xl border border-fg/8 bg-[var(--input-bg)] p-4"
               >
                 <div className="mb-3 flex items-center justify-between gap-3">
-                  <p className="text-sm font-semibold text-white">
+                  <p className="text-sm font-semibold text-fg">
                     {t.form.teammate} {index + 1}{" "}
-                    <span className="font-normal text-white/50">
+                    <span className="font-normal text-fg/50">
                       ({t.form.member} {index + 2})
                     </span>
                   </p>
-                  {form.members.length > MIN_TEAMMATES && (
+                  {form.members.length > minTeammates && (
                     <button
                       type="button"
                       onClick={() => removeTeammate(index)}
@@ -425,16 +486,16 @@ export function RegistrationForm({
               <button
                 type="button"
                 onClick={addTeammate}
-                className="flex w-full items-center justify-center gap-2 rounded-2xl border border-dashed border-white/20 bg-white/[0.03] px-4 py-3 text-sm font-bold text-white transition-colors hover:border-cyan/40 hover:bg-cyan/5"
+                className="flex w-full items-center justify-center gap-2 rounded-2xl border border-dashed border-fg/20 bg-[var(--input-bg)] px-4 py-3 text-sm font-bold text-fg transition-colors hover:border-cyan/40 hover:bg-cyan/5"
               >
                 <Plus size={16} className="text-teal" />
                 {t.form.addTeammate}
-                <span className="font-normal text-white/45">
+                <span className="font-normal text-fg/45">
                   ({form.members.length}/{MAX_TEAMMATES})
                 </span>
               </button>
             ) : (
-              <p className="rounded-2xl border border-cyan/25 bg-cyan/10 px-4 py-3 text-center text-sm text-white/70">
+              <p className="rounded-2xl border border-cyan/25 bg-cyan/10 px-4 py-3 text-center text-sm text-fg/70">
                 {t.form.teammatesMaxReached}
               </p>
             )}
@@ -467,73 +528,71 @@ export function RegistrationForm({
         />
       </section>
 
-      {isShowcase && (
-        <section>
-          <p className="mb-2 text-sm font-semibold text-white">
-            {t.form.projectFile}
-            <span className="ms-0.5 text-red-400" aria-hidden>
-              *
-            </span>
-          </p>
-          <p className="mb-3 text-sm text-white/60">{t.form.projectFileHint}</p>
-          <input
-            ref={fileInputRef}
-            type="file"
-            name="projectFile"
-            accept={EXHIBIT_FILE_ACCEPT}
-            className="sr-only"
-            onChange={(e) => onFileChange(e.target.files?.[0] ?? null)}
-          />
-          {projectFile ? (
-            <div
-              className={`flex items-center gap-3 rounded-2xl border px-4 py-3 ${
-                errors.projectFile
-                  ? "border-red-400 bg-red-500/10"
-                  : "border-cyan/30 bg-cyan/10"
-              }`}
-            >
-              <FileUp size={18} className="shrink-0 text-white" />
-              <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-semibold text-white">
-                  {projectFile.name}
-                </p>
-                <p className="text-xs text-white/55">
-                  {(projectFile.size / (1024 * 1024)).toFixed(2)} MB
-                </p>
-              </div>
-              <button
-                type="button"
-                onClick={() => {
-                  onFileChange(null);
-                  if (fileInputRef.current) fileInputRef.current.value = "";
-                }}
-                className="rounded-lg p-2 text-white/50 hover:bg-white/10 hover:text-white"
-                aria-label={t.common.cancel}
-              >
-                <X size={16} />
-              </button>
+      <section>
+        <p className="mb-2 text-sm font-semibold text-fg">
+          {t.form.projectFile}
+          <span className="ms-0.5 text-red-400" aria-hidden>
+            *
+          </span>
+        </p>
+        <p className="mb-3 text-sm text-fg/60">{t.form.projectFileHint}</p>
+        <input
+          ref={fileInputRef}
+          type="file"
+          name="projectFile"
+          accept={EXHIBIT_FILE_ACCEPT}
+          className="sr-only"
+          onChange={(e) => onFileChange(e.target.files?.[0] ?? null)}
+        />
+        {projectFile ? (
+          <div
+            className={`flex items-center gap-3 rounded-2xl border px-4 py-3 ${
+              errors.projectFile
+                ? "border-red-400 bg-red-500/10"
+                : "border-cyan/30 bg-cyan/10"
+            }`}
+          >
+            <FileUp size={18} className="shrink-0 text-fg" />
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-sm font-semibold text-fg">
+                {projectFile.name}
+              </p>
+              <p className="text-xs text-fg/55">
+                {(projectFile.size / (1024 * 1024)).toFixed(2)} MB
+              </p>
             </div>
-          ) : (
             <button
               type="button"
-              onClick={() => fileInputRef.current?.click()}
-              className={`flex w-full flex-col items-center justify-center gap-2 rounded-2xl border border-dashed px-4 py-8 transition-colors ${
-                errors.projectFile
-                  ? "border-red-400 bg-red-500/10"
-                  : "border-white/20 bg-white/[0.03] hover:border-cyan/40 hover:bg-cyan/5"
-              }`}
+              onClick={() => {
+                onFileChange(null);
+                if (fileInputRef.current) fileInputRef.current.value = "";
+              }}
+              className="rounded-lg p-2 text-fg/50 hover:bg-fg/10 hover:text-fg"
+              aria-label={t.common.cancel}
             >
-              <Upload size={22} className="text-teal" />
-              <span className="text-sm font-bold text-white">
-                {t.form.projectFile}
-              </span>
+              <X size={16} />
             </button>
-          )}
-          {errors.projectFile && (
-            <p className="mt-2 text-sm text-red-400">{errors.projectFile}</p>
-          )}
-        </section>
-      )}
+          </div>
+        ) : (
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            className={`flex w-full flex-col items-center justify-center gap-2 rounded-2xl border border-dashed px-4 py-8 transition-colors ${
+              errors.projectFile
+                ? "border-red-400 bg-red-500/10"
+                : "border-fg/20 bg-[var(--input-bg)] hover:border-cyan/40 hover:bg-cyan/5"
+            }`}
+          >
+            <Upload size={22} className="text-teal" />
+            <span className="text-sm font-bold text-fg">
+              {t.form.projectFile}
+            </span>
+          </button>
+        )}
+        {errors.projectFile && (
+          <p className="mt-2 text-sm text-red-400">{errors.projectFile}</p>
+        )}
+      </section>
 
       {serverMessage && (
         <div className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-300">
@@ -541,8 +600,8 @@ export function RegistrationForm({
         </div>
       )}
 
-      <div className="flex flex-col gap-3 border-t border-white/8 pt-4 sm:flex-row">
-        <Button type="submit" className="flex-1" disabled={submitting}>
+      <div className="border-t border-fg/8 pt-4">
+        <Button type="submit" className="w-full" disabled={submitting}>
           {submitting ? (
             <>
               <Loader2 size={18} className="animate-spin" />
@@ -551,14 +610,6 @@ export function RegistrationForm({
           ) : (
             t.common.submit
           )}
-        </Button>
-        <Button
-          type="button"
-          variant="ghost"
-          onClick={onBack}
-          disabled={submitting}
-        >
-          {t.registerPage.backToChoice}
         </Button>
       </div>
     </form>

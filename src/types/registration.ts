@@ -20,8 +20,10 @@ export interface RegistrationPayload {
   teamName: string;
   /** Total team size including the leader (2–5 = leader + 1–4 teammates). */
   memberCount: number;
-  /** Hackathon: teammates only (1–4); leader is in personal fields. */
+  /** Teammates only (1–4); leader is in personal fields. */
   members: TeamMember[];
+  /** Exhibit only — registering as a team (vs individual). */
+  isTeam?: boolean;
   projectIdea: string;
   /** Academic major (hackathon + exhibit). */
   major?: string;
@@ -29,7 +31,7 @@ export interface RegistrationPayload {
   universityYear?: string;
   /** Exhibit only — graduation year (e.g. "2025"). */
   graduationYear?: string;
-  /** Exhibit only — set after server upload. */
+  /** Set after server upload. */
   projectFileName?: string;
   projectFileUrl?: string;
   projectFilePath?: string;

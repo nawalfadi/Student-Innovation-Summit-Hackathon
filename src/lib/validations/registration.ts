@@ -17,6 +17,47 @@ export interface ValidationResult {
   >;
 }
 
+function validateMembers(
+  data: RegistrationPayload,
+  v: (typeof dictionaries)["ar"]["validation"],
+  errors: ValidationResult["errors"],
+  opts: { requireTeamName: boolean; minTeammates: number }
+) {
+  if (opts.requireTeamName && !data.teamName.trim()) {
+    errors.teamName = v.teamName;
+  }
+
+  const teammateCount = data.members.length;
+  const totalSize = teammateCount + 1;
+
+  if (
+    teammateCount < opts.minTeammates ||
+    teammateCount > 4 ||
+    data.memberCount !== totalSize
+  ) {
+    errors.memberCount = v.memberCount;
+  }
+
+  const filledMembers = data.members.filter(
+    (member) => member.name.trim() || member.email.trim()
+  );
+
+  if (filledMembers.length !== teammateCount) {
+    errors.members = v.members;
+  }
+
+  for (const member of filledMembers) {
+    if (!member.name.trim()) {
+      errors.members = v.membersNames;
+      break;
+    }
+    if (!emailRegex.test(member.email.trim())) {
+      errors.members = v.membersEmails;
+      break;
+    }
+  }
+}
+
 export function validateRegistration(
   data: RegistrationPayload,
   locale: Locale = "ar",
@@ -30,7 +71,8 @@ export function validateRegistration(
     errors.fullName = v.fullName;
   }
 
-  if (!data.universityId.trim()) {
+  // University ID is required for hackathon only (removed from exhibit form).
+  if (!isShowcase && !data.universityId.trim()) {
     errors.universityId = v.universityId;
   }
 
@@ -65,13 +107,29 @@ export function validateRegistration(
     ) {
       errors.universityYear = v.universityYear;
     }
+    validateMembers(data, v, errors, {
+      requireTeamName: true,
+      minTeammates: 1,
+    });
   }
 
   if (isShowcase) {
-    if (!data.graduationYear?.trim() || !yearRegex.test(data.graduationYear.trim())) {
+    if (
+      !data.graduationYear?.trim() ||
+      !yearRegex.test(data.graduationYear.trim())
+    ) {
       errors.graduationYear = v.graduationYear;
     }
 
+    if (data.isTeam) {
+      validateMembers(data, v, errors, {
+        requireTeamName: true,
+        minTeammates: 1,
+      });
+    }
+  }
+
+  {
     const file = options?.projectFile;
     const hasFile = options?.hasProjectFile ?? Boolean(file && file.size > 0);
     if (!hasFile) {
@@ -85,39 +143,6 @@ export function validateRegistration(
         if (!okExt) {
           errors.projectFile = v.projectFileType;
         }
-      }
-    }
-  }
-
-  if (!isShowcase) {
-    if (!data.teamName.trim()) {
-      errors.teamName = v.teamName;
-    }
-
-    // Leader + 1–4 teammates (total team size 2–5).
-    const teammateCount = data.members.length;
-    const totalSize = teammateCount + 1;
-
-    if (teammateCount < 1 || teammateCount > 4 || data.memberCount !== totalSize) {
-      errors.memberCount = v.memberCount;
-    }
-
-    const filledMembers = data.members.filter(
-      (member) => member.name.trim() || member.email.trim()
-    );
-
-    if (filledMembers.length !== teammateCount) {
-      errors.members = v.members;
-    }
-
-    for (const member of filledMembers) {
-      if (!member.name.trim()) {
-        errors.members = v.membersNames;
-        break;
-      }
-      if (!emailRegex.test(member.email.trim())) {
-        errors.members = v.membersEmails;
-        break;
       }
     }
   }

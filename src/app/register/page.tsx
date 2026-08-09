@@ -1,13 +1,13 @@
 import { AmbientBackground } from "@/components/brand/AmbientBackground";
-import { Header } from "@/components/layout/Header";
+import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { RegisterFlow } from "@/components/registration/RegisterFlow";
 
 export default function RegisterPage() {
   return (
-    <>
+    <div className="landing-page">
       <AmbientBackground />
-      <Header />
+      <Navbar />
       <main
         id="main-content"
         tabIndex={-1}
@@ -18,6 +18,6 @@ export default function RegisterPage() {
         </div>
       </main>
       <Footer />
-    </>
+    </div>
   );
 }

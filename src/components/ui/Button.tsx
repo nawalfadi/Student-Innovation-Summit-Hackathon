@@ -18,13 +18,14 @@ interface ButtonProps extends Omit<HTMLMotionProps<"button">, "children"> {
 const variants: Record<ButtonVariant, string> = {
   primary:
     "bg-[linear-gradient(120deg,var(--color-violet)_0%,var(--color-indigo)_35%,var(--color-blue)_70%,var(--color-cyan)_100%)] text-white shadow-[0_8px_28px_rgba(90,56,255,0.35)] hover:shadow-[0_14px_40px_rgba(0,212,255,0.4)] hover:brightness-[1.08]",
+  /* Intended for dark gradient panels (CTA) — always light type. */
   secondary:
     "border border-white/20 bg-white/[0.06] text-white backdrop-blur-sm hover:border-cyan/40 hover:bg-white/[0.1]",
   outline:
-    "border-2 border-white/15 bg-transparent text-white hover:border-white/35 hover:bg-white/5",
-  ghost: "text-white/80 hover:text-white hover:bg-white/5",
+    "border-2 border-fg/15 bg-transparent text-fg hover:border-fg/35 hover:bg-fg/5",
+  ghost: "text-fg/80 hover:text-fg hover:bg-fg/5",
   glass:
-    "border border-white/10 bg-white/[0.04] text-white backdrop-blur-xl hover:bg-white/[0.08] shadow-sm",
+    "border border-[color:var(--card-border)] bg-[var(--card-bg)] text-fg backdrop-blur-xl hover:bg-[var(--card-bg-hover)] shadow-sm",
 };
 
 const sizes: Record<ButtonSize, string> = {

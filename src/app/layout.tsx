@@ -1,9 +1,13 @@
 import type { Metadata, Viewport } from "next";
 import { Cairo, Montserrat } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { LanguageProvider } from "@/context/LanguageContext";
+import { ThemeProvider } from "@/context/ThemeContext";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { dictionaries } from "@/i18n/dictionaries";
+
+const themeBootScript = `(function(){try{var k='sis-theme';var t=localStorage.getItem(k);if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'}document.documentElement.setAttribute('data-theme',t);document.documentElement.style.colorScheme=t}catch(e){document.documentElement.setAttribute('data-theme','dark')}})();`;
 
 // Brand typography: Cairo (Arabic) + Montserrat (English), per identity board.
 const cairo = Cairo({
@@ -64,16 +68,24 @@ export default function RootLayout({
       lang="ar"
       dir="rtl"
       data-locale="ar"
+      data-theme="dark"
       suppressHydrationWarning
       className={`${cairo.variable} ${montserrat.variable}`}
     >
-      <body className="font-sans antialiased">
+      <body className={`${cairo.className} font-sans antialiased`}>
+        <Script
+          id="theme-boot"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{ __html: themeBootScript }}
+        />
         <a href="#main-content" className="skip-link">
           تخطَّ إلى المحتوى الرئيسي · Skip to main content
         </a>
-        <LanguageProvider>
-          <SmoothScroll>{children}</SmoothScroll>
-        </LanguageProvider>
+        <ThemeProvider>
+          <LanguageProvider>
+            <SmoothScroll>{children}</SmoothScroll>
+          </LanguageProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

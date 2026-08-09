@@ -5,8 +5,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
+import { useTheme } from "@/context/ThemeContext";
 import { Vision2030Mark } from "@/components/brand/Vision2030Mark";
 import { UniversityMark } from "@/components/brand/UniversityMark";
+import { ThemeToggle } from "@/components/brand/ThemeToggle";
 import { cn } from "@/lib/utils";
 
 function MagneticButton({
@@ -55,6 +57,8 @@ export function Header() {
   const pathname = usePathname();
   const isHome = pathname === "/";
   const { t, toggleLocale, locale } = useLanguage();
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
   const CtaIcon = locale === "ar" ? ArrowLeft : ArrowRight;
 
   useEffect(() => {
@@ -90,7 +94,7 @@ export function Header() {
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-all duration-300 ease-out",
         scrolled
-          ? "border-b border-white/8 bg-navy/75 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-xl backdrop-saturate-150"
+          ? "header-scrolled-surface"
           : "border-b border-transparent bg-transparent shadow-none backdrop-blur-0"
       )}
     >
@@ -105,8 +109,8 @@ export function Header() {
           className="section-container flex items-center justify-between gap-4 pt-3 sm:pt-4"
           dir="ltr"
         >
-          <Vision2030Mark compact variant="light" />
-          <UniversityMark onDark />
+          <Vision2030Mark compact variant={isDark ? "light" : "dark"} />
+          <UniversityMark onDark={isDark} />
         </div>
       </div>
 
@@ -128,11 +132,14 @@ export function Header() {
           )}
           dir="ltr"
         >
-          <UniversityMark onDark className="[&_img]:!h-7" />
-          <span className="hidden h-6 w-px bg-white/10 sm:block" aria-hidden />
+          <UniversityMark onDark={isDark} className="[&_img]:!h-7" />
+          <span
+            className="hidden h-6 w-px bg-fg/10 sm:block"
+            aria-hidden
+          />
           <Vision2030Mark
             compact
-            variant="light"
+            variant={isDark ? "light" : "dark"}
             className="hidden sm:block [&_img]:!h-8"
           />
         </div>
@@ -160,6 +167,7 @@ export function Header() {
         </div>
 
         <div className="flex shrink-0 items-center gap-2 sm:gap-2.5">
+          <ThemeToggle className={cn(scrolled && "scale-[0.95]")} />
           <button
             type="button"
             onClick={toggleLocale}

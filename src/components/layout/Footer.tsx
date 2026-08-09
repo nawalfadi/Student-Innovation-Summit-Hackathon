@@ -97,7 +97,6 @@ const socialLinks = [
 
 export function Footer() {
   const { t } = useLanguage();
-  const phoneHref = `tel:${siteConstants.phone.replace(/\s/g, "")}`;
 
   return (
     <footer className="relative overflow-hidden bg-navy-dark text-white">
@@ -152,16 +151,18 @@ export function Footer() {
                   <span dir="ltr">{siteConstants.email}</span>
                 </a>
               </li>
-              <li>
-                <a
-                  href={phoneHref}
-                  className="inline-flex items-center gap-2.5 transition-colors hover:text-teal"
-                  dir="ltr"
-                >
-                  <Phone size={16} className="shrink-0 text-cyan" />
-                  {siteConstants.phone}
-                </a>
-              </li>
+              {siteConstants.phones.map((phone) => (
+                <li key={phone.href}>
+                  <a
+                    href={phone.href}
+                    className="inline-flex items-center gap-2.5 transition-colors hover:text-teal"
+                    dir="ltr"
+                  >
+                    <Phone size={16} className="shrink-0 text-cyan" />
+                    {phone.display}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
 

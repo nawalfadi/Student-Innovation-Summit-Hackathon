@@ -19,24 +19,175 @@
   --color-cream: #f7f8fb;
   --color-cream-dark: #e7eaf2;
   --color-surface-muted: #1c2340;
+  /* Theme-aware foreground / page tokens */
+  --color-fg: var(--fg);
+  --color-page: var(--page-bg);
   /* Cairo (AR) + Montserrat (EN) via next/font */
   --font-sans: var(--font-cairo), "Segoe UI", Tahoma, sans-serif;
   --font-display: var(--font-montserrat), var(--font-cairo), sans-serif;
+  --font-ar: var(--font-cairo), "Segoe UI", Tahoma, sans-serif;
+  --font-en: var(--font-montserrat), var(--font-cairo), sans-serif;
+}
+
+/* ── Theme tokens (dark default = brand foundation) ── */
+:root,
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --page-bg: #0b0f1e;
+  --page-bg-mid: #0e1330;
+  --fg: #eef1f8;
+  --card-bg: rgba(255, 255, 255, 0.035);
+  --card-bg-hover: rgba(255, 255, 255, 0.05);
+  --card-border: rgba(255, 255, 255, 0.08);
+  --card-shadow: 0 8px 40px rgba(0, 0, 0, 0.35);
+  --card-shadow-hover: 0 16px 56px rgba(0, 0, 0, 0.45);
+  --header-scrolled: rgba(11, 15, 30, 0.78);
+  --header-scrolled-border: rgba(255, 255, 255, 0.08);
+  --input-bg: rgba(255, 255, 255, 0.04);
+  --input-border: rgba(255, 255, 255, 0.12);
+  --dot-grid: rgba(255, 255, 255, 0.055);
+  --ring-page: #0b0f1e;
+}
+
+html[data-theme="light"] {
+  color-scheme: light;
+  --page-bg: #f5f8fc;
+  --page-bg-mid: #e8eef6;
+  --fg: #0b1f44;
+  --card-bg: rgba(255, 255, 255, 0.88);
+  --card-bg-hover: #ffffff;
+  --card-border: rgba(11, 31, 68, 0.1);
+  --card-shadow: 0 8px 40px rgba(11, 31, 68, 0.07);
+  --card-shadow-hover: 0 16px 48px rgba(11, 31, 68, 0.12);
+  --header-scrolled: rgba(245, 248, 252, 0.86);
+  --header-scrolled-border: rgba(11, 31, 68, 0.08);
+  --input-bg: rgba(255, 255, 255, 0.95);
+  --input-border: rgba(11, 31, 68, 0.14);
+  --dot-grid: rgba(11, 31, 68, 0.07);
+  --ring-page: #f5f8fc;
 }
 
 html {
   scroll-behavior: auto;
+  /* Keep section titles clear of the fixed navbar on hash / native jumps */
+  scroll-padding-top: 5.5rem;
 }
 
 body {
-  background: var(--color-navy);
-  color: #eef1f8;
-  font-family: var(--font-sans);
-  overflow-x: hidden;
+  background: var(--page-bg);
+  color: var(--fg);
+  /* Arabic-first: Cairo for headings + UI by default */
+  font-family: var(--font-ar);
+  overflow-x: clip;
+  transition:
+    background-color 0.35s ease,
+    color 0.25s ease;
 }
 
+section[id] {
+  scroll-margin-top: 5.5rem;
+}
+
+/* Utility: force Cairo on Arabic headings / UI */
+.font-ar {
+  font-family: var(--font-ar) !important;
+}
+
+/* Utility: Montserrat for English secondary text, buttons, small UI */
+.font-en {
+  font-family: var(--font-en) !important;
+}
+
+/* Small English UI chrome (lang toggle, tags) */
+.font-en-ui {
+  font-family: var(--font-en) !important;
+  letter-spacing: 0.02em;
+}
+
+/* Landing mockup shell — deep navy, almost black */
+.landing-page {
+  --page-bg: #050510;
+  --page-bg-mid: #070818;
+  background: #050510;
+  color: #eef1f8;
+}
+
+/* Native <select> menus use a light OS popup — keep option text navy so it
+   doesn't inherit the landing page's light foreground (invisible on white). */
+.landing-page select option,
+.landing-page select optgroup {
+  color: #0b1f44;
+  background-color: #ffffff;
+}
+
+.landing-glass {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.035);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(14px);
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    background-color 0.3s ease;
+}
+
+.landing-glass:hover {
+  border-color: rgba(0, 212, 255, 0.28);
+  background: rgba(255, 255, 255, 0.055);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+}
+
+@keyframes hero-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+.hero-float {
+  animation: hero-float 7s ease-in-out infinite;
+}
+
+.hero-grid-floor {
+  background-image:
+    linear-gradient(
+      to right,
+      rgba(112, 0, 255, 0.28) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(0, 212, 255, 0.14) 1px,
+      transparent 1px
+    );
+  background-size: 48px 32px;
+  transform: perspective(480px) rotateX(60deg);
+  transform-origin: center bottom;
+  mask-image: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.8),
+    transparent 90%
+  );
+  opacity: 0.45;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-float {
+    animation: none !important;
+  }
+}
+
+/* English locale: Montserrat for UI; Arabic strings still use .font-ar */
 html[data-locale="en"] body {
-  font-family: var(--font-display);
+  font-family: var(--font-en);
+}
+
+html[data-locale="ar"] body {
+  font-family: var(--font-ar);
 }
 
 ::selection {
@@ -99,18 +250,26 @@ html.motion-paused .host-card-glow {
 }
 
 .section-title {
-  @apply text-3xl font-extrabold tracking-tight text-white sm:text-4xl lg:text-[2.75rem];
+  @apply text-3xl font-extrabold tracking-tight text-fg sm:text-4xl lg:text-[2.75rem];
 }
 
 .section-subtitle {
-  @apply mt-4 max-w-3xl text-base leading-8 text-white/65 sm:text-lg;
+  @apply mt-4 max-w-3xl text-base leading-8 text-fg/65 sm:text-lg;
 }
 
-/* Frosted dark-glass surface — the shared card language, restrained:
-   near-black surface, hairline border, gradient edge that only reveals
-   itself on hover so the gradient stays a "special" moment, not wallpaper. */
+/* Frosted glass surface — shared card language, theme-aware. */
 .glass-card {
-  @apply relative overflow-hidden rounded-3xl border border-white/8 bg-white/[0.035] shadow-[0_8px_40px_rgba(0,0,0,0.35)] backdrop-blur-md transition-[border-color,box-shadow,background-color] duration-300;
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.5rem;
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
+  backdrop-filter: blur(12px);
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    background-color 0.3s ease;
 }
 
 .glass-card::before {
@@ -140,7 +299,8 @@ html.motion-paused .host-card-glow {
 }
 
 .glass-card:hover {
-  @apply border-white/8 bg-white/[0.05] shadow-[0_16px_56px_rgba(0,0,0,0.45)];
+  background: var(--card-bg-hover);
+  box-shadow: var(--card-shadow-hover);
 }
 
 .glass-card:hover::before {
@@ -208,10 +368,19 @@ html.motion-paused .host-card-glow {
 .dot-grid {
   background-image: radial-gradient(
     circle,
-    rgba(255, 255, 255, 0.055) 1px,
+    var(--dot-grid) 1px,
     transparent 1px
   );
   background-size: 22px 22px;
+}
+
+.ambient-root {
+  background: linear-gradient(
+    180deg,
+    var(--page-bg) 0%,
+    var(--page-bg-mid) 42%,
+    var(--page-bg) 100%
+  );
 }
 
 /* Grain texture overlay */
@@ -499,7 +668,7 @@ html.motion-paused .host-card-glow {
   padding: 0.5rem 0.95rem;
   font-size: 0.875rem;
   font-weight: 700;
-  color: rgba(238, 241, 248, 0.6);
+  color: color-mix(in srgb, var(--fg) 60%, transparent);
   transition:
     color 0.3s ease,
     background 0.3s ease,
@@ -534,8 +703,8 @@ html.motion-paused .host-card-glow {
 }
 
 .header-nav-link:hover {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.06);
+  color: var(--fg);
+  background: color-mix(in srgb, var(--fg) 8%, transparent);
   transform: translateY(-1px);
 }
 
@@ -545,8 +714,8 @@ html.motion-paused .host-card-glow {
 }
 
 .header-nav-link.is-active {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.08);
+  color: var(--fg);
+  background: color-mix(in srgb, var(--fg) 10%, transparent);
 }
 
 .header-lang-toggle {
@@ -557,8 +726,8 @@ html.motion-paused .host-card-glow {
   width: 4.15rem;
   height: 1.85rem;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
   padding: 0.15rem;
   overflow: hidden;
   opacity: 0.9;
@@ -599,7 +768,7 @@ html.motion-paused .host-card-glow {
   font-size: 0.6875rem;
   font-weight: 800;
   letter-spacing: 0.02em;
-  color: rgba(238, 241, 248, 0.5);
+  color: color-mix(in srgb, var(--fg) 55%, transparent);
   transition: color 0.25s ease;
 }
 
@@ -756,4 +925,65 @@ html.motion-paused .host-card-glow {
   border: 2px solid var(--color-cyan);
   background: var(--color-navy);
   box-shadow: 0 0 0 4px rgba(0, 212, 255, 0.12), 0 0 22px rgba(0, 212, 255, 0.35);
+}
+
+.header-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.15rem;
+  height: 2.15rem;
+  border-radius: 999px;
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+  color: var(--fg);
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    background-color 0.25s ease,
+    transform 0.2s ease;
+}
+
+.header-theme-toggle:hover {
+  border-color: rgba(0, 212, 255, 0.5);
+  box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.14);
+  transform: translateY(-1px);
+}
+
+.header-scrolled-surface {
+  border-bottom: 1px solid var(--header-scrolled-border);
+  background: var(--header-scrolled);
+  box-shadow: 0 8px 32px color-mix(in srgb, var(--page-bg) 40%, transparent);
+  backdrop-filter: blur(16px) saturate(1.5);
+}
+
+/* Soft inset surfaces (highlight rows, form fields) */
+.soft-surface {
+  border: 1px solid var(--card-border);
+  background: var(--input-bg);
+}
+
+html[data-theme="light"] .text-shimmer {
+  background: linear-gradient(
+    105deg,
+    #0b1f44 0%,
+    #0b1f44 40%,
+    #2d6bff 50%,
+    #0b1f44 60%,
+    #0b1f44 100%
+  );
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+html[data-theme="light"] .edge-card {
+  border-color: var(--card-border);
+  background: rgba(255, 255, 255, 0.7);
+}
+
+html[data-theme="light"] .grain::before {
+  opacity: 0.2;
+  mix-blend-mode: multiply;
 }

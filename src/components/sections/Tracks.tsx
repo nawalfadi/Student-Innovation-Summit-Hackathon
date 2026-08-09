@@ -1,7 +1,6 @@
 "use client";
 
 import { BookOpen, Sparkles, Cpu, Check } from "lucide-react";
-import { DecorativeSwirl } from "@/components/brand/DecorativeSwirl";
 import { SectionSpray } from "@/components/brand/SectionSpray";
 import { SectionHeading } from "@/components/layout/SectionHeading";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
@@ -14,9 +13,9 @@ const iconMap = {
 };
 
 const accents = [
-  "shadow-cyan/25 ring-cyan/20 group-hover:shadow-cyan/40",
-  "shadow-blue/25 ring-blue/20 group-hover:shadow-blue/40",
-  "shadow-teal/25 ring-teal/20 group-hover:shadow-teal/40",
+  "shadow-cyan/25 group-hover:shadow-cyan/40",
+  "shadow-blue/25 group-hover:shadow-blue/40",
+  "shadow-teal/25 group-hover:shadow-teal/40",
 ];
 
 const iconChips = [
@@ -45,27 +44,9 @@ export function Tracks() {
         className="-right-[10%] top-[30%] h-72 w-80 lg:h-96 lg:w-[28rem]"
       />
 
-      <DecorativeSwirl
-        src="/decor/swirl-tracks.png"
-        left={-7}
-        top={373}
-        width={666}
-        height={375}
-        opacity={0.5}
-      />
-      <DecorativeSwirl
-        src="/decor/swirl-tracks.png"
-        left={644}
-        top={361}
-        width={666}
-        height={375}
-        opacity={0.5}
-      />
-
       <div className="section-container relative z-10">
         <Reveal>
           <SectionHeading
-            badge={t.tracks.badge}
             title={t.tracks.title}
             subtitle={t.tracks.subtitle}
           />
@@ -87,7 +68,7 @@ export function Tracks() {
                 <div className="relative z-10 flex h-full flex-col">
                   <div className="mb-6 flex items-center justify-between">
                     <div
-                      className={`flex h-14 w-14 items-center justify-center rounded-2xl text-white shadow-lg ring-1 transition-all duration-500 ease-out group-hover:-rotate-6 group-hover:scale-110 ${iconChips[index % iconChips.length]} ${accents[index % accents.length]}`}
+                      className={`flex h-14 w-14 items-center justify-center rounded-2xl text-white shadow-lg transition-all duration-500 ease-out group-hover:-rotate-6 group-hover:scale-110 ${iconChips[index % iconChips.length]} ${accents[index % accents.length]}`}
                     >
                       <Icon size={26} />
                     </div>
@@ -97,20 +78,20 @@ export function Tracks() {
                       0{index + 1}
                     </span>
                   </div>
-                  <h3 className="text-xl font-extrabold leading-snug text-white sm:text-2xl">
+                  <h3 className="text-xl font-extrabold leading-snug text-fg sm:text-2xl">
                     {track.name}
                   </h3>
                   <p className="mt-1 text-sm font-semibold text-blue">
                     {track.nameEn}
                   </p>
-                  <p className="mt-4 leading-8 text-white/65">
+                  <p className="mt-4 leading-8 text-fg/65">
                     {track.description}
                   </p>
-                  <ul className="mt-6 flex flex-1 flex-col gap-2.5 border-t border-white/8 pt-6">
+                  <ul className="mt-6 flex flex-1 flex-col gap-2.5 border-t border-fg/10 pt-6">
                     {track.highlights.map((item) => (
                       <li
                         key={item}
-                        className="flex items-start gap-3 rounded-2xl border border-white/8 bg-white/[0.04] px-3.5 py-3 text-sm font-bold leading-6 text-white shadow-[0_4px_16px_rgba(0,0,0,0.2)] transition-all duration-300 group-hover:-translate-y-0.5 group-hover:border-cyan/30 group-hover:bg-white/[0.07] group-hover:shadow-[0_10px_28px_rgba(0,0,0,0.3)]"
+                        className="soft-surface flex items-start gap-3 rounded-2xl px-3.5 py-3 text-sm font-bold leading-6 text-fg shadow-[0_4px_16px_rgba(0,0,0,0.08)] transition-all duration-300 group-hover:-translate-y-0.5 group-hover:border-cyan/30 group-hover:shadow-[0_10px_28px_rgba(0,0,0,0.12)]"
                       >
                         <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-[linear-gradient(140deg,var(--color-violet),var(--color-cyan))] text-white">
                           <Check size={14} strokeWidth={3} />

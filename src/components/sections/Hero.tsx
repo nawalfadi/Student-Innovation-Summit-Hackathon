@@ -1,114 +1,112 @@
 "use client";
 
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { CalendarDays, MapPin, ArrowLeft, ArrowRight, ChevronDown } from "lucide-react";
-import { siteConstants } from "@/data/content";
+import Link from "next/link";
+import { ArrowLeft, Crosshair } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
-import { Button } from "@/components/ui/Button";
-import { SectionSpray } from "@/components/brand/SectionSpray";
+import { HeroCountdown } from "@/components/brand/HeroCountdown";
 
+/**
+ * Full-bleed background.png with text layered on top
+ * (dark left side of the artwork = readable text area).
+ */
 export function Hero() {
-  const router = useRouter();
   const { t, locale } = useLanguage();
-  const CtaIcon = locale === "ar" ? ArrowLeft : ArrowRight;
+  const isAr = locale === "ar";
 
   return (
-    <section className="relative min-h-screen overflow-x-clip pt-32 sm:pt-36 lg:pt-40">
-      <SectionSpray
-        tone="deep"
-        className="-left-[14%] top-[2%] h-80 w-96 sm:h-[28rem] sm:w-[32rem]"
-      />
-      <SectionSpray
-        tone="sky"
-        className="-right-[12%] top-[4%] h-80 w-96 sm:h-[28rem] sm:w-[30rem]"
-      />
-
-      <div className="section-container relative z-10 flex min-h-[calc(100vh-8rem)] flex-col items-center justify-center py-12 text-center">
-        <div className="animate-fade-up relative mx-auto w-full max-w-3xl sm:max-w-4xl">
-          {/* Official identity lockup — one bilingual mark, used as-is
-              regardless of locale (per brand guideline, it isn't split
-              into separate AR/EN artwork). */}
-          <h1 className="relative aspect-[500/318] w-full">
-            <Image
-              src="/brand-logo.png"
-              alt={t.hero.logoAlt}
-              className="object-contain drop-shadow-[0_18px_60px_rgba(90,56,255,0.35)]"
-              fill
-              sizes="(max-width: 768px) 92vw, 56rem"
-              priority
-            />
-          </h1>
+    <section
+      id="home"
+      className="relative min-h-[100svh] overflow-hidden"
+    >
+      {/* Background artwork — slightly scaled down so the graphic isn't oversized */}
+      <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
+        <div className="relative h-[82%] w-[86%] max-w-[1480px] translate-x-14 -translate-y-1 sm:translate-x-20 sm:-translate-y-2">
+          <Image
+            src="/background.png"
+            alt=""
+            fill
+            priority
+            quality={100}
+            sizes="(max-width: 1600px) 92vw, 1600px"
+            className="object-contain object-center"
+          />
         </div>
+      </div>
 
-        <p
-          className="animate-fade-up mt-8 max-w-2xl text-base leading-9 text-white/65 sm:text-lg"
-          style={{ animationDelay: "0.12s" }}
-        >
-          {t.hero.tagline}
-        </p>
+      {/* Soft scrim on the left so centered-in-left text stays readable */}
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-gradient-to-r from-[#050510]/80 via-[#050510]/40 to-transparent lg:from-[#050510]/70 lg:via-[#050510]/25"
+      />
+      <div
+        aria-hidden
+        className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#050510] to-transparent"
+      />
 
-        <div
-          className="animate-fade-up mt-8 flex flex-col items-stretch justify-center gap-4 sm:flex-row sm:flex-wrap"
-          style={{ animationDelay: "0.2s" }}
-        >
-          <div className="glass-card flex items-center gap-3 px-5 py-4 text-start">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[linear-gradient(135deg,var(--color-violet),var(--color-blue),var(--color-cyan))] text-white">
-              <CalendarDays size={22} />
-            </div>
-            <div>
-              <p className="text-xs font-semibold text-white/45">
-                {t.site.datesLabel}
+      {/* Text centered within the LEFT half of the page */}
+      <div
+        dir="ltr"
+        className="relative z-10 flex min-h-[100svh] items-center pt-24 pb-16 sm:pt-28 sm:pb-20"
+      >
+        <div className="mx-auto grid w-full max-w-[1400px] grid-cols-1 px-5 sm:px-8 lg:grid-cols-2 lg:px-12">
+          <div
+            className="flex w-full max-w-xl flex-col items-center justify-self-center text-center lg:max-w-none lg:justify-self-stretch"
+            lang={locale}
+          >
+            <p
+              className={`text-sm font-bold tracking-wide text-[#00D4FF] sm:text-[0.95rem] ${isAr ? "font-ar" : "font-en"}`}
+            >
+              {t.hero.label}
+            </p>
+
+            <h1
+              className={`mt-3 text-[2.5rem] font-black leading-[1.15] tracking-tight text-white drop-shadow-[0_2px_24px_rgba(0,0,0,0.55)] sm:text-5xl lg:text-[3.6rem] lg:leading-[1.12] ${isAr ? "font-ar" : "font-en"}`}
+            >
+              {t.hero.title}
+            </h1>
+
+            {/* English secondary — always Montserrat */}
+            <p className="font-en mt-4 text-sm font-semibold uppercase tracking-[0.22em] text-white/90">
+              {t.hero.titleEn}
+            </p>
+
+            <div className="mt-3 flex items-center justify-center gap-3">
+              <span className="h-px w-10 bg-gradient-to-r from-transparent to-[#7000FF]" />
+              <p className="font-en text-xs font-bold tracking-[0.4em] text-[#00D4FF] sm:text-sm">
+                {t.hero.hackathonTag.split("").join(" ")}
               </p>
-              <p className="font-bold text-white" dir="ltr">
-                {t.site.dates}
-              </p>
+              <span className="h-px w-10 bg-gradient-to-l from-transparent to-[#00D4FF]" />
             </div>
+
+            <p
+              className={`mt-6 max-w-xl text-lg font-bold leading-9 text-white/85 sm:text-xl sm:leading-10 ${isAr ? "font-ar" : "font-en"}`}
+            >
+              {t.hero.tagline}
+            </p>
+
+            <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row sm:flex-wrap">
+              <Link
+                href="/register"
+                className={`btn-shine inline-flex items-center justify-center gap-2.5 rounded-full bg-gradient-to-l from-[#00D4FF] via-[#007BFF] to-[#7000FF] px-8 py-3.5 text-sm font-extrabold text-white shadow-[0_0_34px_rgba(112,0,255,0.42)] transition hover:brightness-110 ${isAr ? "font-ar" : "font-en"}`}
+              >
+                <span className="btn-shine__sweep" aria-hidden />
+                <span className="relative z-10 inline-flex items-center gap-2.5">
+                  {t.common.registerNow}
+                  <ArrowLeft size={18} aria-hidden />
+                </span>
+              </Link>
+              <a
+                href="#tracks"
+                className={`inline-flex items-center justify-center gap-2.5 rounded-full border border-white/25 bg-black/20 px-8 py-3.5 text-sm font-extrabold text-white backdrop-blur-sm transition hover:border-[#00D4FF]/45 hover:bg-white/[0.06] ${isAr ? "font-ar" : "font-en"}`}
+              >
+                <Crosshair size={16} className="text-[#00D4FF]" />
+                {t.hero.exploreChallenges}
+              </a>
+            </div>
+
+            <HeroCountdown className="mt-8 w-full max-w-2xl" />
           </div>
-          <a
-            href={siteConstants.locationUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="glass-card group flex items-center gap-3 px-5 py-4 text-start sm:max-w-md hover:border-cyan/40"
-          >
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[linear-gradient(135deg,var(--color-violet),var(--color-blue),var(--color-cyan))] text-white">
-              <MapPin size={22} />
-            </div>
-            <div>
-              <p className="text-xs font-semibold text-white/45">
-                {t.site.locationLabel}
-              </p>
-              <p className="font-bold leading-6 text-white underline-offset-4 group-hover:underline">
-                {t.site.location}
-              </p>
-            </div>
-          </a>
-        </div>
-
-        <div
-          className="animate-fade-up mt-10 flex flex-col items-center gap-5"
-          style={{ animationDelay: "0.28s" }}
-        >
-          <Button
-            size="lg"
-            className="px-10"
-            onClick={() => router.push("/register")}
-          >
-            {t.common.registerNow}
-            <CtaIcon size={20} />
-          </Button>
-          {/* Deliberately a plain link, not a second button — one clear
-              primary action beats two competing calls to action. */}
-          <a
-            href="#tracks"
-            className="group inline-flex items-center gap-1.5 text-sm font-bold text-white/60 underline decoration-white/20 decoration-2 underline-offset-4 transition-colors hover:text-white hover:decoration-white/50"
-          >
-            {t.common.exploreTracks}
-            <ChevronDown
-              size={15}
-              className="transition-transform duration-300 group-hover:translate-y-0.5"
-            />
-          </a>
         </div>
       </div>
     </section>

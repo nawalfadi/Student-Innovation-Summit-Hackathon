@@ -1,14 +1,17 @@
 "use client";
 
+import { useRef } from "react";
 import { Calendar } from "lucide-react";
-import { motion } from "framer-motion";
-import { DecorativeSwirl } from "@/components/brand/DecorativeSwirl";
+import { motion, useInView } from "framer-motion";
 import { SectionHeading } from "@/components/layout/SectionHeading";
 import { Reveal, EASE_OUT } from "@/components/motion/Reveal";
 import { useLanguage } from "@/context/LanguageContext";
 
 export function Timeline() {
   const { t } = useLanguage();
+  const spineRef = useRef<HTMLDivElement>(null);
+  // once:true locks visibility — prevents the line vanishing on re-scroll
+  const spineInView = useInView(spineRef, { once: true, amount: 0.05 });
 
   return (
     <section
@@ -28,47 +31,31 @@ export function Timeline() {
         className="pointer-events-none absolute bottom-0 left-1/3 h-72 w-72 rounded-full bg-cyan/10 blur-[100px]"
       />
 
-      <DecorativeSwirl
-        src="/decor/swirl-timeline.png"
-        left={-173}
-        top={413}
-        width={502}
-        height={489}
-        opacity={0.28}
-        flipY
-      />
-      <DecorativeSwirl
-        src="/decor/swirl-timeline.png"
-        left={938}
-        top={443}
-        width={502}
-        height={489}
-        opacity={0.28}
-        flipY
-      />
-
       <div className="section-container relative z-10">
         <Reveal>
           <SectionHeading
             dark
-            badge={t.timeline.badge}
             title={t.timeline.title}
             subtitle={t.timeline.subtitle}
           />
         </Reveal>
 
         <div className="relative mx-auto mt-16 max-w-3xl">
-          {/* Animated spine */}
+          {/* Spine — cool draw-from-top animation; locked once so it never vanishes */}
           <div
+            ref={spineRef}
             aria-hidden
             className="absolute start-[1.35rem] top-3 bottom-3 w-px overflow-hidden sm:start-1/2 sm:-ms-px"
           >
             <motion.div
-              className="summit-path-line h-full w-full origin-top"
-              initial={{ scaleY: 0 }}
-              whileInView={{ scaleY: 1 }}
-              viewport={{ once: true, amount: 0.15 }}
-              transition={{ duration: 1.1, ease: EASE_OUT }}
+              className="summit-path-line h-full w-full origin-top shadow-[0_0_12px_rgba(0,212,255,0.35)]"
+              initial={{ scaleY: 0, opacity: 0 }}
+              animate={
+                spineInView
+                  ? { scaleY: 1, opacity: 1 }
+                  : { scaleY: 0, opacity: 0 }
+              }
+              transition={{ duration: 1.25, ease: EASE_OUT }}
             />
           </div>
 
@@ -81,7 +68,7 @@ export function Timeline() {
                   key={`timeline-day-${index}`}
                   initial="hidden"
                   whileInView="show"
-                  viewport={{ once: true, amount: 0.35 }}
+                  viewport={{ once: true, amount: 0.2 }}
                   variants={{
                     hidden: {},
                     show: {
@@ -182,9 +169,8 @@ export function Timeline() {
                                 },
                               },
                             }}
-                            className="flex items-start gap-3 rounded-2xl border border-white/5 bg-white/[0.05] px-4 py-3 text-sm leading-7 text-white/80"
+                            className="rounded-2xl border border-white/5 bg-white/[0.05] px-4 py-3 text-sm leading-7 text-white/80"
                           >
-                            <span className="mt-2.5 h-2 w-2 shrink-0 rounded-full bg-cyan shadow-[0_0_10px_rgba(61,184,212,0.7)]" />
                             {item}
                           </motion.li>
                         ))}

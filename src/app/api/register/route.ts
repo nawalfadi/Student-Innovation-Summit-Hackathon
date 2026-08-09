@@ -49,6 +49,9 @@ async function parseRequest(request: Request): Promise<{
       ? (trackRaw as TrackId)
       : undefined;
 
+    const isTeamRaw = String(fd.get("isTeam") ?? "").toLowerCase();
+    const isTeam = isTeamRaw === "true" || isTeamRaw === "1" || isTeamRaw === "on";
+
     const body: RegisterBody = {
       fullName: String(fd.get("fullName") ?? ""),
       universityId: String(fd.get("universityId") ?? ""),
@@ -63,6 +66,7 @@ async function parseRequest(request: Request): Promise<{
       teamName: String(fd.get("teamName") ?? ""),
       memberCount: Number(fd.get("memberCount") ?? 3),
       members: parseMembers(fd.get("members")),
+      isTeam,
       projectIdea: String(fd.get("projectIdea") ?? ""),
       major: String(fd.get("major") ?? ""),
       universityYear: String(fd.get("universityYear") ?? ""),
@@ -81,10 +85,16 @@ function sanitizeFileName(name: string): string {
   return name.replace(/[^a-zA-Z0-9._\-\u0600-\u06FF]/g, "_").slice(0, 120);
 }
 
-async function uploadExhibitFile(file: File, email: string) {
+async function uploadProjectFile(
+  file: File,
+  email: string,
+  participationType: "hackathon" | "showcase"
+) {
   const bucket = getAdminBucket();
   const safeName = sanitizeFileName(file.name || "project");
-  const path = `exhibit-projects/${Date.now()}_${email.replace(/[^a-zA-Z0-9]/g, "_")}_${safeName}`;
+  const folder =
+    participationType === "showcase" ? "exhibit-projects" : "hackathon-projects";
+  const path = `${folder}/${Date.now()}_${email.replace(/[^a-zA-Z0-9]/g, "_")}_${safeName}`;
   const buffer = Buffer.from(await file.arrayBuffer());
   const fileRef = bucket.file(path);
 
@@ -150,17 +160,18 @@ export async function POST(request: Request) {
     let projectFileUrl: string | undefined;
     let projectFilePath: string | undefined;
 
-    if (isShowcase && projectFile) {
+    if (projectFile) {
       try {
-        const uploaded = await uploadExhibitFile(
+        const uploaded = await uploadProjectFile(
           projectFile,
-          body.email.trim().toLowerCase()
+          body.email.trim().toLowerCase(),
+          isShowcase ? "showcase" : "hackathon"
         );
         projectFileName = uploaded.name;
         projectFileUrl = uploaded.url;
         projectFilePath = uploaded.path;
       } catch (uploadError) {
-        console.error("Exhibit file upload error:", uploadError);
+        console.error("Project file upload error:", uploadError);
         return NextResponse.json(
           {
             success: false,
@@ -175,31 +186,42 @@ export async function POST(request: Request) {
       }
     }
 
+    const showcaseAsTeam = isShowcase && Boolean(body.isTeam);
+    const hasTeamMembers = !isShowcase || showcaseAsTeam;
+    const teammateList = hasTeamMembers ? body.members : [];
+
     const db = getAdminDb();
     const docRef = await db.collection("hackathon_registrations").add({
       fullName: body.fullName.trim(),
-      universityId: body.universityId.trim(),
+      universityId: isShowcase ? "" : body.universityId.trim(),
       universityName: body.universityName.trim(),
       email: body.email.trim().toLowerCase(),
       phone: body.phone.replace(/\s|-/g, ""),
       participationType: body.participationType ?? "hackathon",
       track: isShowcase ? null : body.track,
-      teamName: isShowcase ? "" : body.teamName.trim(),
-      memberCount: isShowcase ? 1 : body.members.length + 1,
+      isTeam: isShowcase ? showcaseAsTeam : true,
+      teamName: body.teamName.trim(),
+      memberCount: hasTeamMembers ? teammateList.length + 1 : 1,
       // Leader is member 1; teammates from the form follow (up to 4).
-      members: isShowcase
-        ? []
-        : [
+      members: hasTeamMembers
+        ? [
             {
               name: body.fullName.trim(),
               email: body.email.trim().toLowerCase(),
               role: "leader",
             },
-            ...body.members.map((member) => ({
+            ...teammateList.map((member) => ({
               name: member.name.trim(),
               email: member.email.trim().toLowerCase(),
               role: "teammate",
             })),
+          ]
+        : [
+            {
+              name: body.fullName.trim(),
+              email: body.email.trim().toLowerCase(),
+              role: "individual",
+            },
           ],
       projectIdea: body.projectIdea.trim(),
       major: body.major?.trim() ?? "",
