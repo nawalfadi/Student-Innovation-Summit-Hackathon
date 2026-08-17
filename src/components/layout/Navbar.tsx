@@ -6,6 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
+import { UniversityMark } from "@/components/brand/UniversityMark";
 import { cn } from "@/lib/utils";
 
 export function Navbar() {
@@ -93,7 +94,7 @@ export function Navbar() {
     >
       {/*
         Physical chrome (matches design):
-        LEFT = logo · CENTER = nav (الرئيسية closest to logo) · RIGHT = AR|EN + CTA
+        LEFT = logo · CENTER = nav (الرئيسية closest to logo) · RIGHT = AR|EN + Al Yamamah
       */}
       <div
         dir="ltr"
@@ -175,16 +176,10 @@ export function Navbar() {
             <span className={!isAr ? "text-white" : "text-white/35"}>EN</span>
           </button>
 
-          <Link
-            href="/register"
-            className={cn(
-              "btn-shine hidden rounded-full bg-gradient-to-r from-[#7000FF] via-[#007BFF] to-[#00D4FF] px-5 py-2.5 text-sm font-extrabold text-white shadow-[0_0_28px_rgba(112,0,255,0.42)] transition hover:brightness-110 sm:inline-flex",
-              isAr ? "font-ar" : "font-en"
-            )}
-          >
-            <span className="btn-shine__sweep" aria-hidden />
-            <span className="relative z-10">{t.common.registerNow}</span>
-          </Link>
+          <UniversityMark
+            onDark
+            className="hidden sm:flex [&_img]:!h-[1.7rem] sm:[&_img]:!h-[1.95rem] lg:[&_img]:!h-[2.15rem]"
+          />
 
           <button
             type="button"
@@ -213,13 +208,12 @@ export function Navbar() {
                 {link.label}
               </Link>
             ))}
-            <Link
-              href="/register"
-              onClick={() => setOpen(false)}
-              className="mt-2 rounded-full bg-gradient-to-r from-[#7000FF] via-[#007BFF] to-[#00D4FF] px-5 py-3 text-center text-sm font-extrabold text-white"
-            >
-              {t.common.registerNow}
-            </Link>
+            <div className="mt-3 flex justify-center border-t border-white/[0.06] pt-4">
+              <UniversityMark
+                onDark
+                className="[&_img]:!h-[1.85rem]"
+              />
+            </div>
           </nav>
         </div>
       )}

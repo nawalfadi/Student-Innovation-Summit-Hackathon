@@ -9,7 +9,7 @@ import { useLanguage } from "@/context/LanguageContext";
  * Sourced from /Universities (Arabic filenames), served from /public/universities.
  * Cache-bust query updated whenever assets are refreshed from that folder.
  */
-const CACHE_BUST = "v20260810c";
+const CACHE_BUST = "v20260817a";
 
 const universityLogos: { abbr: string; src: string; alt: string }[] = [
   { abbr: "YU", src: `/alyamamah-logo-white.png?${CACHE_BUST}`, alt: "Al Yamamah University" },
