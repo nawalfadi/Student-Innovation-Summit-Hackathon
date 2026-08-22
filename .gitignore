@@ -17,3 +17,4 @@ npm-debug.log*
 target/
 .idea/
 *.iml
+application-dev-local.yml
