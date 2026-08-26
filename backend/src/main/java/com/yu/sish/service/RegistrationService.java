@@ -36,11 +36,12 @@ public class RegistrationService {
                 request.getParticipationType(), request.getEmail());
 
         Registration registration = registrationMapper.toEntity(request);
-        attachFile(registration, request.getProjectFile());
         attachMembers(registration, request);
 
-        Registration saved = registrationRepository.save(registration);
+        Registration saved = registrationRepository.saveAndFlush(registration);
 
+        attachFile(saved, request.getProjectFile());
+        saved = registrationRepository.save(saved);
         log.info("Registration saved — id: {}, email: {}, type: {}",
                 saved.getId(), saved.getEmail(), saved.getParticipationType());
 
