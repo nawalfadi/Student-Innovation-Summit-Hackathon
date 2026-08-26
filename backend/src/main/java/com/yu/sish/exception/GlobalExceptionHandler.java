@@ -63,6 +63,14 @@ public class GlobalExceptionHandler {
                 .body(ApiResponse.error(msg("validation.genericError"), null));
     }
 
+    @ExceptionHandler(FileStorageException.class)
+    public ResponseEntity<ApiResponse> handleStorageFailure(FileStorageException ex) {
+        log.error("File storage failure", ex);
+        String message = msg("validation.projectFileUpload");
+        return ResponseEntity.internalServerError()
+                .body(ApiResponse.error(message, Map.of("projectFile", message)));
+    }
+
     private String msg(String key) {
         return messageSource.getMessage(key, null, LocaleContextHolder.getLocale());
     }
