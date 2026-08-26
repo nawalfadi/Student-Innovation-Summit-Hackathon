@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -25,6 +26,7 @@ public class RegistrationService {
     private final RegistrationRepository registrationRepository;
     private final RegistrationMapper registrationMapper;
     private final ObjectMapper objectMapper;
+    private final FileStorageService fileStorageService;
 
     @Transactional
     public RegistrationResponse register(RegistrationRequest request) {
@@ -34,6 +36,7 @@ public class RegistrationService {
                 request.getParticipationType(), request.getEmail());
 
         Registration registration = registrationMapper.toEntity(request);
+        attachFile(registration, request.getProjectFile());
         attachMembers(registration, request);
 
         Registration saved = registrationRepository.save(registration);
@@ -43,6 +46,22 @@ public class RegistrationService {
 
         return registrationMapper.toResponse(saved);
     }
+
+    public List<RegistrationResponse> findAll(){
+        return registrationRepository.findAll()
+                .stream()
+                .map(registrationMapper::toResponse)
+                .toList();
+    }
+
+    private void attachFile(Registration registration, MultipartFile file) {
+        String objectKey = fileStorageService.upload(file);
+        registration.setFileObjectKey(objectKey);
+        registration.setFileOriginalName(file.getOriginalFilename());
+        registration.setFileContentType(file.getContentType());
+        registration.setFileSizeBytes(file.getSize());
+    }
+
 
     private void attachMembers(Registration registration, RegistrationRequest request) {
         List<TeamMemberRequest> parsed = parseMembers(request.getMembers());
