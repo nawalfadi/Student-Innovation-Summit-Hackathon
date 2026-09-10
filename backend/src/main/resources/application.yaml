@@ -17,3 +17,26 @@ management:
     web:
       exposure:
         include: health
+springdoc:
+  api-docs:
+    enabled: false
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: false
+    path: /swagger-ui.html
+  show-actuator: false
+  writer-with-order-by-keys: true
+
+app:
+  openapi:
+    title: Student Innovation Summit Registration API
+    description:
+      Registration and administration API for the Student Innovation Summit
+      at Al Yamamah University. Error messages are returned in Arabic or English
+      based on the locale field submitted with the request.
+    version: 1.0.0
+    contact-name: Ahmed Qassem
+    contact-url: https://github.com/Ahmed-k-qassem
+    servers:
+      - url: http://localhost:8080
+        description: Local development
