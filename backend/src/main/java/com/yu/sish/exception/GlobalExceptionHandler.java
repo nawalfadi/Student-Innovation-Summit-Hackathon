@@ -1,6 +1,6 @@
 package com.yu.sish.exception;
 
-import com.yu.sish.dto.response.ApiResponse;
+import com.yu.sish.dto.response.ApiEnvelope;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
@@ -25,7 +25,7 @@ public class GlobalExceptionHandler {
     private final MessageSource messageSource;
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ApiResponse> handleValidation(
+    public ResponseEntity<ApiEnvelope> handleValidation(
             MethodArgumentNotValidException ex) {
 
         Map<String, String> errors = new LinkedHashMap<>();
@@ -35,40 +35,40 @@ public class GlobalExceptionHandler {
 
         log.debug("Validation failed on fields: {}", errors.keySet());
         return ResponseEntity.badRequest()
-                .body(ApiResponse.error(msg("validation.genericError"), errors));
+                .body(ApiEnvelope.error(msg("validation.genericError"), errors));
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<ApiResponse> handleDuplicate(
+    public ResponseEntity<ApiEnvelope> handleDuplicate(
             DataIntegrityViolationException ex) {
 
         log.warn("Constraint violation on insert: {}", ex.getMostSpecificCause().getMessage());
 
         String message = msg("validation.emailAlreadyRegistered");
         return ResponseEntity.status(HttpStatus.CONFLICT)
-                .body(ApiResponse.error(message, Map.of("email", message)));
+                .body(ApiEnvelope.error(message, Map.of("email", message)));
     }
 
     @ExceptionHandler(MaxUploadSizeExceededException.class)
-    public ResponseEntity<ApiResponse> handleTooLarge(MaxUploadSizeExceededException ex) {
+    public ResponseEntity<ApiEnvelope> handleTooLarge(MaxUploadSizeExceededException ex) {
         String message = msg("validation.projectFileSize");
         return ResponseEntity.badRequest()
-                .body(ApiResponse.error(message, Map.of("projectFile", message)));
+                .body(ApiEnvelope.error(message, Map.of("projectFile", message)));
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiResponse> handleUnexpected(Exception ex) {
+    public ResponseEntity<ApiEnvelope> handleUnexpected(Exception ex) {
         log.error("Unhandled exception", ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(ApiResponse.error(msg("validation.genericError"), null));
+                .body(ApiEnvelope.error(msg("validation.genericError"), null));
     }
 
     @ExceptionHandler(FileStorageException.class)
-    public ResponseEntity<ApiResponse> handleStorageFailure(FileStorageException ex) {
+    public ResponseEntity<ApiEnvelope> handleStorageFailure(FileStorageException ex) {
         log.error("File storage failure", ex);
         String message = msg("validation.projectFileUpload");
         return ResponseEntity.internalServerError()
-                .body(ApiResponse.error(message, Map.of("projectFile", message)));
+                .body(ApiEnvelope.error(message, Map.of("projectFile", message)));
     }
 
     private String msg(String key) {
