@@ -1,3 +1,11 @@
 package com.yu.sish.dto.response;
 
-public record TeamMemberResponse(String name, String email) {}
+import io.swagger.v3.oas.annotations.media.Schema;
+
+public record TeamMemberResponse(
+        @Schema(example = "Sara Ahmed")
+        String name,
+
+        @Schema(example = "sara@example.com")
+        String email
+) {}

@@ -21,6 +21,12 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+    private static final String[] OPENAPI_WHITELIST = {
+            "/v3/api-docs", "/v3/api-docs/**", "/v3/api-docs.yaml",
+            "/swagger-ui.html", "/swagger-ui/**",
+            "/swagger-resources", "/swagger-resources/**",
+            "/webjars/**"
+    };
     @Bean
     public BCryptPasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
@@ -33,6 +39,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(OPENAPI_WHITELIST).permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/registrations").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/admin/login").permitAll()
                         .requestMatchers("/actuator/health").permitAll()
