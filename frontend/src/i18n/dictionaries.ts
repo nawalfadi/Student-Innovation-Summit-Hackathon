@@ -247,7 +247,7 @@ export type Dictionary = {
 };
 
 const GRADUATION_YEARS = Array.from({ length: 12 }, (_, i) => {
-  const year = String(2026 - i);
+  const year = String(2027 - i);
   return { value: year, label: year };
 });
 
@@ -260,7 +260,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     },
     site: {
       title: "هاكاثون قمة الابتكار الطلابي 2026",
-      dates: "6 – 8 / 11 / 2026",
+      dates: "29 – 31 / 1 / 2027",
       datesLabel: "تاريخ الحدث",
       location: "جامعة اليمامة — المبنى الرئيسي — الرياض",
       locationLabel: "مكان الحدث",
@@ -428,11 +428,11 @@ export const dictionaries: Record<Locale, Dictionary> = {
       badge: "الجدول الزمني",
       title: "ثلاثة أيام من الابتكار والتطوير",
       subtitle:
-        "من 6 إلى 8 نوفمبر 2026 في جامعة اليمامة: افتتاح وإطلاق التحديات، جلسات إرشاد وتطوير، ثم العروض الختامية ومعرض مشاريع الخريجين.",
+        "من 29 إلى 31 يناير 2027 في جامعة اليمامة: افتتاح وإطلاق التحديات، جلسات إرشاد وتطوير، ثم العروض الختامية ومعرض مشاريع الخريجين.",
       days: [
         {
           day: "اليوم الأول",
-          date: "6 / 11 / 2026",
+          date: "29 / 1 / 2027",
           title: "الافتتاح الرسمي وانطلاق التطوير",
           items: [
             "الافتتاح الرسمي وإطلاق التحديات والمسارات",
@@ -442,7 +442,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
         },
         {
           day: "اليوم الثاني",
-          date: "7 / 11 / 2026",
+          date: "30 / 1 / 2027",
           title: "التعلّم والإرشاد والتطوير",
           items: [
             "جلسات تعليمية وحوارية مع الخبراء",
@@ -452,7 +452,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
         },
         {
           day: "اليوم الثالث",
-          date: "8 / 11 / 2026",
+          date: "31 / 1 / 2027",
           title: "العروض الختامية ومعرض الخريجين",
           items: [
             "العروض الختامية أمام لجنة التحكيم",
@@ -466,7 +466,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       badge: "الجامعات المستهدفة",
       title: "نخبة من الجامعات السعودية",
       subtitle:
-        "نرحب بطلاب وطالبات الجامعات المشاركة في هذا الحدث الوطني للابتكار 6 إلى 8 نوفمبر 2026 في جامعة اليمامة.",
+        "نرحب بطلاب وطالبات الجامعات المشاركة في هذا الحدث الوطني للابتكار 29 إلى 31 يناير 2027 في جامعة اليمامة.",
       hostBadge: "الجامعة المضيفة",
       list: [
         {
@@ -482,12 +482,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
         { name: "جامعة الأمير سلطان", abbr: "PSU" },
         { name: "جامعة الإمام محمد بن سعود الإسلامية", abbr: "IMSIU" },
         { name: "جامعة سطام", abbr: "PSAU" },
-        { name: "الجامعة السعودية الإلكترونية", abbr: "SEU" },
+        { name: "جامعة الأمير مساعد بن عبدالرحمن", abbr: "PMAU" },
       ],
     },
     cta: {
       title: "جاهز للتحدي؟",
-      body: "انضم إلى هاكاثون قمة الابتكار الطلابي 6–8 نوفمبر 2026 في جامعة اليمامة. سجّل مع فريقك، أو اعرض مشروع تخرجك في المعرض. المقاعد محدودة!",
+      body: "انضم إلى هاكاثون قمة الابتكار الطلابي 29–31 يناير 2027 في جامعة اليمامة. سجّل مع فريقك، أو اعرض مشروع تخرجك في المعرض. المقاعد محدودة!",
     },
     registerPage: {
       title: "اختر نوع المشاركة",
@@ -684,8 +684,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
         },
         { value: "جامعة سطام", label: "جامعة سطام" },
         {
-          value: "الجامعة السعودية الإلكترونية",
-          label: "الجامعة السعودية الإلكترونية",
+          value: "جامعة الأمير مساعد بن عبدالرحمن",
+          label: "جامعة الأمير مساعد بن عبدالرحمن",
         },
       ],
     },
@@ -725,7 +725,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     },
     site: {
       title: "Student Innovation Summit Hackathon 2026",
-      dates: "6 – 8 / 11 / 2026",
+      dates: "29 – 31 / 1 / 2027",
       datesLabel: "Event Date",
       location: "Al Yamamah University — Main Building — Riyadh",
       locationLabel: "Venue",
@@ -892,11 +892,11 @@ export const dictionaries: Record<Locale, Dictionary> = {
       badge: "Timeline",
       title: "Three days of innovation and building",
       subtitle:
-        "November 6–8, 2026 at Al Yamamah University: opening and challenge launch, mentoring and development, then final pitches and the graduates exhibition.",
+        "January 29–31, 2027 at Al Yamamah University: opening and challenge launch, mentoring and development, then final pitches and the graduates exhibition.",
       days: [
         {
           day: "Day 1",
-          date: "6 / 11 / 2026",
+          date: "29 / 1 / 2027",
           title: "Official opening & development kickoff",
           items: [
             "Official opening and challenge/track launch",
@@ -906,7 +906,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
         },
         {
           day: "Day 2",
-          date: "7 / 11 / 2026",
+          date: "30 / 1 / 2027",
           title: "Learning, mentorship & building",
           items: [
             "Educational and dialogue sessions with experts",
@@ -916,7 +916,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
         },
         {
           day: "Day 3",
-          date: "8 / 11 / 2026",
+          date: "31 / 1 / 2027",
           title: "Final pitches & graduates exhibition",
           items: [
             "Final pitches before the judging panel",
@@ -930,7 +930,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       badge: "Target Universities",
       title: "Leading Saudi universities",
       subtitle:
-        "We welcome students from participating universities to this national innovation event November 6–8, 2026 at Al Yamamah University.",
+        "We welcome students from participating universities to this national innovation event January 29–31, 2027 at Al Yamamah University.",
       hostBadge: "Host University",
       list: [
         {
@@ -949,12 +949,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
           abbr: "IMSIU",
         },
         { name: "Prince Sattam University", abbr: "PSAU" },
-        { name: "Saudi Electronic University", abbr: "SEU" },
+        { name: "Prince Musaid bin Abdulrahman University", abbr: "PMAU" },
       ],
     },
     cta: {
       title: "Ready for the challenge?",
-      body: "Join the Student Innovation Summit Hackathon, November 6–8, 2026 at Al Yamamah University. Register with your team, or present your graduation project at the exhibit. Seats are limited!",
+      body: "Join the Student Innovation Summit Hackathon, January 29–31, 2027 at Al Yamamah University. Register with your team, or present your graduation project at the exhibit. Seats are limited!",
     },
     registerPage: {
       title: "Choose how to participate",
@@ -1165,8 +1165,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
           label: "Prince Sattam University",
         },
         {
-          value: "Saudi Electronic University",
-          label: "Saudi Electronic University",
+          value: "Prince Musaid bin Abdulrahman University",
+          label: "Prince Musaid bin Abdulrahman University",
         },
       ],
     },

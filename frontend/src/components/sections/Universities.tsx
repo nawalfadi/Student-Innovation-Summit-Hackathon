@@ -9,7 +9,7 @@ import { useLanguage } from "@/context/LanguageContext";
  * Sourced from /Universities (Arabic filenames), served from /public/universities.
  * Cache-bust query updated whenever assets are refreshed from that folder.
  */
-const CACHE_BUST = "v20260817a";
+const CACHE_BUST = "v20260923a";
 
 const universityLogos: { abbr: string; src: string; alt: string }[] = [
   { abbr: "YU", src: `/alyamamah-logo-white.png?${CACHE_BUST}`, alt: "Al Yamamah University" },
@@ -24,7 +24,11 @@ const universityLogos: { abbr: string; src: string; alt: string }[] = [
     alt: "Imam Mohammad Ibn Saud Islamic University",
   },
   { abbr: "PSAU", src: `/universities/psau.png?${CACHE_BUST}`, alt: "Prince Sattam University" },
-  { abbr: "SEU", src: `/universities/seu.png?${CACHE_BUST}`, alt: "Saudi Electronic University" },
+  {
+    abbr: "PMAU",
+    src: `/universities/pmau.png?${CACHE_BUST}`,
+    alt: "Prince Musaid bin Abdulrahman University",
+  },
 ];
 
 export function Universities() {
