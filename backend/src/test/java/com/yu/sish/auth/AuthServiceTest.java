@@ -11,7 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Optional;
 
 import static com.yu.sish.auth.AdminTestDataBuilder.anAdmin;
-import static com.yu.sish.util.dto.request.LoginRequestTestDataBuilder.aLoginRequest;
+import static com.yu.sish.auth.LoginRequestTestDataBuilder.aLoginRequest;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.Mockito.*;

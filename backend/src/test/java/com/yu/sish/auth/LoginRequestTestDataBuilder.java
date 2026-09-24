@@ -1,6 +1,4 @@
-package com.yu.sish.util.dto.request;
-
-import com.yu.sish.auth.LoginRequest;
+package com.yu.sish.auth;
 
 public class LoginRequestTestDataBuilder {
 
