@@ -1,4 +1,4 @@
-package com.yu.sish.exception;
+package com.yu.sish.storage;
 
 public class FileStorageException extends RuntimeException {
     public FileStorageException(String message, Throwable cause) {

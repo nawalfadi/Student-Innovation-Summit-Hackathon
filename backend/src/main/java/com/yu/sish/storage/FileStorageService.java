@@ -1,6 +1,5 @@
-package com.yu.sish.service;
+package com.yu.sish.storage;
 
-import com.yu.sish.exception.FileStorageException;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;

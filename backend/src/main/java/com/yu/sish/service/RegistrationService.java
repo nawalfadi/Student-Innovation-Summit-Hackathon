@@ -9,6 +9,7 @@ import com.yu.sish.entity.Registration;
 import com.yu.sish.entity.TeamMember;
 import com.yu.sish.mapper.RegistrationMapper;
 import com.yu.sish.repository.RegistrationRepository;
+import com.yu.sish.storage.FileStorageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

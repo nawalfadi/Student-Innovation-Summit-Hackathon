@@ -1,4 +1,4 @@
-package com.yu.sish.config;
+package com.yu.sish.storage;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
