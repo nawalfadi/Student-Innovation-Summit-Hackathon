@@ -1,6 +1,4 @@
-package com.yu.sish.util;
-
-import com.yu.sish.auth.Admin;
+package com.yu.sish.auth;
 
 public class AdminTestDataBuilder {
 

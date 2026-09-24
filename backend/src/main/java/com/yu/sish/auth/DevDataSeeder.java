@@ -12,7 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Configuration
 @Profile("dev-local")
 @RequiredArgsConstructor
-public class DevDataSeeder {
+class DevDataSeeder {
     private final AdminRepository adminRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 

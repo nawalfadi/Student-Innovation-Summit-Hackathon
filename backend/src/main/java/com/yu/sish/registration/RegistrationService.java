@@ -2,9 +2,6 @@ package com.yu.sish.registration;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yu.sish.registration.dto.RegistrationRequest;
-import com.yu.sish.registration.dto.RegistrationResponse;
-import com.yu.sish.registration.dto.TeamMemberRequest;
 import com.yu.sish.storage.FileStorageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +15,7 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class RegistrationService {
+class RegistrationService {
 
     private final RegistrationRepository registrationRepository;
     private final RegistrationMapper registrationMapper;

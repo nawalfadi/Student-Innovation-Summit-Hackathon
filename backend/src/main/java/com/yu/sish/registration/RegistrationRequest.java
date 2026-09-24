@@ -1,6 +1,5 @@
-package com.yu.sish.registration.dto;
+package com.yu.sish.registration;
 
-import com.yu.sish.registration.validation.ValidRegistration;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -14,7 +13,7 @@ import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
 @Getter
 @Setter
 @ValidRegistration
-public class RegistrationRequest {
+class RegistrationRequest {
 
     @NotBlank(message = "{validation.fullName}")
     @Size(min = 3, message = "{validation.fullName}")

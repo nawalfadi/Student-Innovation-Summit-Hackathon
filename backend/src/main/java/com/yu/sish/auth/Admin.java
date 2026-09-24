@@ -12,7 +12,7 @@ import java.time.OffsetDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Admin {
+class Admin {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

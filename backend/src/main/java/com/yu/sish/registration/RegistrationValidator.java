@@ -1,9 +1,7 @@
-package com.yu.sish.registration.validation;
+package com.yu.sish.registration;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yu.sish.registration.dto.RegistrationRequest;
-import com.yu.sish.registration.dto.TeamMemberRequest;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +12,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 @RequiredArgsConstructor
-public class RegistrationValidator
+class RegistrationValidator
         implements ConstraintValidator<ValidRegistration, RegistrationRequest> {
 
     private final ObjectMapper objectMapper;

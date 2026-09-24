@@ -1,8 +1,8 @@
-package com.yu.sish.registration.dto;
+package com.yu.sish.registration;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-public record TeamMemberRequest(
+record TeamMemberResponse(
         @Schema(example = "Sara Ahmed")
         String name,
 

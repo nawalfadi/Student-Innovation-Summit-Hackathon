@@ -1,7 +1,6 @@
 package com.yu.sish.registration;
 
 import com.yu.sish.shared.ApiEnvelope;
-import com.yu.sish.registration.dto.RegistrationRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -22,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/registrations")
 @RequiredArgsConstructor
 @Tag(name = "Registrations")
-public class RegistrationController {
+class RegistrationController {
 
     private final RegistrationService registrationService;
 

@@ -1,4 +1,4 @@
-package com.yu.sish.registration.validation;
+package com.yu.sish.registration;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
@@ -9,7 +9,7 @@ import java.lang.annotation.*;
 @Constraint(validatedBy = RegistrationValidator.class)
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ValidRegistration {
+@interface ValidRegistration {
     String message() default "Invalid registration";
     Class<?>[] groups() default{};
     Class<? extends Payload>[] payload() default{};

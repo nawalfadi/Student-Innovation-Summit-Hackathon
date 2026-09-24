@@ -12,7 +12,7 @@ import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class AuthService {
+class AuthService {
 
     private final AdminRepository adminRepository;
     private final BCryptPasswordEncoder passwordEncoder;

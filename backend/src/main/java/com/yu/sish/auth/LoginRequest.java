@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
 
-public record LoginRequest(
+record LoginRequest(
         @Schema(example = "admin", requiredMode = REQUIRED)
         String username,
 
