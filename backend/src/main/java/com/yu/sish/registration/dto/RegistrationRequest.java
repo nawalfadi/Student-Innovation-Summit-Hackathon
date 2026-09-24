@@ -1,6 +1,6 @@
-package com.yu.sish.dto.request;
+package com.yu.sish.registration.dto;
 
-import com.yu.sish.validation.ValidRegistration;
+import com.yu.sish.registration.validation.ValidRegistration;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

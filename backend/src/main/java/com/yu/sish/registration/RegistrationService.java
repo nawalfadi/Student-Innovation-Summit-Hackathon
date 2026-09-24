@@ -1,14 +1,10 @@
-package com.yu.sish.service;
+package com.yu.sish.registration;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yu.sish.dto.request.RegistrationRequest;
-import com.yu.sish.dto.request.TeamMemberRequest;
-import com.yu.sish.dto.response.RegistrationResponse;
-import com.yu.sish.entity.Registration;
-import com.yu.sish.entity.TeamMember;
-import com.yu.sish.mapper.RegistrationMapper;
-import com.yu.sish.repository.RegistrationRepository;
+import com.yu.sish.registration.dto.RegistrationRequest;
+import com.yu.sish.registration.dto.RegistrationResponse;
+import com.yu.sish.registration.dto.TeamMemberRequest;
 import com.yu.sish.storage.FileStorageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

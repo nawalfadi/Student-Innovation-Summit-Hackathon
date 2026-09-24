@@ -1,4 +1,4 @@
-package com.yu.sish.dto.response;
+package com.yu.sish.registration.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 

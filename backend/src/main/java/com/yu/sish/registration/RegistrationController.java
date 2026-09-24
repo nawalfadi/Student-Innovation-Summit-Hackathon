@@ -1,8 +1,7 @@
-package com.yu.sish.controller;
+package com.yu.sish.registration;
 
-import com.yu.sish.dto.request.RegistrationRequest;
 import com.yu.sish.dto.response.ApiEnvelope;
-import com.yu.sish.service.RegistrationService;
+import com.yu.sish.registration.dto.RegistrationRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

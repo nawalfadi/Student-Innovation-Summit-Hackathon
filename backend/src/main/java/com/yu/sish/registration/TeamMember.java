@@ -1,4 +1,4 @@
-package com.yu.sish.entity;
+package com.yu.sish.registration;
 
 import jakarta.persistence.*;
 import lombok.Getter;

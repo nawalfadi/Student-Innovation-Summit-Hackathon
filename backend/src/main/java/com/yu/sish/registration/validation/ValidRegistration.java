@@ -1,4 +1,4 @@
-package com.yu.sish.validation;
+package com.yu.sish.registration.validation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

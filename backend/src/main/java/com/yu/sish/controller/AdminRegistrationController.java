@@ -1,7 +1,7 @@
 package com.yu.sish.controller;
 
-import com.yu.sish.dto.response.RegistrationResponse;
-import com.yu.sish.service.RegistrationService;
+import com.yu.sish.registration.dto.RegistrationResponse;
+import com.yu.sish.registration.RegistrationService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;

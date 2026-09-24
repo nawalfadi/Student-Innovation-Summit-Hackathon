@@ -1,9 +1,9 @@
-package com.yu.sish.validation;
+package com.yu.sish.registration.validation;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yu.sish.dto.request.RegistrationRequest;
-import com.yu.sish.dto.request.TeamMemberRequest;
+import com.yu.sish.registration.dto.RegistrationRequest;
+import com.yu.sish.registration.dto.TeamMemberRequest;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import lombok.RequiredArgsConstructor;

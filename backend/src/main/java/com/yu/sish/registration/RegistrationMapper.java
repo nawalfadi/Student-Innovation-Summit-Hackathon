@@ -1,10 +1,8 @@
-package com.yu.sish.mapper;
+package com.yu.sish.registration;
 
-import com.yu.sish.dto.response.RegistrationResponse;
-import com.yu.sish.dto.response.TeamMemberResponse;
-import com.yu.sish.dto.request.RegistrationRequest;
-import com.yu.sish.entity.Registration;
-import com.yu.sish.entity.TeamMember;
+import com.yu.sish.registration.dto.RegistrationRequest;
+import com.yu.sish.registration.dto.RegistrationResponse;
+import com.yu.sish.registration.dto.TeamMemberResponse;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
