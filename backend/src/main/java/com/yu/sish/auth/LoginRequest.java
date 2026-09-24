@@ -1,4 +1,4 @@
-package com.yu.sish.dto.request;
+package com.yu.sish.auth;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 

@@ -1,10 +1,5 @@
-package com.yu.sish.service;
+package com.yu.sish.auth;
 
-import com.yu.sish.dto.request.LoginRequest;
-import com.yu.sish.dto.response.LoginResponse;
-import com.yu.sish.entity.Admin;
-import com.yu.sish.repository.AdminRepository;
-import com.yu.sish.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

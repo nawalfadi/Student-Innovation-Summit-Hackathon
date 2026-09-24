@@ -1,6 +1,5 @@
-package com.yu.sish.security.filter;
+package com.yu.sish.auth;
 
-import com.yu.sish.security.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

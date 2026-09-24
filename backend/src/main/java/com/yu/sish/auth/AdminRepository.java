@@ -1,6 +1,5 @@
-package com.yu.sish.repository;
+package com.yu.sish.auth;
 
-import com.yu.sish.entity.Admin;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

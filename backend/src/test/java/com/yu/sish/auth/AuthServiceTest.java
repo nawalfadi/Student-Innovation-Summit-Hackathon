@@ -1,10 +1,5 @@
-package com.yu.sish.service;
+package com.yu.sish.auth;
 
-import com.yu.sish.dto.request.LoginRequest;
-import com.yu.sish.dto.response.LoginResponse;
-import com.yu.sish.entity.Admin;
-import com.yu.sish.repository.AdminRepository;
-import com.yu.sish.security.JwtUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

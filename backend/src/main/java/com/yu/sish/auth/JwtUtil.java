@@ -1,4 +1,4 @@
-package com.yu.sish.security;
+package com.yu.sish.auth;
 
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;

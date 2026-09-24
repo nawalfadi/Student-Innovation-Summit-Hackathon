@@ -1,6 +1,6 @@
 package com.yu.sish.config;
 
-import com.yu.sish.security.filter.JwtAuthFilter;
+import com.yu.sish.auth.JwtAuthFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

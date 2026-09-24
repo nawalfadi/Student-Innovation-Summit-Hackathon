@@ -1,4 +1,4 @@
-package com.yu.sish.entity;
+package com.yu.sish.auth;
 
 import jakarta.persistence.*;
 import lombok.Getter;
