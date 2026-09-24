@@ -1,4 +1,4 @@
-package com.yu.sish.config;
+package com.yu.sish.shared;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
