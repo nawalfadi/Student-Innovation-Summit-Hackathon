@@ -41,14 +41,6 @@ class RegistrationService {
 
         return registrationMapper.toResponse(saved);
     }
-
-    public List<RegistrationResponse> findAll(){
-        return registrationRepository.findAll()
-                .stream()
-                .map(registrationMapper::toResponse)
-                .toList();
-    }
-
     private void attachFile(Registration registration, MultipartFile file) {
         String objectKey = fileStorageService.upload(file);
         registration.setFileObjectKey(objectKey);
