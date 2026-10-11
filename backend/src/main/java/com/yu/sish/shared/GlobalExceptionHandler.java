@@ -1,5 +1,6 @@
 package com.yu.sish.shared;
 
+import com.yu.sish.registration.RegistrationNotFoundException;
 import com.yu.sish.storage.FileStorageException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -69,6 +70,13 @@ public class GlobalExceptionHandler {
         String message = msg("validation.projectFileUpload");
         return ResponseEntity.internalServerError()
                 .body(ApiEnvelope.error(message, Map.of("projectFile", message)));
+    }
+
+    @ExceptionHandler(RegistrationNotFoundException.class)
+    public ResponseEntity<ApiEnvelope> handleNotFound(RegistrationNotFoundException ex) {
+        log.debug(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(ApiEnvelope.error(msg("validation.notFound"), null));
     }
 
     private String msg(String key) {
