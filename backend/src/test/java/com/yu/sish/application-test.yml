@@ -1,0 +1,21 @@
+app:
+  jwt:
+    secret: test-secret-key-for-integration-tests-only-not-a-real-key
+    expiry-minutes: 60
+  storage:
+    endpoint: http://localhost:19999
+    access-key: test-access-key
+    secret-key: test-secret-key
+    region: auto
+    bucket: sish-test
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+
+logging:
+  level:
+    org.testcontainers: WARN
+    com.github.dockerjava: WARN
