@@ -13,6 +13,7 @@ import java.util.Date;
 
 @Component
 public class JwtUtil {
+
     @Value("${app.jwt.secret}")
     private String secret;
 
@@ -41,7 +42,7 @@ public class JwtUtil {
         try {
             extractUsername(token);
             return true;
-        } catch (JwtException e) {
+        } catch (JwtException | IllegalArgumentException e) {
             return false;
         }
     }
