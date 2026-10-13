@@ -2,13 +2,14 @@ package com.yu.sish.registration;
 
 import com.yu.sish.auth.JwtAuthFilter;
 import com.yu.sish.auth.JwtUtil;
-import com.yu.sish.shared.JacksonConfig;
 import com.yu.sish.config.SecurityConfig;
+import com.yu.sish.shared.JacksonConfig;
 import com.yu.sish.shared.MessageConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -16,6 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static com.yu.sish.registration.RegistrationResponseTestDataBuilder.aRegistrationResponse;
 import static com.yu.sish.support.RegistrationForm.aHackathonForm;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -34,6 +36,7 @@ class RegistrationSecurityTest {
     @Autowired private MockMvc mockMvc;
 
     @MockitoBean private RegistrationService registrationService;
+    @MockitoBean private UserDetailsService userDetailsService;
 
     @Test
     void submitting_shouldBeOpenToStudents_withNoToken() throws Exception {
@@ -42,6 +45,8 @@ class RegistrationSecurityTest {
 
         mockMvc.perform(aHackathonForm().toRequest())
                 .andExpect(status().isCreated());
+
+        verifyNoInteractions(userDetailsService);
     }
 
     @Test
