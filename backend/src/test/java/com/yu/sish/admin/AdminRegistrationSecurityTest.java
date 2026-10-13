@@ -2,9 +2,9 @@ package com.yu.sish.admin;
 
 import com.yu.sish.auth.JwtAuthFilter;
 import com.yu.sish.auth.JwtUtil;
+import com.yu.sish.config.SecurityConfig;
 import com.yu.sish.registration.RegistrationResponse;
 import com.yu.sish.shared.JacksonConfig;
-import com.yu.sish.config.SecurityConfig;
 import com.yu.sish.shared.MessageConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +12,10 @@ import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -19,11 +23,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
+import static com.yu.sish.auth.JwtTokenTestDataBuilder.aTokenSignedByAnOutsider;
 import static com.yu.sish.auth.JwtTokenTestDataBuilder.anAdminToken;
 import static com.yu.sish.auth.JwtTokenTestDataBuilder.anExpiredToken;
-import static com.yu.sish.auth.JwtTokenTestDataBuilder.aTokenSignedByAnOutsider;
 import static com.yu.sish.support.PagedResponseTestDataBuilder.anEmptyPageOf;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -44,10 +49,12 @@ class AdminRegistrationSecurityTest {
     @Autowired private MockMvc mockMvc;
 
     @MockitoBean private AdminRegistrationService adminRegistrationService;
+    @MockitoBean private UserDetailsService userDetailsService;
 
 
     @Test
     void list_shouldReturn200_whenTheTokenIsValid() throws Exception {
+        when(userDetailsService.loadUserByUsername("admin")).thenReturn(anAdminPrincipal());
         when(adminRegistrationService.findAll(any(), any(), any(Pageable.class)))
                 .thenReturn(anEmptyPageOf(RegistrationResponse.class).build());
 
@@ -56,15 +63,38 @@ class AdminRegistrationSecurityTest {
     }
 
     @Test
-    void anyValidlySignedSubject_isAccepted_becauseThereAreNoRoles() throws Exception {
-        when(adminRegistrationService.findAll(any(), any(), any(Pageable.class)))
-                .thenReturn(anEmptyPageOf(RegistrationResponse.class).build());
+    void list_shouldReject_whenTheSubjectIsNotARegisteredAdmin() throws Exception {
+        when(userDetailsService.loadUserByUsername(anyString()))
+                .thenThrow(new UsernameNotFoundException("no such admin"));
 
         mockMvc.perform(get(BASE)
                         .header("Authorization", anAdminToken()
                                 .withSubject("someone-who-is-not-in-the-admins-table")
                                 .asHeader()))
-                .andExpect(status().isOk());
+                .andExpect(status().isUnauthorized());
+
+        verifyNoInteractions(adminRegistrationService);
+    }
+
+    @Test
+    void list_shouldReject_whenTheAdminWasDeletedWhileTheirTokenWasStillValid() throws Exception {
+        when(userDetailsService.loadUserByUsername("admin"))
+                .thenThrow(new UsernameNotFoundException("admin"));
+
+        mockMvc.perform(get(BASE).header("Authorization", anAdminToken().asHeader()))
+                .andExpect(status().isUnauthorized());
+
+        verifyNoInteractions(adminRegistrationService);
+    }
+
+    @Test
+    void list_shouldReturn403_whenThePrincipalIsAuthenticatedButNotAnAdmin() throws Exception {
+        when(userDetailsService.loadUserByUsername("admin")).thenReturn(aPrincipalWithoutTheAdminRole());
+
+        mockMvc.perform(get(BASE).header("Authorization", anAdminToken().asHeader()))
+                .andExpect(status().isForbidden());
+
+        verifyNoInteractions(adminRegistrationService);
     }
 
     @Test
@@ -72,7 +102,7 @@ class AdminRegistrationSecurityTest {
         mockMvc.perform(get(BASE))
                 .andExpect(status().isUnauthorized());
 
-        verifyNoInteractions(adminRegistrationService);
+        verifyNoInteractions(adminRegistrationService, userDetailsService);
     }
 
     @Test
@@ -80,7 +110,7 @@ class AdminRegistrationSecurityTest {
         mockMvc.perform(get(BASE).header("Authorization", "Basic YWRtaW46YWRtaW4xMjM="))
                 .andExpect(status().isUnauthorized());
 
-        verifyNoInteractions(adminRegistrationService);
+        verifyNoInteractions(adminRegistrationService, userDetailsService);
     }
 
     @Test
@@ -88,7 +118,7 @@ class AdminRegistrationSecurityTest {
         mockMvc.perform(get(BASE).header("Authorization", "Bearer "))
                 .andExpect(status().isUnauthorized());
 
-        verifyNoInteractions(adminRegistrationService);
+        verifyNoInteractions(adminRegistrationService, userDetailsService);
     }
 
     @Test
@@ -96,7 +126,7 @@ class AdminRegistrationSecurityTest {
         mockMvc.perform(get(BASE).header("Authorization", "Bearer not.a.real.token"))
                 .andExpect(status().isUnauthorized());
 
-        verifyNoInteractions(adminRegistrationService);
+        verifyNoInteractions(adminRegistrationService, userDetailsService);
     }
 
     @Test
@@ -105,7 +135,7 @@ class AdminRegistrationSecurityTest {
                         .header("Authorization", aTokenSignedByAnOutsider().asHeader()))
                 .andExpect(status().isUnauthorized());
 
-        verifyNoInteractions(adminRegistrationService);
+        verifyNoInteractions(adminRegistrationService, userDetailsService);
     }
 
     @Test
@@ -113,7 +143,18 @@ class AdminRegistrationSecurityTest {
         mockMvc.perform(get(BASE).header("Authorization", anExpiredToken().asHeader()))
                 .andExpect(status().isUnauthorized());
 
-        verifyNoInteractions(adminRegistrationService);
+        verifyNoInteractions(adminRegistrationService, userDetailsService);
+    }
+
+    @Test
+    void list_shouldReject_whenTheTokenExpiredOneSecondAgo() throws Exception {
+        mockMvc.perform(get(BASE)
+                        .header("Authorization", anAdminToken()
+                                .expiringAt(Instant.now().minus(1, ChronoUnit.SECONDS))
+                                .asHeader()))
+                .andExpect(status().isUnauthorized());
+
+        verifyNoInteractions(adminRegistrationService, userDetailsService);
     }
 
     @Test
@@ -124,7 +165,7 @@ class AdminRegistrationSecurityTest {
         mockMvc.perform(get(BASE).header("Authorization", "Bearer " + tampered))
                 .andExpect(status().isUnauthorized());
 
-        verifyNoInteractions(adminRegistrationService);
+        verifyNoInteractions(adminRegistrationService, userDetailsService);
     }
 
     @Test
@@ -137,7 +178,7 @@ class AdminRegistrationSecurityTest {
                         .header("Authorization", "Bearer " + parts[0] + "." + forgedPayload + "." + parts[2]))
                 .andExpect(status().isUnauthorized());
 
-        verifyNoInteractions(adminRegistrationService);
+        verifyNoInteractions(adminRegistrationService, userDetailsService);
     }
 
     @Test
@@ -145,7 +186,7 @@ class AdminRegistrationSecurityTest {
         mockMvc.perform(get(BASE + "/42"))
                 .andExpect(status().isUnauthorized());
 
-        verifyNoInteractions(adminRegistrationService);
+        verifyNoInteractions(adminRegistrationService, userDetailsService);
     }
 
     @Test
@@ -155,7 +196,7 @@ class AdminRegistrationSecurityTest {
                         .content("{\"status\":\"accepted\"}"))
                 .andExpect(status().isUnauthorized());
 
-        verifyNoInteractions(adminRegistrationService);
+        verifyNoInteractions(adminRegistrationService, userDetailsService);
     }
 
     @Test
@@ -163,7 +204,7 @@ class AdminRegistrationSecurityTest {
         mockMvc.perform(get(BASE + "/42/file"))
                 .andExpect(status().isUnauthorized());
 
-        verifyNoInteractions(adminRegistrationService);
+        verifyNoInteractions(adminRegistrationService, userDetailsService);
     }
 
     @Test
@@ -172,18 +213,21 @@ class AdminRegistrationSecurityTest {
                         .header("Authorization", anExpiredToken().asHeader()))
                 .andExpect(status().isUnauthorized());
 
-        verifyNoInteractions(adminRegistrationService);
+        verifyNoInteractions(adminRegistrationService, userDetailsService);
     }
 
 
-    @Test
-    void list_shouldReject_whenTheTokenExpiredOneSecondAgo() throws Exception {
-        mockMvc.perform(get(BASE)
-                        .header("Authorization", anAdminToken()
-                                .expiringAt(Instant.now().minus(1, ChronoUnit.SECONDS))
-                                .asHeader()))
-                .andExpect(status().isUnauthorized());
+    private static UserDetails anAdminPrincipal() {
+        return User.withUsername("admin")
+                .password("irrelevant-to-bearer-auth")
+                .roles("ADMIN")
+                .build();
+    }
 
-        verifyNoInteractions(adminRegistrationService);
+    private static UserDetails aPrincipalWithoutTheAdminRole() {
+        return User.withUsername("admin")
+                .password("irrelevant-to-bearer-auth")
+                .roles("PARTICIPANT")
+                .build();
     }
 }
