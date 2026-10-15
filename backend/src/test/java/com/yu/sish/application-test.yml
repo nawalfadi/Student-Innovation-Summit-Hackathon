@@ -1,6 +1,17 @@
+# Loaded only when the "test" profile is active — @ActiveProfiles("test").
+# Supplies the app.* placeholders that StorageConfig and JwtUtil read with @Value,
+# so a @SpringBootTest can build the real application context.
+#
+# Deliberately contains NO spring.datasource.* keys: the datasource is supplied at
+# runtime by Testcontainers through @ServiceConnection in TestcontainersConfiguration.
+# Hardcoding one here would fight the container.
+#
+# None of these values reach a real service. The storage endpoint points at a port
+# nothing listens on, so an accidental real upload fails fast instead of succeeding.
+
 app:
   jwt:
-    secret: test-secret-key-for-integration-tests-only-not-a-real-key
+    secret: test-secret-key-for-tests-only-not-a-real-key
     expiry-minutes: 60
   storage:
     endpoint: http://localhost:19999
@@ -8,12 +19,6 @@ app:
     secret-key: test-secret-key
     region: auto
     bucket: sish-test
-
-spring:
-  jpa:
-    hibernate:
-      ddl-auto: validate
-    open-in-view: false
 
 logging:
   level:
