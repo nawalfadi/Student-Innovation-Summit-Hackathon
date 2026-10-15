@@ -46,6 +46,10 @@ class RegistrationValidator
     private static final int MAX_TEAMMATES = 4;
     private static final int MIN_TEAMMATES = 1;
 
+    /** Matches team_members.name and team_members.email in V1__init.sql. */
+    private static final int MAX_MEMBER_NAME_LENGTH = 255;
+    private static final int MAX_MEMBER_EMAIL_LENGTH = 255;
+
     @Override
     public boolean isValid(RegistrationRequest req, ConstraintValidatorContext ctx) {
         if (req == null) return true;
@@ -118,8 +122,16 @@ class RegistrationValidator
                 v.add("members", "{validation.membersNames}");
                 return;
             }
+            if (m.name().trim().length() > MAX_MEMBER_NAME_LENGTH) {
+                v.add("members", "{validation.tooLong}");
+                return;
+            }
             if (m.email() == null || !EMAIL.matcher(m.email().trim()).matches()) {
                 v.add("members", "{validation.membersEmails}");
+                return;
+            }
+            if (m.email().trim().length() > MAX_MEMBER_EMAIL_LENGTH) {
+                v.add("members", "{validation.tooLong}");
                 return;
             }
         }

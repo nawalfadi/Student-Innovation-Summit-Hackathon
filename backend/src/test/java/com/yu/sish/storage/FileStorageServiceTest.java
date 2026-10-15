@@ -35,7 +35,7 @@ class FileStorageServiceTest {
     private static final String PREFIX = "registrations/";
 
     @Mock private S3Client s3Client;
-    @Mock private S3Presigner resigned;
+    @Mock private S3Presigner presigner;
 
     @InjectMocks private FileStorageService fileStorageService;
 

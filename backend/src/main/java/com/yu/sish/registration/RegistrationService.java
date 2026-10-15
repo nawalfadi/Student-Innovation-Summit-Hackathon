@@ -26,8 +26,7 @@ class RegistrationService {
     public RegistrationResponse register(RegistrationRequest request) {
         Assert.notNull(request, "Registration request must not be null");
 
-        log.debug("Registering — type: {}, email: {}",
-                request.getParticipationType(), request.getEmail());
+        log.debug("Registering — type: {}", request.getParticipationType());
 
         Registration registration = registrationMapper.toEntity(request);
         attachMembers(registration, request);
@@ -36,11 +35,12 @@ class RegistrationService {
 
         attachFile(saved, request.getProjectFile());
         saved = registrationRepository.save(saved);
-        log.info("Registration saved — id: {}, email: {}, type: {}",
-                saved.getId(), saved.getEmail(), saved.getParticipationType());
+        log.info("Registration saved — id: {}, type: {}",
+                saved.getId(), saved.getParticipationType());
 
         return registrationMapper.toResponse(saved);
     }
+
     private void attachFile(Registration registration, MultipartFile file) {
         String objectKey = fileStorageService.upload(file);
         registration.setFileObjectKey(objectKey);
@@ -79,7 +79,8 @@ class RegistrationService {
         try {
             return objectMapper.readValue(json, new TypeReference<>() {});
         } catch (Exception e) {
-            log.warn("Failed to parse members JSON: {}", json);
+            log.warn("Failed to parse members JSON — {} characters, rejected",
+                    json.length());
             return List.of();
         }
     }

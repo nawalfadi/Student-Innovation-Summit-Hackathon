@@ -23,7 +23,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class FileStorageService {
     private final S3Client s3Client;
-    private final S3Presigner resigned;
+    private final S3Presigner presigner;
 
     @Value("${app.storage.bucket}")
     private String bucket;
@@ -65,7 +65,7 @@ public class FileStorageService {
                 .getObjectRequest(getRequest)
                 .build();
 
-        return resigned.presignGetObject(presignRequest).url().toString();
+        return presigner.presignGetObject(presignRequest).url().toString();
     }
 
 

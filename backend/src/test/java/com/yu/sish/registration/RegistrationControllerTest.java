@@ -9,6 +9,7 @@ import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -31,6 +32,7 @@ class RegistrationControllerTest {
 
     @MockitoBean private RegistrationService registrationService;
     @MockitoBean private JwtUtil jwtUtil;
+    @MockitoBean private UserDetailsService userDetailsService;
 
     @Test
     void register_shouldReturn201_andTheSuccessEnvelope() throws Exception {
@@ -58,13 +60,27 @@ class RegistrationControllerTest {
     @Test
     void register_shouldReturn409_whenTheEmailIsAlreadyRegistered() throws Exception {
         when(registrationService.register(any(RegistrationRequest.class)))
-                .thenThrow(new DataIntegrityViolationException("uq_reg_email_type"));
+                .thenThrow(new DataIntegrityViolationException(
+                        "ERROR: duplicate key value violates unique constraint "
+                                + "\"uq_reg_email_type\""));
 
         mockMvc.perform(aHackathonForm().toRequest())
                 .andExpect(status().isConflict())
                 .andExpect(jsonPath("$.success").value(false))
                 .andExpect(jsonPath("$.errors.email").isNotEmpty())
                 .andExpect(jsonPath("$.registrationId").doesNotExist());
+    }
+
+    @Test
+    void register_shouldNotBlameTheEmail_whenSomeOtherConstraintIsViolated() throws Exception {
+        when(registrationService.register(any(RegistrationRequest.class)))
+                .thenThrow(new DataIntegrityViolationException(
+                        "ERROR: value too long for type character varying(255)"));
+
+        mockMvc.perform(aHackathonForm().toRequest())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.success").value(false))
+                .andExpect(jsonPath("$.errors").doesNotExist());
     }
 
     @Test
@@ -98,6 +114,64 @@ class RegistrationControllerTest {
         mockMvc.perform(aHackathonForm().with("email", "not-an-email").toRequest())
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors.email").isNotEmpty());
+    }
+
+    @Test
+    void register_shouldReturn400_whenTheEmailIsOmittedEntirely() throws Exception {
+        mockMvc.perform(aHackathonForm().without("email").toRequest())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errors.email").isNotEmpty());
+
+        verifyNoInteractions(registrationService);
+    }
+
+    @Test
+    void register_shouldReturn400_whenTheParticipationTypeIsOmittedEntirely() throws Exception {
+        mockMvc.perform(aHackathonForm().without("participationType").toRequest())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errors.participationType").isNotEmpty());
+
+        verifyNoInteractions(registrationService);
+    }
+
+    @Test
+    void register_shouldReturn400_whenThePhoneIsOmittedEntirely() throws Exception {
+        mockMvc.perform(aHackathonForm().without("phone").toRequest())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errors.phone").isNotEmpty());
+
+        verifyNoInteractions(registrationService);
+    }
+
+    @Test
+    void register_shouldReturn400_whenTheFullNameIsLongerThanTheColumn() throws Exception {
+        mockMvc.perform(aHackathonForm().with("fullName", "a".repeat(300)).toRequest())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errors.fullName").isNotEmpty());
+
+        verifyNoInteractions(registrationService);
+    }
+
+    @Test
+    void register_shouldReturn400_whenTheProjectIdeaIsAbsurdlyLong() throws Exception {
+        mockMvc.perform(aHackathonForm().with("projectIdea", "a".repeat(5001)).toRequest())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errors.projectIdea").isNotEmpty());
+
+        verifyNoInteractions(registrationService);
+    }
+
+    @Test
+    void register_shouldReturn400_whenATeammateNameIsLongerThanTheColumn() throws Exception {
+        String longName = "a".repeat(300);
+        mockMvc.perform(aHackathonForm()
+                        .with("members", "[{\"name\":\"" + longName
+                                + "\",\"email\":\"sara@example.com\"}]")
+                        .toRequest())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errors.members").isNotEmpty());
+
+        verifyNoInteractions(registrationService);
     }
 
     @Test
