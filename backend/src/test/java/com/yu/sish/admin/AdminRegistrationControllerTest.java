@@ -12,6 +12,7 @@ import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -41,6 +42,7 @@ class AdminRegistrationControllerTest {
 
     @MockitoBean private AdminRegistrationService adminRegistrationService;
     @MockitoBean private JwtUtil jwtUtil;
+    @MockitoBean private UserDetailsService userDetailsService;
 
 
 
@@ -120,6 +122,15 @@ class AdminRegistrationControllerTest {
                 .andExpect(jsonPath("$.message").isNotEmpty());
     }
 
+    @Test
+    void getOne_shouldReturn400_notA500_whenTheIdIsNotANumber() throws Exception {
+        mockMvc.perform(get(BASE + "/abc"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.success").value(false));
+
+        verifyNoInteractions(adminRegistrationService);
+    }
+
 
 
     @Test
@@ -142,6 +153,28 @@ class AdminRegistrationControllerTest {
                         .content("{\"status\":\"banana\"}"))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.success").value(false))
+                .andExpect(jsonPath("$.errors.status").isNotEmpty());
+
+        verifyNoInteractions(adminRegistrationService);
+    }
+
+    @Test
+    void updateStatus_shouldReturn400_notA500_whenTheStatusIsMissing() throws Exception {
+        mockMvc.perform(patch(BASE + "/42/status")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{}"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errors.status").isNotEmpty());
+
+        verifyNoInteractions(adminRegistrationService);
+    }
+
+    @Test
+    void updateStatus_shouldReturn400_notA500_whenTheStatusIsBlank() throws Exception {
+        mockMvc.perform(patch(BASE + "/42/status")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"status\":\"   \"}"))
+                .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors.status").isNotEmpty());
 
         verifyNoInteractions(adminRegistrationService);

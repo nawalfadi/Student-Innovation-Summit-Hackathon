@@ -65,8 +65,15 @@ public final class RegistrationForm {
         return this;
     }
 
+
     public RegistrationForm without(String field) {
         fields.put(field, "");
+        return this;
+    }
+
+
+    public RegistrationForm withoutField(String field) {
+        fields.remove(field);
         return this;
     }
 

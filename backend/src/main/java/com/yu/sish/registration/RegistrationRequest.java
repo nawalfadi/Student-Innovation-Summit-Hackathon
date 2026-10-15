@@ -16,35 +16,40 @@ import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
 class RegistrationRequest {
 
     @NotBlank(message = "{validation.fullName}")
-    @Size(min = 3, message = "{validation.fullName}")
+    @Size(min = 3, max = 255, message = "{validation.fullName}")
     @Schema(example = "Ahmed Qassem", requiredMode = REQUIRED)
     private String fullName;
 
     @NotBlank(message = "{validation.universityName}")
+    @Size(max = 255, message = "{validation.tooLong}")
     @Schema(example = "Al Yamamah University", requiredMode = REQUIRED)
     private String universityName;
 
+    @NotBlank(message = "{validation.email}")
     @Pattern(regexp = "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$", message = "{validation.email}")
+    @Size(max = 255, message = "{validation.tooLong}")
     @Schema(description = "Lowercased on receipt. Unique per participationType.",
             example = "ahmed@example.com", requiredMode = REQUIRED)
     private String email;
 
+    @NotBlank(message = "{validation.phone}")
     @Pattern(regexp = "^(\\+966|0)?5\\d{8}$", message = "{validation.phone}")
     @Schema(description = "Saudi mobile. Spaces and hyphens stripped.",
             example = "0512345678", requiredMode = REQUIRED)
     private String phone;
 
+    @NotBlank(message = "{validation.participationType}")
     @Pattern(regexp = "hackathon|showcase", message = "{validation.participationType}")
     @Schema(allowableValues = {"hackathon", "showcase"}, requiredMode = REQUIRED)
     private String participationType;
 
     @NotBlank(message = "{validation.projectIdea}")
-    @Size(min = 20, message = "{validation.projectIdea}")
-    @Schema(minLength = 20, requiredMode = REQUIRED)
+    @Size(min = 20, max = 5000, message = "{validation.projectIdea}")
+    @Schema(minLength = 20, maxLength = 5000, requiredMode = REQUIRED)
     private String projectIdea;
 
     @NotBlank(message = "{validation.major}")
-    @Size(min = 2, message = "{validation.major}")
+    @Size(min = 2, max = 255, message = "{validation.major}")
     @Schema(example = "Software Engineering", requiredMode = REQUIRED)
     private String major;
 
@@ -56,6 +61,7 @@ class RegistrationRequest {
             requiredMode = REQUIRED, type = "string", format = "binary")
     private MultipartFile projectFile;
 
+    @Size(max = 100, message = "{validation.tooLong}")
     @Schema(description = "Hackathon only.", example = "442100123")
     private String universityId;
 
@@ -72,9 +78,11 @@ class RegistrationRequest {
     @Schema(description = "Always true for hackathon.", example = "true")
     private String isTeam;
 
+    @Size(max = 255, message = "{validation.tooLong}")
     @Schema(description = "Required for teams.", example = "Team Falcon")
     private String teamName;
 
+    @Size(max = 2000, message = "{validation.members}")
     @Schema(description = "JSON array of 1-4 teammates, excluding the registrant.",
             example = "[{\"name\":\"Sara\",\"email\":\"sara@example.com\"}]")
     private String members;
@@ -108,6 +116,10 @@ class RegistrationRequest {
 
     public void setTeamName(String teamName) {
         this.teamName = trimOrNull(teamName);
+    }
+
+    public void setLocale(String locale) {
+        this.locale = blankToNull(locale);
     }
 
     public void setUniversityId(String universityId) {
